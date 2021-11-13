@@ -144,6 +144,16 @@ class LandRegisterModel extends ChangeNotifier {
     return val;
   }
 
+  Future<List<dynamic>> myProfileInfo() async {
+    notifyListeners();
+    final val =
+        await _client.call(contract: _contract, function: _userInfo, params: [
+      _ownAddress,
+    ]);
+    print(val);
+    return val;
+  }
+
   addLandInspector(String address, String name, String age, String desig,
       String city) async {
     isLoading = true;

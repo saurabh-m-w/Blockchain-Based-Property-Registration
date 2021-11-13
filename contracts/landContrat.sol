@@ -188,6 +188,11 @@ contract Land {
         LandRequestMapping[_requestId].requestStatus=reqStatus.rejected;
     }
 
+    function requesteStatus(uint id) public view returns(bool)
+    {
+        return LandRequestMapping[id].isPaymentDone;
+    }
+
     function landPrice(uint id) public view returns(uint)
     {
         return lands[id].landPrice;
@@ -210,6 +215,19 @@ contract Land {
         if(LandRequestMapping[_requestId].isPaymentDone==false)
             return false;
         LandRequestMapping[_requestId].requestStatus=reqStatus.commpleted;
+        MyLands[LandRequestMapping[_requestId].buyerId].push(LandRequestMapping[_requestId].landId);
+
+        uint len=MyLands[LandRequestMapping[_requestId].sellerId].length;
+        for(uint i=0;i<len;i++)
+        {
+            if(MyLands[LandRequestMapping[_requestId].sellerId][i]==LandRequestMapping[_requestId].landId)
+            {
+                MyLands[LandRequestMapping[_requestId].sellerId][i]=MyLands[LandRequestMapping[_requestId].sellerId][len-1];
+                MyLands[LandRequestMapping[_requestId].sellerId].length--;
+                break;
+            }
+        }
+
         lands[LandRequestMapping[_requestId].landId].ownerAddress=LandRequestMapping[_requestId].buyerId;
         return true;
     }
