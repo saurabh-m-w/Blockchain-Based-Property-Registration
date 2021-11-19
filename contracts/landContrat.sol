@@ -68,6 +68,7 @@ contract Land {
     mapping(uint => Landreg) public lands;
     mapping(uint => LandRequest) public LandRequestMapping;
     mapping(address => uint[]) public MyLandRequest;
+	mapping(uint => uint[]) public allLandList;
 
 
     function isContractOwner(address _addr) public view returns(bool){
@@ -87,6 +88,9 @@ contract Land {
         InspectorMapping[_addr] = LandInspector(inspectorsCount,_addr,_name, _age, _designation,_city);
         return true;
     }
+	
+	
+	
      function isLandInspector(address _id) public view returns (bool) {
         if(RegisteredInspectorMapping[_id]){
             return true;
@@ -140,8 +144,15 @@ contract Land {
         landsCount++;
         lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum , _document,false,msg.sender,false);
         MyLands[msg.sender].push(landsCount);
+		allLandList[1].push(landsCount);
         // emit AddingLand(landsCount);
     }
+	
+	function ReturnAllLandList() public view returns(uint[] memory)
+    {
+        return allLandList[1];
+    }
+	
     function verifyLand(uint _id) public{
         require(isLandInspector(msg.sender));
         lands[_id].isLandVerified=true;
