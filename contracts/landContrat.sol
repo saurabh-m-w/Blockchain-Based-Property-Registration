@@ -12,7 +12,6 @@ contract Land {
         uint landPrice;
         uint propertyPID;
         uint physicalSurveyNumber;
-        //string ipfsHash;
         string document;
         bool isforSell;
         address payable ownerAddress;
@@ -28,7 +27,6 @@ contract Land {
         string panNumber;
         string document;
         string email;
-       // uint[] mylands;
         bool isUserVerified;
     }
 
@@ -48,7 +46,6 @@ contract Land {
         uint landId;
         reqStatus requestStatus;
         bool isPaymentDone;
-        // bool requested;
     }
     enum reqStatus {requested,accepted,rejected,paymentdone,commpleted}
 
@@ -56,7 +53,7 @@ contract Land {
         contractOwner = msg.sender ;
     }
     uint inspectorsCount;
-    uint userCount;
+    uint public userCount;
     uint landsCount;
     uint requestCount;
 

@@ -18,39 +18,37 @@ class _LandInspectorState extends State<LandInspector> {
   List<List<dynamic>> userData = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  dynamic userCount = 0;
+
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
     Menu(title: 'Verify User', icon: Icons.verified_user),
     Menu(title: 'Verify Land', icon: Icons.web),
     Menu(title: 'Logout', icon: Icons.logout),
   ];
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _animationController =
-  //       AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-  //   _animation =
-  //       Tween<double>(begin: 250, end: 70).animate(_animationController);
-  // }
+
+  getUserCount() async {
+    userCount = await model.userCount();
+  }
 
   @override
   Widget build(BuildContext context) {
     model = Provider.of<LandRegisterModel>(context);
-
+    if (screen == 0) {
+      getUserCount();
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: const Text("LandInspector Dashboard"),
         centerTitle: true,
-        backgroundColor: Color(0xFF272D34),
+        backgroundColor: const Color(0xFF272D34),
         leading: isDesktop
             ? Container()
             : GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Icon(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
                     Icons.menu,
                     color: Colors.black,
                   ), //AnimatedIcon(icon: AnimatedIcons.menu_arrow,progress: _animationController,),
@@ -115,7 +113,7 @@ class _LandInspectorState extends State<LandInspector> {
           border: Border.all()),
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         ListTile(
-          leading: Icon(Icons.dashboard),
+          leading: const Icon(Icons.dashboard),
           title: Text('Welcome'),
           onTap: () {
             setState(() {
@@ -306,7 +304,7 @@ class _LandInspectorState extends State<LandInspector> {
                     children: [
                       Expanded(
                           child: Text(
-                        '0',
+                        userCount.toString(),
                         style: TextStyle(fontSize: 24),
                       )),
                     ],

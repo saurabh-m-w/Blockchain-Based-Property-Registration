@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/LandRegisterModel.dart';
+import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/home_page.dart';
+import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -20,14 +22,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
   late List<dynamic> userInfo;
-  bool isLoading = false;
+  bool isLoading = true, isUserVerified = false;
   bool isUpdated = true;
   String name = "";
   late AnimationController _animationController;
   late Animation<double> _animation;
   final _formKey = GlobalKey<FormState>();
   late String area, city, state, landPrice, propertyID, surveyNo, document;
-
+  List<List<dynamic>> landInfo = [];
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
     Menu(title: 'Add Lands', icon: Icons.add_chart),
@@ -36,10 +38,28 @@ class _UserDashBoardState extends State<UserDashBoard> {
     Menu(title: 'Logout', icon: Icons.logout),
   ];
 
-  Future<void> getProfileInfo() async {
+  getLandInfo() async {
     setState(() {
       isLoading = true;
     });
+    List<dynamic> landList = await model.myAllLands();
+    List<List<dynamic>> info = [];
+    List<dynamic> temp;
+    for (int i = 0; i < landList.length; i++) {
+      temp = await model.landInfo(landList[i]);
+      info.add(temp);
+    }
+    landInfo = info;
+    setState(() {
+      isLoading = false;
+    });
+    print(info);
+  }
+
+  Future<void> getProfileInfo() async {
+    // setState(() {
+    //   isLoading = true;
+    // });
     userInfo = await model.myProfileInfo();
     name = userInfo[1];
     setState(() {
@@ -91,7 +111,35 @@ class _UserDashBoardState extends State<UserDashBoard> {
             Center(widthFactor: isDesktop ? 2 : 1, child: userProfile())
           else if (screen == 1)
             addLand()
+          else if (screen == 2)
+            myLands()
         ],
+      ),
+    );
+  }
+
+  Widget myLands() {
+    if (isLoading) return CircularProgressIndicator();
+    return Center(
+      child: Container(
+        width: isDesktop ? 900 : width,
+        child: GridView.builder(
+          padding: EdgeInsets.all(10),
+          scrollDirection: Axis.vertical,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 440,
+              crossAxisCount: isDesktop ? 2 : 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: landInfo.length,
+          itemBuilder: (context, index) {
+            return landWid(
+                landInfo[index][5],
+                landInfo[index][0].toString(),
+                landInfo[index][1].toString() + landInfo[index][2].toString(),
+                landInfo[index][3].toString());
+          },
+        ),
       ),
     );
   }
@@ -306,31 +354,30 @@ class _UserDashBoardState extends State<UserDashBoard> {
                       ? null
                       : () async {
                           if (_formKey.currentState!.validate()) {
-                            // setState(() {
-                            //   isLoading = true;
-                            // });
-                            // try {
-                            //   await model.registerUser(name, age, city,
-                            //       adharNumber, panNumber, document, email);
-                            //   showToast("Successfully Registered",
-                            //       context: context,
-                            //       backgroundColor: Colors.green);
-                            //
-                            // } catch (e) {
-                            //   print(e);
-                            //   showToast("Something Went Wrong",
-                            //       context: context,
-                            //       backgroundColor: Colors.red);
-                            // }
-                            //
-                            // setState(() {
-                            //   isLoading = false;
-                            // });
+                            setState(() {
+                              isLoading = true;
+                            });
+                            try {
+                              await model.addLand(area, city, state, landPrice,
+                                  propertyID, surveyNo, document);
+                              showToast("Land Successfully Added",
+                                  context: context,
+                                  backgroundColor: Colors.green);
+                            } catch (e) {
+                              print(e);
+                              showToast("Something Went Wrong",
+                                  context: context,
+                                  backgroundColor: Colors.red);
+                            }
+
+                            setState(() {
+                              isLoading = false;
+                            });
                           }
 
                           //model.makePaymentTestFun();
                         }),
-              isLoading ? CircularProgressIndicator() : Container()
+              isLoading ? spinkitLoader : Container()
             ],
           ),
         ),
@@ -340,6 +387,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
 
   Widget userProfile() {
     if (isLoading) return CircularProgressIndicator();
+    isUserVerified = userInfo[8];
     return Container(
       width: width,
       margin: EdgeInsets.all(10),
@@ -442,6 +490,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           MaterialPageRoute(builder: (context) => home_page()));
                     }
                     if (index == 0) getProfileInfo();
+                    if (index == 2) getLandInfo();
                     setState(() {
                       screen = index;
                     });

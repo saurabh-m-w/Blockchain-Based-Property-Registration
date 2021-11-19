@@ -33,6 +33,10 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _allUsers;
   late ContractFunction _userInfo;
   late ContractFunction _verifyUser;
+  late ContractFunction _userCount;
+  late ContractFunction _addLand;
+  late ContractFunction _myAllLands;
+  late ContractFunction _landInfo;
 
   LandRegisterModel() {
     //initiateSetup();
@@ -80,6 +84,10 @@ class LandRegisterModel extends ChangeNotifier {
     _allUsers = _contract.function("ReturnAllUserList");
     _userInfo = _contract.function("UserMapping");
     _verifyUser = _contract.function("verifyUser");
+    _userCount = _contract.function("userCount");
+    _addLand = _contract.function("addLand");
+    _myAllLands = _contract.function("myAllLands");
+    _landInfo = _contract.function("landInfo");
     // _todos = _contract.function("todos");
     // _taskCreatedEvent = _contract.event("TaskCreated");
     // getTodos();
@@ -100,12 +108,68 @@ class LandRegisterModel extends ChangeNotifier {
             value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 10)));
   }
 
+  Future<List<dynamic>> landInfo(dynamic id) async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _landInfo,
+        params: [id]);
+    //print(val);
+    return val;
+  }
+
   isContractOwner(String address) async {
     final val = await _client.call(
         sender: _ownAddress,
         contract: _contract,
         function: _isContractOwner,
         params: [_ownAddress]);
+    print(val);
+    return val[0];
+  }
+
+  Future<List<dynamic>> myAllLands() async {
+    final val = await _client.call(
+        contract: _contract, function: _myAllLands, params: [_ownAddress]);
+    print(val);
+    return val[0];
+  }
+
+  addLand(String area, String city, String state, String landPrice, String PID,
+      String surveyNo, String docu) async {
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _addLand,
+            parameters: [
+              BigInt.parse(area),
+              city,
+              state,
+              BigInt.parse(landPrice),
+              BigInt.parse(PID),
+              BigInt.parse(surveyNo),
+              docu
+            ]));
+    // await _client.call(
+    //     sender: _ownAddress,
+    //     contract: _contract,
+    //     function: _addLand,
+    //     params: [
+    //       BigInt.parse(area),
+    //       city,
+    //       state,
+    //       BigInt.parse(landPrice),
+    //       BigInt.parse(PID),
+    //       BigInt.parse(surveyNo),
+    //       docu
+    //     ]);
+  }
+
+  Future<dynamic> userCount() async {
+    notifyListeners();
+    final val = await _client
+        .call(contract: _contract, function: _userCount, params: []);
     print(val);
     return val[0];
   }

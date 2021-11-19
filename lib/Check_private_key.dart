@@ -3,6 +3,7 @@ import 'package:land_registration/LandInspectorDashboard.dart';
 import 'package:land_registration/UserDashboard.dart';
 import 'package:land_registration/addLandInspector.dart';
 import 'package:land_registration/constant/constants.dart';
+import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/registerUser.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -36,8 +37,8 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF272D34),
-        title: Text('Login'),
+        backgroundColor: const Color(0xFF272D34),
+        title: const Text('Login'),
       ),
       body: Container(
         //width: 500,
@@ -47,7 +48,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
             Container(
               width: width,
               child: Padding(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
@@ -71,7 +72,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                               _isObscure = !_isObscure;
                             });
                           }),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: 'Private Key',
                       hintText: 'Enter Your PrivateKey',
                     ),
@@ -81,7 +82,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
             ),
             Text(
               errorMessage,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
             CustomButton(
                 'Continue',
@@ -168,7 +169,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                           });
                         }
                       }),
-            isLoading ? CircularProgressIndicator() : Container()
+            isLoading ? spinkitLoader : Container()
           ],
         ),
       ),
