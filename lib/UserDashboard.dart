@@ -24,6 +24,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   late List<dynamic> userInfo;
   bool isLoading = true, isUserVerified = false;
   bool isUpdated = true;
+  List<List<dynamic>> LandGall = [];
   String name = "";
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -34,6 +35,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     Menu(title: 'Dashboard', icon: Icons.dashboard),
     Menu(title: 'Add Lands', icon: Icons.add_chart),
     Menu(title: 'My Lands', icon: Icons.landscape_rounded),
+    Menu(title: 'Land Gallery', icon: Icons.landscape_rounded),
     Menu(title: 'My Land Request', icon: Icons.request_page_outlined),
     Menu(title: 'Logout', icon: Icons.logout),
   ];
@@ -54,6 +56,24 @@ class _UserDashBoardState extends State<UserDashBoard> {
       isLoading = false;
     });
     print(info);
+  }
+
+  getLandGallery() async {
+    setState(() {
+      isLoading = true;
+    });
+    List<dynamic> landList = await model.allLandList();
+    List<List<dynamic>> allInfo = [];
+    List<dynamic> temp;
+    for (int i = 0; i < landList.length; i++) {
+      temp = await model.landInfo(landList[i]);
+      allInfo.add(temp);
+    }
+    LandGall = allInfo;
+    screen = 3;
+    isLoading = false;
+    print(LandGall);
+    setState(() {});
   }
 
   Future<void> getProfileInfo() async {
@@ -113,7 +133,35 @@ class _UserDashBoardState extends State<UserDashBoard> {
             addLand()
           else if (screen == 2)
             myLands()
+          else if (screen == 3)
+            LandGallery()
         ],
+      ),
+    );
+  }
+
+  Widget LandGallery() {
+    if (isLoading) return CircularProgressIndicator();
+    return Center(
+      child: Container(
+        width: isDesktop ? 900 : width,
+        child: GridView.builder(
+          padding: EdgeInsets.all(10),
+          scrollDirection: Axis.vertical,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 440,
+              crossAxisCount: isDesktop ? 2 : 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: LandGall.length,
+          itemBuilder: (context, index) {
+            return landWid(
+                LandGall[index][10],
+                LandGall[index][1].toString(),
+                LandGall[index][2].toString() + LandGall[index][3].toString(),
+                LandGall[index][4].toString());
+          },
+        ),
       ),
     );
   }
@@ -134,10 +182,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
           itemCount: landInfo.length,
           itemBuilder: (context, index) {
             return landWid(
-                landInfo[index][5],
-                landInfo[index][0].toString(),
-                landInfo[index][1].toString() + landInfo[index][2].toString(),
-                landInfo[index][3].toString());
+                landInfo[index][10],
+                landInfo[index][4].toString(),
+                landInfo[index][2].toString() + landInfo[index][3].toString(),
+                landInfo[index][1].toString());
           },
         ),
       ),
@@ -484,13 +532,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   icon: menuItems[index].icon,
                   isSelected: screen == index,
                   onTap: () {
-                    if (index == 4) {
+                    if (index == 5) {
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => home_page()));
                     }
                     if (index == 0) getProfileInfo();
                     if (index == 2) getLandInfo();
+                    if (index == 3) getLandGallery();
                     setState(() {
                       screen = index;
                     });

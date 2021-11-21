@@ -16,9 +16,10 @@ class _LandInspectorState extends State<LandInspector> {
   var model;
   final colors = <Color>[Colors.indigo, Colors.blue, Colors.orange, Colors.red];
   List<List<dynamic>> userData = [];
+  List<List<dynamic>> landData = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
-  dynamic userCount = 0;
+  dynamic userCount = -1;
 
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
@@ -29,6 +30,7 @@ class _LandInspectorState extends State<LandInspector> {
 
   getUserCount() async {
     userCount = await model.userCount();
+    //setState(() {});
   }
 
   @override
@@ -85,8 +87,9 @@ class _LandInspectorState extends State<LandInspector> {
             )
           else if (screen == 2)
             Expanded(
-              child: Center(
-                child: CircularProgressIndicator(),
+              child: Container(
+                padding: EdgeInsets.all(25),
+                child: landList(),
               ),
             )
         ],
@@ -146,6 +149,145 @@ class _LandInspectorState extends State<LandInspector> {
           },
         ),
       ]),
+    );
+  }
+
+  getLandList() async {
+    List<dynamic> landList = await model.allLandList();
+    List<List<dynamic>> allInfo = [];
+    List<dynamic> temp;
+    for (int i = 0; i < landList.length; i++) {
+      temp = await model.landInfo(landList[i]);
+      allInfo.add(temp);
+    }
+    landData = allInfo;
+    screen = 2;
+    print(landData);
+    setState(() {});
+  }
+
+  Widget landList() {
+    return ListView.builder(
+      itemCount: landData == null ? 1 : landData.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) {
+          return Column(
+            children: [
+              const Divider(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      '#',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    flex: 1,
+                  ),
+                  const Expanded(
+                      child: Center(
+                        child: Text('Owner Address',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 5),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Area',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 3,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Price',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('PID',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('SurveyNo.',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Document',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Verify',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  )
+                ],
+              ),
+              const Divider(
+                height: 15,
+              )
+            ],
+          );
+        }
+        index -= 1;
+        List<dynamic> data = landData[index];
+        return ListTile(
+          title: Row(
+            children: [
+              Expanded(
+                child: Text((index + 1).toString()),
+                flex: 1,
+              ),
+              Expanded(
+                  child: Center(
+                    child: Text(data[9].toString()),
+                  ),
+                  flex: 5),
+              Expanded(
+                  child: Center(
+                    child: Text(data[2].toString() + ' ' + data[3].toString()),
+                  ),
+                  flex: 3),
+              Expanded(child: Center(child: Text(data[4].toString())), flex: 2),
+              Expanded(child: Center(child: Text(data[6].toString())), flex: 2),
+              Expanded(child: Center(child: Text(data[5].toString())), flex: 2),
+              Expanded(
+                  child: Center(
+                      child: Text(
+                    data[7].toString(),
+                  )),
+                  flex: 2),
+              Expanded(
+                  child: Center(
+                    child: data[10]
+                        ? Text('Verified')
+                        : ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                screen = 2;
+                              });
+                              await model.verifyLand(data[0]);
+                              getLandList();
+                            },
+                            child: Text('Verify')),
+                  ),
+                  flex: 2),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -303,10 +445,12 @@ class _LandInspectorState extends State<LandInspector> {
                   Row(
                     children: [
                       Expanded(
-                          child: Text(
-                        userCount.toString(),
-                        style: TextStyle(fontSize: 24),
-                      )),
+                          child: userCount == -1
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  userCount.toString(),
+                                  style: TextStyle(fontSize: 24),
+                                )),
                     ],
                   ),
                 if (index == 0)
@@ -380,6 +524,7 @@ class _LandInspectorState extends State<LandInspector> {
                           MaterialPageRoute(builder: (context) => home_page()));
                     }
                     if (index == 1) getUserList();
+                    if (index == 2) getLandList();
                     setState(() {
                       screen = index;
                     });
