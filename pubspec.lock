@@ -179,6 +179,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_smart_dialog:
+    dependency: "direct main"
+    description:
+      name: flutter_smart_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   flutter_spinkit:
     dependency: "direct main"
     description:

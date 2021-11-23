@@ -39,7 +39,16 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _addLand;
   late ContractFunction _myAllLands;
   late ContractFunction _landInfo;
-  late ContractFunction _allLandList, _verifyLand;
+  late ContractFunction _allLandList,
+      _verifyLand,
+      _makeforSell,
+      _sendRequestToBuy,
+      _myReceivedRequest,
+      _mySentRequest,
+      _requestInfo;
+  late ContractFunction _landCount;
+  late ContractFunction _acceptRequest, _rejectRequest;
+  late ContractFunction _landPrice;
 
   LandRegisterModel() {
     //initiateSetup();
@@ -95,6 +104,15 @@ class LandRegisterModel extends ChangeNotifier {
     _landInfo = _contract.function("lands");
     _allLandList = _contract.function("ReturnAllLandList");
     _verifyLand = _contract.function("verifyLand");
+    _makeforSell = _contract.function("makeItforSell");
+    _sendRequestToBuy = _contract.function("requestforBuy");
+    _myReceivedRequest = _contract.function("myReceivedLandRequests");
+    _mySentRequest = _contract.function("mySentLandRequests");
+    _requestInfo = _contract.function("LandRequestMapping");
+    _landCount = _contract.function("landsCount");
+    _acceptRequest = _contract.function("acceptRequest");
+    _rejectRequest = _contract.function("rejectRequest");
+    _landPrice = _contract.function("landPrice");
   }
 
   makePaymentTestFun() async {
@@ -111,6 +129,94 @@ class LandRegisterModel extends ChangeNotifier {
             value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 10)),
         chainId: 80001,
         fetchChainIdFromNetworkId: false);
+  }
+
+  Future<dynamic> landPrice(dynamic landId) async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _landPrice,
+        params: [landId]);
+    //print(val);
+    return val[0];
+  }
+
+  acceptRequest(dynamic reqId) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _acceptRequest,
+            parameters: [
+              reqId,
+            ]));
+  }
+
+  rejectRequest(dynamic reqId) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _rejectRequest,
+            parameters: [
+              reqId,
+            ]));
+  }
+
+  Future<List<dynamic>> requestInfo(dynamic requestId) async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _requestInfo,
+        params: [requestId]);
+    //print(val);
+    return val;
+  }
+
+  Future<List<dynamic>> mySentRequest() async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _mySentRequest,
+        params: []);
+    print(val);
+    return val[0];
+  }
+
+  Future<List<dynamic>> myReceivedRequest() async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _myReceivedRequest,
+        params: []);
+    print(val);
+    return val[0];
+  }
+
+  sendRequestToBuy(dynamic landId) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _sendRequestToBuy,
+            parameters: [
+              landId,
+            ]));
+  }
+
+  makeForSell(dynamic id) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _makeforSell,
+            parameters: [
+              id,
+            ]));
   }
 
   Future<List<dynamic>> landInfo(dynamic id) async {
@@ -184,6 +290,14 @@ class LandRegisterModel extends ChangeNotifier {
       // chainId: 80001,
       // fetchChainIdFromNetworkId: false
     );
+  }
+
+  Future<dynamic> landCount() async {
+    notifyListeners();
+    final val = await _client
+        .call(contract: _contract, function: _landCount, params: []);
+    print(val);
+    return val[0];
   }
 
   Future<dynamic> userCount() async {

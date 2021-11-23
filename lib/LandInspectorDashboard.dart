@@ -19,7 +19,8 @@ class _LandInspectorState extends State<LandInspector> {
   List<List<dynamic>> landData = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
-  dynamic userCount = -1;
+  bool isFirstTimeLoad = true;
+  dynamic userCount = -1, landCount = -1;
 
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
@@ -30,13 +31,15 @@ class _LandInspectorState extends State<LandInspector> {
 
   getUserCount() async {
     userCount = await model.userCount();
-    //setState(() {});
+    landCount = await model.landCount();
+    isFirstTimeLoad = false;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     model = Provider.of<LandRegisterModel>(context);
-    if (screen == 0) {
+    if (isFirstTimeLoad) {
       getUserCount();
     }
     return Scaffold(
@@ -65,6 +68,7 @@ class _LandInspectorState extends State<LandInspector> {
       body: Row(
         children: [
           isDesktop ? drawer2() : Container(),
+          if (screen == -1) Center(child: CircularProgressIndicator()),
           if (screen == 0)
             Expanded(
                 child: ListView(
@@ -276,7 +280,7 @@ class _LandInspectorState extends State<LandInspector> {
                         : ElevatedButton(
                             onPressed: () async {
                               setState(() {
-                                screen = 2;
+                                screen = -1;
                               });
                               await model.verifyLand(data[0]);
                               getLandList();
@@ -412,7 +416,7 @@ class _LandInspectorState extends State<LandInspector> {
                           : ElevatedButton(
                               onPressed: () async {
                                 setState(() {
-                                  screen = 2;
+                                  screen = -1;
                                 });
                                 await model.verifyUser(data[0].toString());
                                 getUserList();
@@ -444,19 +448,29 @@ class _LandInspectorState extends State<LandInspector> {
                 if (index == 0)
                   Row(
                     children: [
-                      Expanded(
-                          child: userCount == -1
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  userCount.toString(),
-                                  style: TextStyle(fontSize: 24),
-                                )),
+                      userCount == -1
+                          ? CircularProgressIndicator()
+                          : Text(
+                              userCount.toString(),
+                              style: TextStyle(fontSize: 24),
+                            ),
                     ],
                   ),
                 if (index == 0)
                   Text(
                     'Total Users Registered',
                     style: TextStyle(fontSize: 20),
+                  ),
+                if (index == 1)
+                  Row(
+                    children: [
+                      landCount == -1
+                          ? CircularProgressIndicator()
+                          : Text(
+                              landCount.toString(),
+                              style: TextStyle(fontSize: 24),
+                            ),
+                    ],
                   ),
                 if (index == 1)
                   Text('Total Property Registered',

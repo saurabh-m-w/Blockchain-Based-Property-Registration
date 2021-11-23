@@ -30,7 +30,7 @@ contract Land {
         bool isUserVerified;
     }
 
-     struct LandInspector {
+    struct LandInspector {
         uint id;
         address _addr;
         string name;
@@ -54,7 +54,7 @@ contract Land {
     }
     uint inspectorsCount;
     uint public userCount;
-    uint landsCount;
+    uint public landsCount;
     uint requestCount;
 
 
@@ -67,8 +67,9 @@ contract Land {
     mapping(address => uint[]) public MyLands;
     mapping(uint => Landreg) public lands;
     mapping(uint => LandRequest) public LandRequestMapping;
-    mapping(address => uint[]) public MyLandRequest;
-	mapping(uint => uint[]) public allLandList;
+    mapping(address => uint[]) public MyReceivedLandRequest;
+    mapping(address => uint[]) public MySentLandRequest;
+    mapping(uint => uint[]) public allLandList;
 
 
     function isContractOwner(address _addr) public view returns(bool){
@@ -78,7 +79,7 @@ contract Land {
             return false;
     }
 
-     //-----------------------------------------------LandInspector-----------------------------------------------
+    //-----------------------------------------------LandInspector-----------------------------------------------
 
     function addLandInspector(address _addr,string memory _name, uint _age, string memory _designation,string memory _city) public returns(bool){
         if(contractOwner!=msg.sender)
@@ -88,10 +89,10 @@ contract Land {
         InspectorMapping[_addr] = LandInspector(inspectorsCount,_addr,_name, _age, _designation,_city);
         return true;
     }
-	
-	
-	
-     function isLandInspector(address _id) public view returns (bool) {
+
+
+
+    function isLandInspector(address _id) public view returns (bool) {
         if(RegisteredInspectorMapping[_id]){
             return true;
         }else{
@@ -101,16 +102,16 @@ contract Land {
 
 
 
-   //-----------------------------------------------User-----------------------------------------------
+    //-----------------------------------------------User-----------------------------------------------
 
-   function isUserRegistered(address _addr) public view returns(bool)
-   {
-       if(RegisteredUserMapping[_addr]){
+    function isUserRegistered(address _addr) public view returns(bool)
+    {
+        if(RegisteredUserMapping[_addr]){
             return true;
         }else{
             return false;
         }
-   }
+    }
 
     function registerUser(string memory _name, uint _age, string memory _city,string memory _aadharNumber, string memory _panNumber, string memory _document, string memory _email
     ) public {
@@ -130,7 +131,7 @@ contract Land {
         UserMapping[_userId].isUserVerified=true;
     }
     function isUserVerified(address id) public view returns(bool){
-       return UserMapping[id].isUserVerified;
+        return UserMapping[id].isUserVerified;
     }
     function ReturnAllUserList() public view returns(address[] memory)
     {
@@ -138,27 +139,27 @@ contract Land {
     }
 
 
-     //-----------------------------------------------Land-----------------------------------------------
+    //-----------------------------------------------Land-----------------------------------------------
     function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum, string memory _document) public {
         require(isUserVerified(msg.sender));
         landsCount++;
         lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum , _document,false,msg.sender,false);
         MyLands[msg.sender].push(landsCount);
-		allLandList[1].push(landsCount);
+        allLandList[1].push(landsCount);
         // emit AddingLand(landsCount);
     }
-	
-	function ReturnAllLandList() public view returns(uint[] memory)
+
+    function ReturnAllLandList() public view returns(uint[] memory)
     {
         return allLandList[1];
     }
-	
+
     function verifyLand(uint _id) public{
         require(isLandInspector(msg.sender));
         lands[_id].isLandVerified=true;
     }
     function isLandVerified(uint id) public view returns(bool){
-      return lands[id].isLandVerified;
+        return lands[id].isLandVerified;
     }
 
     function myAllLands(address id) public view returns( uint[] memory){
@@ -178,13 +179,18 @@ contract Land {
         require(isUserVerified(msg.sender) && isLandVerified(_landId));
         requestCount++;
         LandRequestMapping[requestCount]=LandRequest(requestCount,lands[_landId].ownerAddress,msg.sender,_landId,reqStatus.requested,false);
-        MyLandRequest[lands[_landId].ownerAddress].push(requestCount);
+        MyReceivedLandRequest[lands[_landId].ownerAddress].push(requestCount);
+        MySentLandRequest[msg.sender].push(requestCount);
     }
 
-   function myAllLandRequests() public view returns(uint[] memory)
-   {
-      return MyLandRequest[msg.sender];
-   }
+    function myReceivedLandRequests() public view returns(uint[] memory)
+    {
+        return MyReceivedLandRequest[msg.sender];
+    }
+    function mySentLandRequests() public view returns(uint[] memory)
+    {
+        return MySentLandRequest[msg.sender];
+    }
     function acceptRequest(uint _requestId) public
     {
         require(LandRequestMapping[_requestId].sellerId==msg.sender);

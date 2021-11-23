@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/LandRegisterModel.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
@@ -7,8 +8,8 @@ import 'package:land_registration/home_page.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
-
 import 'constant/constants.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 class UserDashBoard extends StatefulWidget {
   const UserDashBoard({Key? key}) : super(key: key);
@@ -31,15 +32,25 @@ class _UserDashBoardState extends State<UserDashBoard> {
   final _formKey = GlobalKey<FormState>();
   late String area, city, state, landPrice, propertyID, surveyNo, document;
   List<List<dynamic>> landInfo = [];
+  List<List<dynamic>> receivedRequestInfo = [];
+  List<List<dynamic>> sentRequestInfo = [];
+  List<dynamic> prices = [];
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
     Menu(title: 'Add Lands', icon: Icons.add_chart),
     Menu(title: 'My Lands', icon: Icons.landscape_rounded),
     Menu(title: 'Land Gallery', icon: Icons.landscape_rounded),
-    Menu(title: 'My Land Request', icon: Icons.request_page_outlined),
+    Menu(title: 'My Received Request', icon: Icons.request_page_outlined),
+    Menu(title: 'My Sent Land Request', icon: Icons.request_page_outlined),
     Menu(title: 'Logout', icon: Icons.logout),
   ];
-
+  Map<String, String> requestStatus = {
+    '0': 'Pending',
+    '1': 'Accepted',
+    '2': 'Rejected',
+    '3': 'Payment Done',
+    '4': 'Completed'
+  };
   getLandInfo() async {
     setState(() {
       isLoading = true;
@@ -73,6 +84,47 @@ class _UserDashBoardState extends State<UserDashBoard> {
     screen = 3;
     isLoading = false;
     print(LandGall);
+    setState(() {});
+  }
+
+  getMySentRequest() async {
+    setState(() {
+      isLoading = true;
+    });
+    List<dynamic> requestList = await model.mySentRequest();
+    List<List<dynamic>> allInfo = [];
+    List<dynamic> temp;
+    List<dynamic> tempPrice = [];
+    var pri;
+    for (int i = 0; i < requestList.length; i++) {
+      temp = await model.requestInfo(requestList[i]);
+      pri = await model.landPrice(temp[3]);
+      tempPrice.add(pri);
+      allInfo.add(temp);
+    }
+    sentRequestInfo = allInfo;
+    prices = tempPrice;
+    screen = 5;
+    isLoading = false;
+    print(sentRequestInfo);
+    setState(() {});
+  }
+
+  getMyReceivedRequest() async {
+    setState(() {
+      isLoading = true;
+    });
+    List<dynamic> requestList = await model.myReceivedRequest();
+    List<List<dynamic>> allInfo = [];
+    List<dynamic> temp;
+    for (int i = 0; i < requestList.length; i++) {
+      temp = await model.requestInfo(requestList[i]);
+      allInfo.add(temp);
+    }
+    receivedRequestInfo = allInfo;
+    screen = 4;
+    isLoading = false;
+    print(receivedRequestInfo);
     setState(() {});
   }
 
@@ -135,8 +187,279 @@ class _UserDashBoardState extends State<UserDashBoard> {
             myLands()
           else if (screen == 3)
             LandGallery()
+          else if (screen == 4)
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(25),
+                child: receivedRequest(),
+              ),
+            )
+          else if (screen == 5)
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(25),
+                child: sentRequest(),
+              ),
+            )
         ],
       ),
+    );
+  }
+
+  Widget sentRequest() {
+    return ListView.builder(
+      itemCount: sentRequestInfo == null ? 1 : sentRequestInfo.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) {
+          return Column(
+            children: [
+              const Divider(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      '#',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    flex: 1,
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'Land Id',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    flex: 1,
+                  ),
+                  const Expanded(
+                      child: Center(
+                        child: Text('Owner Address',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 5),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Status',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 3,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Price(in ₹)',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Make Payment',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  )
+                ],
+              ),
+              const Divider(
+                height: 15,
+              )
+            ],
+          );
+        }
+        index -= 1;
+        List<dynamic> data = sentRequestInfo[index];
+        return ListTile(
+          title: Row(
+            children: [
+              Expanded(
+                child: Text((index + 1).toString()),
+                flex: 1,
+              ),
+              Expanded(child: Center(child: Text(data[3].toString())), flex: 1),
+              Expanded(
+                  child: Center(
+                    child: Text(data[1].toString()),
+                  ),
+                  flex: 5),
+              Expanded(
+                  child: Center(
+                    child: Text(requestStatus[data[4].toString()].toString()),
+                  ),
+                  flex: 3),
+              Expanded(
+                  child: Center(
+                    child: Text(prices[index].toString()),
+                  ),
+                  flex: 2),
+              Expanded(
+                  child: Center(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.green),
+                        onPressed: data[4].toString() != '1'
+                            ? null
+                            : () async {
+                                SmartDialog.showLoading();
+                                try {
+                                  //await model.rejectRequest(data[0]);
+                                  //await getMyReceivedRequest();
+                                } catch (e) {
+                                  print(e);
+                                }
+
+                                //await Future.delayed(Duration(seconds: 2));
+                                SmartDialog.dismiss();
+                              },
+                        child: Text('Make Payment')),
+                  ),
+                  flex: 2),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget receivedRequest() {
+    return ListView.builder(
+      itemCount:
+          receivedRequestInfo == null ? 1 : receivedRequestInfo.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) {
+          return Column(
+            children: [
+              const Divider(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      '#',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    flex: 1,
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'Land Id',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    flex: 1,
+                  ),
+                  const Expanded(
+                      child: Center(
+                        child: Text('Buyer Address',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 5),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Status',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 3,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Payment Done',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Reject',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('Accept',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    flex: 2,
+                  )
+                ],
+              ),
+              const Divider(
+                height: 15,
+              )
+            ],
+          );
+        }
+        index -= 1;
+        List<dynamic> data = receivedRequestInfo[index];
+        return ListTile(
+          title: Row(
+            children: [
+              Expanded(
+                child: Text((index + 1).toString()),
+                flex: 1,
+              ),
+              Expanded(child: Center(child: Text(data[3].toString())), flex: 1),
+              Expanded(
+                  child: Center(
+                    child: Text(data[2].toString()),
+                  ),
+                  flex: 5),
+              Expanded(
+                  child: Center(
+                    child: Text(requestStatus[data[4].toString()].toString()),
+                  ),
+                  flex: 3),
+              Expanded(child: Center(child: Text(data[5].toString())), flex: 2),
+              Expanded(
+                  child: Center(
+                    child: ElevatedButton(
+                        style:
+                            ElevatedButton.styleFrom(primary: Colors.redAccent),
+                        onPressed: data[4].toString() == '1' ||
+                                data[4].toString() == '2'
+                            ? null
+                            : () async {
+                                SmartDialog.showLoading();
+                                try {
+                                  await model.rejectRequest(data[0]);
+                                  await getMyReceivedRequest();
+                                } catch (e) {
+                                  print(e);
+                                }
+
+                                //await Future.delayed(Duration(seconds: 2));
+                                SmartDialog.dismiss();
+                              },
+                        child: Text('Reject')),
+                  ),
+                  flex: 2),
+              Expanded(
+                  child: Center(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.greenAccent),
+                        onPressed: data[4].toString() == '1' ||
+                                data[4].toString() == '2'
+                            ? null
+                            : () async {
+                                SmartDialog.showLoading();
+                                try {
+                                  await model.acceptRequest(data[0]);
+                                  await getMyReceivedRequest();
+                                } catch (e) {
+                                  print(e);
+                                }
+
+                                //await Future.delayed(Duration(seconds: 2));
+                                SmartDialog.dismiss();
+                              },
+                        child: Text('Accept')),
+                  ),
+                  flex: 2),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -155,11 +478,15 @@ class _UserDashBoardState extends State<UserDashBoard> {
               mainAxisSpacing: 20),
           itemCount: LandGall.length,
           itemBuilder: (context, index) {
-            return landWid(
+            return landWid2(
                 LandGall[index][10],
                 LandGall[index][1].toString(),
                 LandGall[index][2].toString() + LandGall[index][3].toString(),
-                LandGall[index][4].toString());
+                LandGall[index][4].toString(),
+                LandGall[index][9] == userInfo[0],
+                LandGall[index][8], () async {
+              await model.sendRequestToBuy(LandGall[index][0]);
+            });
           },
         ),
       ),
@@ -185,7 +512,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 landInfo[index][10],
                 landInfo[index][4].toString(),
                 landInfo[index][2].toString() + landInfo[index][3].toString(),
-                landInfo[index][1].toString());
+                landInfo[index][1].toString(),
+                landInfo[index][8], () async {
+              await model.makeForSell(landInfo[index][0]);
+              setState(() {});
+            });
           },
         ),
       ),
@@ -532,7 +863,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   icon: menuItems[index].icon,
                   isSelected: screen == index,
                   onTap: () {
-                    if (index == 5) {
+                    if (index == 6) {
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => home_page()));
@@ -540,6 +871,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     if (index == 0) getProfileInfo();
                     if (index == 2) getLandInfo();
                     if (index == 3) getLandGallery();
+                    if (index == 4) getMyReceivedRequest();
+                    if (index == 5) getMySentRequest();
                     setState(() {
                       screen = index;
                     });
