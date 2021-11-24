@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -299,16 +301,18 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: data[4].toString() != '1'
                             ? null
                             : () async {
-                                SmartDialog.showLoading();
-                                try {
-                                  //await model.rejectRequest(data[0]);
-                                  //await getMyReceivedRequest();
-                                } catch (e) {
-                                  print(e);
-                                }
-
-                                //await Future.delayed(Duration(seconds: 2));
-                                SmartDialog.dismiss();
+                                _paymentDialog(
+                                    data[2], data[1], '1.425', '300000.0');
+                                // SmartDialog.showLoading();
+                                // try {
+                                //   //await model.rejectRequest(data[0]);
+                                //   //await getMyReceivedRequest();
+                                // } catch (e) {
+                                //   print(e);
+                                // }
+                                //
+                                // //await Future.delayed(Duration(seconds: 2));
+                                // SmartDialog.dismiss();
                               },
                         child: Text('Make Payment')),
                   ),
@@ -485,7 +489,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 LandGall[index][4].toString(),
                 LandGall[index][9] == userInfo[0],
                 LandGall[index][8], () async {
-              await model.sendRequestToBuy(LandGall[index][0]);
+              SmartDialog.showLoading();
+              try {
+                await model.sendRequestToBuy(LandGall[index][0]);
+                showToast("Request sent",
+                    context: context, backgroundColor: Colors.green);
+              } catch (e) {
+                print(e);
+                showToast("Something Went Wrong",
+                    context: context, backgroundColor: Colors.red);
+              }
+              SmartDialog.dismiss();
             });
           },
         ),
@@ -513,10 +527,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 landInfo[index][4].toString(),
                 landInfo[index][2].toString() + landInfo[index][3].toString(),
                 landInfo[index][1].toString(),
-                landInfo[index][8], () async {
-              await model.makeForSell(landInfo[index][0]);
-              setState(() {});
-            });
+                landInfo[index][8],
+                () => confirmDialog(context, () async {
+                      SmartDialog.showLoading();
+                      await model.makeForSell(landInfo[index][0]);
+                      Navigator.pop(context);
+                      await getLandInfo();
+                      SmartDialog.dismiss();
+                    }));
           },
         ),
       ),
@@ -941,5 +959,83 @@ class _UserDashBoardState extends State<UserDashBoard> {
         ),
       ]),
     );
+  }
+
+  _paymentDialog(buyerAdd, sellAdd, total, ethval) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+              backgroundColor: Colors.white,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                height: 430.0,
+                width: 320,
+                child: Column(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Confirm Payment',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      buyerAdd.toString(),
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 13.0,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Icon(
+                      Icons.arrow_circle_down,
+                      size: 30,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      sellAdd.toString(),
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 13.0,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      total,
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      '1 ETH = ' + ethval + '₹',
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomButton3('Cancel', () {
+                          Navigator.of(context).pop();
+                        }, Colors.white),
+                        CustomButton3('Confirm', () {}, Colors.blueAccent)
+                      ],
+                    )
+                  ],
+                ),
+              ));
+        });
   }
 }

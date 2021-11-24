@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:land_registration/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/home_page.dart';
@@ -26,6 +27,7 @@ class _LandInspectorState extends State<LandInspector> {
     Menu(title: 'Dashboard', icon: Icons.dashboard),
     Menu(title: 'Verify User', icon: Icons.verified_user),
     Menu(title: 'Verify Land', icon: Icons.web),
+    Menu(title: 'Transfer Ownership', icon: Icons.transform),
     Menu(title: 'Logout', icon: Icons.logout),
   ];
 
@@ -279,11 +281,14 @@ class _LandInspectorState extends State<LandInspector> {
                         ? Text('Verified')
                         : ElevatedButton(
                             onPressed: () async {
-                              setState(() {
-                                screen = -1;
-                              });
-                              await model.verifyLand(data[0]);
-                              getLandList();
+                              SmartDialog.showLoading();
+                              try {
+                                await model.verifyLand(data[0]);
+                                await getLandList();
+                              } catch (e) {
+                                print(e);
+                              }
+                              SmartDialog.dismiss();
                             },
                             child: Text('Verify')),
                   ),
@@ -415,11 +420,14 @@ class _LandInspectorState extends State<LandInspector> {
                           ? Text('Verified')
                           : ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  screen = -1;
-                                });
-                                await model.verifyUser(data[0].toString());
-                                getUserList();
+                                SmartDialog.showLoading();
+                                try {
+                                  await model.verifyUser(data[0].toString());
+                                  await getUserList();
+                                } catch (e) {
+                                  print(e);
+                                }
+                                SmartDialog.dismiss();
                               },
                               child: Text('Verify')),
                     ),
@@ -532,7 +540,7 @@ class _LandInspectorState extends State<LandInspector> {
                   //animationController: _animationController,
                   isSelected: screen == index,
                   onTap: () {
-                    if (index == 3) {
+                    if (index == 4) {
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => home_page()));

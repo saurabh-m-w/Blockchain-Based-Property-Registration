@@ -1,10 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
+import 'package:http/http.dart' as http;
 
 double width = 590;
 bool isDesktop = false;
 String privateKey = "";
+
+getEthToInr() async {
+  var url = Uri.parse('api.coincap.io/v2/assets/ethereum');
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  print(data);
+}
 
 Widget CustomButton(text, fun) => Container(
       constraints: BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
@@ -42,6 +52,28 @@ Widget CustomButton2(text, fun) => Container(
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+Widget CustomButton3(text, fun, color) => Container(
+      constraints: BoxConstraints(maxWidth: 130.0, minHeight: 40.0),
+      margin: EdgeInsets.all(10),
+      child: ElevatedButton(
+        onPressed: fun,
+        style: ElevatedButton.styleFrom(primary: color),
+        child: Padding(
+          padding: EdgeInsets.all(0),
+          child: Container(
+            color: color,
+            alignment: Alignment.center,
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 15,
+                color: color == Colors.white ? Colors.black : Colors.white,
               ),
             ),
           ),
@@ -172,3 +204,34 @@ class Menu {
 
   Menu({required this.title, required this.icon});
 }
+
+void confirmDialog(
+  context,
+  func,
+) =>
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return CupertinoAlertDialog(
+            title: Text('Please Confirm'),
+            content: Text('Are you sure to make it on sell?'),
+            actions: [
+              // The "Yes" button
+              CupertinoDialogAction(
+                onPressed: func,
+                child: Text('Yes'),
+                isDefaultAction: true,
+                isDestructiveAction: true,
+              ),
+              // The "No" button
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('No'),
+                isDefaultAction: false,
+                isDestructiveAction: false,
+              )
+            ],
+          );
+        });
