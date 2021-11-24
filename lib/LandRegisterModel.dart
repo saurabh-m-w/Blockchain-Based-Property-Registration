@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:web3dart/credentials.dart';
@@ -49,6 +51,7 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _landCount;
   late ContractFunction _acceptRequest, _rejectRequest;
   late ContractFunction _landPrice;
+  late ContractFunction _makePayment;
 
   LandRegisterModel() {
     //initiateSetup();
@@ -113,22 +116,40 @@ class LandRegisterModel extends ChangeNotifier {
     _acceptRequest = _contract.function("acceptRequest");
     _rejectRequest = _contract.function("rejectRequest");
     _landPrice = _contract.function("landPrice");
+    _makePayment = _contract.function("makePayment");
   }
 
-  makePaymentTestFun() async {
+  makePaymentTestFun(dynamic price) async {
     notifyListeners();
     await _client.sendTransaction(
-        _credentials,
-        Transaction.callContract(
-            contract: _contract,
-            function: _makePaymentTest,
-            parameters: [
-              EthereumAddress.fromHex(
-                  '0x201EbBC7497F593200D03c76B6804Fc0E0590Aa8')
-            ],
-            value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 10)),
-        chainId: 80001,
-        fetchChainIdFromNetworkId: false);
+      _credentials,
+      Transaction.callContract(
+          contract: _contract,
+          function: _makePaymentTest,
+          parameters: [
+            EthereumAddress.fromHex(
+                '0x55b9f7D85085c5938803c7A90a90C2e79157140B')
+          ],
+          value: EtherAmount.fromUnitAndValue(
+              EtherUnit.wei, (price * pow(10, 18)).toString())),
+      // chainId: 80001,
+      // fetchChainIdFromNetworkId: false
+    );
+  }
+
+  makePayment(dynamic reqId, dynamic price) async {
+    notifyListeners();
+    await _client.sendTransaction(
+      _credentials,
+      Transaction.callContract(
+          contract: _contract,
+          function: _makePayment,
+          parameters: [reqId],
+          value: EtherAmount.fromUnitAndValue(
+              EtherUnit.wei, (price * pow(10, 18)).toString())),
+      // chainId: 80001,
+      // fetchChainIdFromNetworkId: false
+    );
   }
 
   Future<dynamic> landPrice(dynamic landId) async {

@@ -8,12 +8,17 @@ import 'package:http/http.dart' as http;
 double width = 590;
 bool isDesktop = false;
 String privateKey = "";
+double ethToInr = 0;
 
 getEthToInr() async {
-  var url = Uri.parse('api.coincap.io/v2/assets/ethereum');
+  String api =
+      "https://api.nomics.com/v1/currencies/ticker?key=b081894c50331900a2c0e667a3c24c66482ebc8c&ids=ETH&interval=1h&convert=INR";
+  var url = Uri.parse(api);
   var response = await http.get(url);
   var data = jsonDecode(response.body);
-  print(data);
+  double priceInr = double.parse(data[0]['price']);
+  ethToInr = double.parse(priceInr.toStringAsFixed(3));
+  print("ETH to INR " + priceInr.toStringAsFixed(3));
 }
 
 Widget CustomButton(text, fun) => Container(

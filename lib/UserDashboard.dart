@@ -29,8 +29,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   bool isUpdated = true;
   List<List<dynamic>> LandGall = [];
   String name = "";
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+
   final _formKey = GlobalKey<FormState>();
   late String area, city, state, landPrice, propertyID, surveyNo, document;
   List<List<dynamic>> landInfo = [];
@@ -93,6 +92,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     setState(() {
       isLoading = true;
     });
+    await getEthToInr();
     List<dynamic> requestList = await model.mySentRequest();
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
@@ -302,7 +302,13 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             ? null
                             : () async {
                                 _paymentDialog(
-                                    data[2], data[1], '1.425', '300000.0');
+                                    data[2],
+                                    data[1],
+                                    prices[index].toString(),
+                                    double.parse(prices[index].toString()) /
+                                        ethToInr,
+                                    ethToInr,
+                                    data[0]);
                                 // SmartDialog.showLoading();
                                 // try {
                                 //   //await model.rejectRequest(data[0]);
@@ -961,7 +967,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     );
   }
 
-  _paymentDialog(buyerAdd, sellAdd, total, ethval) async {
+  _paymentDialog(buyerAdd, sellAdd, amountINR, total, ethval, reqID) async {
     return showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -1014,14 +1020,29 @@ class _UserDashBoardState extends State<UserDashBoard> {
                       height: 10,
                     ),
                     Text(
-                      total,
-                      style: TextStyle(fontSize: 40),
-                    ),
-                    SizedBox(
-                      height: 10,
+                      "Total Amount in ₹",
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      '1 ETH = ' + ethval + '₹',
+                      amountINR,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      '1 ETH = ' + ethval.toString() + '₹',
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Total ETH:",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      total.toString(),
+                      style: TextStyle(fontSize: 30),
                     ),
                     Spacer(),
                     Row(
@@ -1030,7 +1051,22 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         CustomButton3('Cancel', () {
                           Navigator.of(context).pop();
                         }, Colors.white),
-                        CustomButton3('Confirm', () {}, Colors.blueAccent)
+                        CustomButton3('Confirm', () async {
+                          SmartDialog.showLoading();
+                          try {
+                            await model.makePayment(reqID, total);
+                            await getMySentRequest();
+                            showToast("Payment Success",
+                                context: context,
+                                backgroundColor: Colors.green);
+                          } catch (e) {
+                            print(e);
+                            showToast("Something Went Wrong",
+                                context: context, backgroundColor: Colors.red);
+                          }
+                          SmartDialog.dismiss();
+                          Navigator.of(context).pop();
+                        }, Colors.blueAccent)
                       ],
                     )
                   ],
