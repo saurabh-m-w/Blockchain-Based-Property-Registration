@@ -30,9 +30,9 @@ class _MenuItemTileState extends State<MenuItemTile> {
               ? Colors.transparent.withOpacity(0.3)
               : Colors.transparent,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         width: 70, //_animation.value,
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 8,
         ),
         child: Row(
@@ -42,14 +42,14 @@ class _MenuItemTileState extends State<MenuItemTile> {
               color: widget.isSelected ? Color(0xFF4AC8EA) : Colors.white30,
               size: 38,
             ),
-            SizedBox(width: 0),
+            const SizedBox(width: 0),
             Text(widget.title,
                 style: widget.isSelected
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold)
-                    : TextStyle(
+                    : const TextStyle(
                         color: Colors.white70,
                         fontSize: 18,
                         fontWeight: FontWeight.bold)),

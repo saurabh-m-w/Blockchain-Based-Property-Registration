@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:land_registration/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
-import 'package:land_registration/constant/loadingScreen.dart';
+//import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/home_page.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
             : GestureDetector(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(
+                  child: const Icon(
                     Icons.menu,
                     color: Colors.white,
                   ), //AnimatedIcon(icon: AnimatedIcons.menu_arrow,progress: _animationController,),

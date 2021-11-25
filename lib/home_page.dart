@@ -22,9 +22,9 @@ class _home_pageState extends State<home_page> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF272D34),
+        backgroundColor: const Color(0xFF272D34),
         centerTitle: true,
-        title: Text('Blockchain Based Property Registration'),
+        title: const Text('Blockchain Based Property Registration'),
       ),
       body: Container(
         child: Center(
@@ -38,7 +38,7 @@ class _home_pageState extends State<home_page> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckPrivateKey(
+                          builder: (context) => const CheckPrivateKey(
                                 val: "owner",
                               )));
                 }),
@@ -46,7 +46,7 @@ class _home_pageState extends State<home_page> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckPrivateKey(
+                          builder: (context) => const CheckPrivateKey(
                                 val: "LandInspector",
                               )));
                 }),
@@ -54,7 +54,7 @@ class _home_pageState extends State<home_page> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckPrivateKey(
+                          builder: (context) => const CheckPrivateKey(
                                 val: "UserLogin",
                               )));
                 }),

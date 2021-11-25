@@ -112,7 +112,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AddLandInspector()));
+                                            const AddLandInspector()));
                               }
                             } else if (widget.val == "RegisterUser") {
                               bool temp = await model.isUserregistered();
@@ -124,7 +124,8 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => RegisterUser()));
+                                        builder: (context) =>
+                                            const RegisterUser()));
                               }
                             } else if (widget.val == "LandInspector") {
                               bool temp =
@@ -139,7 +140,8 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LandInspector()));
+                                        builder: (context) =>
+                                            const LandInspector()));
                               }
                             } else if (widget.val == "UserLogin") {
                               bool temp = await model.isUserregistered();
@@ -149,14 +151,16 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => RegisterUser()));
+                                        builder: (context) =>
+                                            const RegisterUser()));
                               } else {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => UserDashBoard()));
+                                        builder: (context) =>
+                                            const UserDashBoard()));
                               }
                             }
                           } catch (e) {

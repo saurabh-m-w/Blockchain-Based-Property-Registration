@@ -9,7 +9,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 
 class LandRegisterModel extends ChangeNotifier {
@@ -52,6 +51,8 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _acceptRequest, _rejectRequest;
   late ContractFunction _landPrice;
   late ContractFunction _makePayment;
+  late ContractFunction _paymentDoneList;
+  late ContractFunction _transferOwner;
 
   LandRegisterModel() {
     //initiateSetup();
@@ -71,7 +72,7 @@ class LandRegisterModel extends ChangeNotifier {
 
   Future<void> getAbi() async {
     String abiStringFile =
-        await rootBundle.loadString("build/contracts/Land.json");
+        await rootBundle.loadString("src/contracts/Land.json");
     var jsonAbi = jsonDecode(abiStringFile);
     _abiCode = jsonEncode(jsonAbi["abi"]);
     _contractAddress = EthereumAddress.fromHex(jsonAbi["networks"]["5777"][
@@ -117,6 +118,8 @@ class LandRegisterModel extends ChangeNotifier {
     _rejectRequest = _contract.function("rejectRequest");
     _landPrice = _contract.function("landPrice");
     _makePayment = _contract.function("makePayment");
+    _paymentDoneList = _contract.function("returnPaymentDoneList");
+    _transferOwner = _contract.function("transferOwnership");
   }
 
   makePaymentTestFun(dynamic price) async {
@@ -135,6 +138,30 @@ class LandRegisterModel extends ChangeNotifier {
       // chainId: 80001,
       // fetchChainIdFromNetworkId: false
     );
+  }
+
+  transferOwnership(dynamic reqId) async {
+    notifyListeners();
+    await _client.sendTransaction(
+      _credentials,
+      Transaction.callContract(
+        contract: _contract,
+        function: _transferOwner,
+        parameters: [reqId],
+      ),
+      // chainId: 80001,
+      // fetchChainIdFromNetworkId: false
+    );
+  }
+
+  Future<List<dynamic>> paymentDoneList() async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _paymentDoneList,
+        params: []);
+    //print(val);
+    return val[0];
   }
 
   makePayment(dynamic reqId, dynamic price) async {
@@ -202,7 +229,7 @@ class LandRegisterModel extends ChangeNotifier {
         contract: _contract,
         function: _mySentRequest,
         params: []);
-    print(val);
+    //print(val);
     return val[0];
   }
 
@@ -212,7 +239,7 @@ class LandRegisterModel extends ChangeNotifier {
         contract: _contract,
         function: _myReceivedRequest,
         params: []);
-    print(val);
+    //print(val);
     return val[0];
   }
 
@@ -271,7 +298,7 @@ class LandRegisterModel extends ChangeNotifier {
         contract: _contract,
         function: _allLandList,
         params: []);
-    print(val);
+    //print(val);
     return val[0];
   }
 

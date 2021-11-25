@@ -26,10 +26,10 @@ class _RegisterUserState extends State<RegisterUser> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF272D34),
+        backgroundColor: const Color(0xFF272D34),
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'User Registration',
         ),
       ),
@@ -37,7 +37,7 @@ class _RegisterUserState extends State<RegisterUser> {
         child: Material(
           elevation: 10,
           child: Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             width: width,
             child: Form(
               key: _formKey,
@@ -46,9 +46,9 @@ class _RegisterUserState extends State<RegisterUser> {
                 // shrinkWrap: true,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: TextFormField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       validator: (value) {
@@ -60,7 +60,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       onChanged: (val) {
                         name = val;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -70,7 +70,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -78,7 +78,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         }
                         return null;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       onChanged: (val) {
@@ -88,7 +88,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                       ],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -98,7 +98,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -106,14 +106,14 @@ class _RegisterUserState extends State<RegisterUser> {
                         }
                         return null;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       onChanged: (val) {
                         city = val;
                       },
                       //obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -123,7 +123,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -133,7 +133,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         return null;
                       },
                       //maxLength: 12,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       keyboardType: TextInputType.number,
@@ -144,7 +144,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         adharNumber = val;
                       },
                       //obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -154,7 +154,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -163,7 +163,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           return 'Please enter Valid Adhar number';
                         return null;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       //maxLength: 10,
@@ -172,7 +172,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         panNumber = val;
                       },
                       //obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -182,7 +182,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -193,11 +193,11 @@ class _RegisterUserState extends State<RegisterUser> {
                       onChanged: (val) {
                         document = val;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       //obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
@@ -207,10 +207,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
-                        RegExp regex = new RegExp(
+                        RegExp regex = RegExp(
                             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                             r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                             r"{0,253}[a-zA-Z0-9])?)*$");
@@ -219,14 +219,14 @@ class _RegisterUserState extends State<RegisterUser> {
                         else
                           return null;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                       onChanged: (val) {
                         email = val;
                       },
                       //obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),

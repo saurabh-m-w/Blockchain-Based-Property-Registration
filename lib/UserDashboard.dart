@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/LandRegisterModel.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
@@ -89,6 +86,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   getMySentRequest() async {
+    SmartDialog.showLoading();
     setState(() {
       isLoading = true;
     });
@@ -109,6 +107,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     screen = 5;
     isLoading = false;
     print(sentRequestInfo);
+    SmartDialog.dismiss();
     setState(() {});
   }
 
@@ -158,8 +157,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
         leading: isDesktop
             ? Container()
             : GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.menu,
                     color: Colors.white,
@@ -192,14 +191,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
           else if (screen == 4)
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
                 child: receivedRequest(),
               ),
             )
           else if (screen == 5)
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
                 child: sentRequest(),
               ),
             )
@@ -320,7 +319,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                 // //await Future.delayed(Duration(seconds: 2));
                                 // SmartDialog.dismiss();
                               },
-                        child: Text('Make Payment')),
+                        child: const Text('Make Payment')),
                   ),
                   flex: 2),
             ],
@@ -425,8 +424,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     child: ElevatedButton(
                         style:
                             ElevatedButton.styleFrom(primary: Colors.redAccent),
-                        onPressed: data[4].toString() == '1' ||
-                                data[4].toString() == '2'
+                        onPressed: data[4].toString() != '0'
                             ? null
                             : () async {
                                 SmartDialog.showLoading();
@@ -440,7 +438,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                 //await Future.delayed(Duration(seconds: 2));
                                 SmartDialog.dismiss();
                               },
-                        child: Text('Reject')),
+                        child: const Text('Reject')),
                   ),
                   flex: 2),
               Expanded(
@@ -448,8 +446,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: Colors.greenAccent),
-                        onPressed: data[4].toString() == '1' ||
-                                data[4].toString() == '2'
+                        onPressed: data[4].toString() != '0'
                             ? null
                             : () async {
                                 SmartDialog.showLoading();
@@ -479,7 +476,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       child: Container(
         width: isDesktop ? 900 : width,
         child: GridView.builder(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           scrollDirection: Axis.vertical,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisExtent: 440,
@@ -583,7 +580,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                   ],
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
@@ -593,7 +590,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -635,14 +632,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   decoration: InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText: 'State',
                     hintText: 'Enter State',
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -651,7 +648,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     return null;
                   },
                   //maxLength: 12,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                   keyboardType: TextInputType.number,
@@ -662,7 +659,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     landPrice = val;
                   },
                   //obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
@@ -672,7 +669,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -680,7 +677,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     }
                     return null;
                   },
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                   //maxLength: 10,
@@ -692,7 +689,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     propertyID = val;
                   },
                   //obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
@@ -702,7 +699,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -713,11 +710,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   onChanged: (val) {
                     surveyNo = val;
                   },
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                   //obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
@@ -727,7 +724,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty)
@@ -735,14 +732,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     else
                       return null;
                   },
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                   onChanged: (val) {
                     document = val;
                   },
                   //obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
@@ -793,17 +790,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
     isUserVerified = userInfo[8];
     return Container(
       width: width,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           //color: Color(0xFFBb3b3cc),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all()),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Your Profile',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
@@ -812,10 +809,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   children: [
                     Text(
                       'Verified',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.green),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.verified,
                       color: Colors.green,
                     )
@@ -823,7 +820,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 )
               : Text(
                   'Not Yet Verified',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.blueAccent),
                 ),
           CustomTextFiled(userInfo[0].toString(), 'Wallet Address'),
@@ -832,7 +829,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
           CustomTextFiled(userInfo[3].toString(), 'City'),
           CustomTextFiled(userInfo[4].toString(), 'Adhar Number'),
           CustomTextFiled(userInfo[5].toString(), 'Pan'),
-          Text(
+          const Text(
             'View Document',
             style: TextStyle(color: Colors.blue),
           ),
@@ -844,7 +841,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
 
   Widget drawer2() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(blurRadius: 10, color: Colors.black26, spreadRadius: 2)
         ],
@@ -855,28 +852,28 @@ class _UserDashBoardState extends State<UserDashBoard> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
-          Icon(
+          const Icon(
             Icons.person,
             size: 50,
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
           Text(name,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-          SizedBox(
+          const SizedBox(
             height: 80,
           ),
           Expanded(
             child: ListView.separated(
               separatorBuilder: (context, counter) {
-                return Divider(
+                return const Divider(
                   height: 2,
                 );
               },
@@ -889,8 +886,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   onTap: () {
                     if (index == 6) {
                       Navigator.pop(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => home_page()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const home_page()));
                     }
                     if (index == 0) getProfileInfo();
                     if (index == 2) getLandInfo();
@@ -905,7 +904,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],
@@ -913,59 +912,59 @@ class _UserDashBoardState extends State<UserDashBoard> {
     );
   }
 
-  Widget drawer() {
-    return Container(
-      width: 250,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blueGrey,
-              Colors.grey,
-            ],
-          ),
-          //color: Color(0xFFBb3b3cc),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all()),
-      child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.dashboard),
-          title: Text('Welcome'),
-          onTap: () => {},
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('Add Lands'),
-          onTap: () => {},
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('My Lands'),
-          onTap: () async {},
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('My Land Request'),
-          onTap: () async {
-            //await model.allUsers();
-            //await model.userInfo('0x97Ac9Fa9797eb63f54ECCe96A89AD10010eCDD2F');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Logout'),
-          onTap: () async {
-            Navigator.pop(context);
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => home_page()));
-          },
-        ),
-      ]),
-    );
-  }
+  // Widget drawer() {
+  //   return Container(
+  //     width: 250,
+  //     margin: EdgeInsets.all(10),
+  //     padding: EdgeInsets.all(10),
+  //     decoration: BoxDecoration(
+  //         gradient: const LinearGradient(
+  //           begin: Alignment.topRight,
+  //           end: Alignment.bottomLeft,
+  //           colors: [
+  //             Colors.blueGrey,
+  //             Colors.grey,
+  //           ],
+  //         ),
+  //         //color: Color(0xFFBb3b3cc),
+  //         borderRadius: BorderRadius.all(Radius.circular(10)),
+  //         border: Border.all()),
+  //     child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+  //       ListTile(
+  //         leading: Icon(Icons.dashboard),
+  //         title: Text('Welcome'),
+  //         onTap: () => {},
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.verified_user),
+  //         title: Text('Add Lands'),
+  //         onTap: () => {},
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.verified_user),
+  //         title: Text('My Lands'),
+  //         onTap: () async {},
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.verified_user),
+  //         title: Text('My Land Request'),
+  //         onTap: () async {
+  //           //await model.allUsers();
+  //           //await model.userInfo('0x97Ac9Fa9797eb63f54ECCe96A89AD10010eCDD2F');
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.logout),
+  //         title: Text('Logout'),
+  //         onTap: () async {
+  //           Navigator.pop(context);
+  //           Navigator.push(
+  //               context, MaterialPageRoute(builder: (context) => home_page()));
+  //         },
+  //       ),
+  //     ]),
+  //   );
+  // }
 
   _paymentDialog(buyerAdd, sellAdd, amountINR, total, ethval, reqID) async {
     return showDialog<void>(
@@ -975,76 +974,76 @@ class _UserDashBoardState extends State<UserDashBoard> {
           return Dialog(
               backgroundColor: Colors.white,
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 height: 430.0,
                 width: 320,
                 child: Column(
                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
+                    const Text(
                       'Confirm Payment',
                       style: TextStyle(fontSize: 30),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
                       buyerAdd.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black87,
                         fontSize: 13.0,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_circle_down,
                       size: 30,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
                       sellAdd.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black87,
                         fontSize: 13.0,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Divider(),
-                    SizedBox(
+                    const Divider(),
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       "Total Amount in ₹",
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       amountINR,
-                      style: TextStyle(fontSize: 30),
+                      style: const TextStyle(fontSize: 30),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
                       '1 ETH = ' + ethval.toString() + '₹',
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Text(
+                    const Text(
                       "Total ETH:",
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       total.toString(),
-                      style: TextStyle(fontSize: 30),
+                      style: const TextStyle(fontSize: 30),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

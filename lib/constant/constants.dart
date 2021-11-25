@@ -22,18 +22,18 @@ getEthToInr() async {
 }
 
 Widget CustomButton(text, fun) => Container(
-      constraints: BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
-      margin: EdgeInsets.all(10),
+      constraints: const BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+      margin: const EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: fun,
         //color: Theme.of(context).accentColor,
         child: Padding(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Container(
             alignment: Alignment.center,
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 color: Colors.white,
               ),
@@ -43,18 +43,18 @@ Widget CustomButton(text, fun) => Container(
       ),
     );
 Widget CustomButton2(text, fun) => Container(
-      constraints: BoxConstraints(maxWidth: 150.0, minHeight: 40.0),
-      margin: EdgeInsets.all(10),
+      constraints: const BoxConstraints(maxWidth: 150.0, minHeight: 40.0),
+      margin: const EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: fun,
         //color: Theme.of(context).accentColor,
         child: Padding(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Container(
             alignment: Alignment.center,
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 color: Colors.white,
               ),
@@ -64,13 +64,13 @@ Widget CustomButton2(text, fun) => Container(
       ),
     );
 Widget CustomButton3(text, fun, color) => Container(
-      constraints: BoxConstraints(maxWidth: 130.0, minHeight: 40.0),
-      margin: EdgeInsets.all(10),
+      constraints: const BoxConstraints(maxWidth: 130.0, minHeight: 40.0),
+      margin: const EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: fun,
         style: ElevatedButton.styleFrom(primary: color),
         child: Padding(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Container(
             color: color,
             alignment: Alignment.center,
@@ -93,7 +93,7 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
           width: 250,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.black54, width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(13))),
+              borderRadius: const BorderRadius.all(Radius.circular(13))),
           child: Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,14 +121,15 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
               if (text == 'User')
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Icon(
+                  child: const Icon(
                     Icons.person,
                     size: 85,
                   ),
                 ),
               Text(
                 text,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               CustomButton2('Continue', fun)
             ],
@@ -140,7 +141,7 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
           width: 250,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.blue, width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           child: Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -168,14 +169,15 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
               if (text == 'User')
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Icon(
+                  child: const Icon(
                     Icons.person,
                     size: 90,
                   ),
                 ),
               Text(
                 text,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               CustomButton2('Continue', fun)
             ],
@@ -185,19 +187,19 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
     );
 
 Widget CustomTextFiled(text, label) => Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextFormField(
         readOnly: true,
         initialValue: text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 15,
         ),
         decoration: InputDecoration(
             isDense: true, // Added this
-            contentPadding: EdgeInsets.all(12),
-            border: OutlineInputBorder(),
+            contentPadding: const EdgeInsets.all(12),
+            border: const OutlineInputBorder(),
             labelText: label,
-            labelStyle: TextStyle(fontSize: 20),
+            labelStyle: const TextStyle(fontSize: 20),
             fillColor: Colors.grey,
             filled: true),
       ),
@@ -218,13 +220,13 @@ void confirmDialog(
         context: context,
         builder: (BuildContext ctx) {
           return CupertinoAlertDialog(
-            title: Text('Please Confirm'),
-            content: Text('Are you sure to make it on sell?'),
+            title: const Text('Please Confirm'),
+            content: const Text('Are you sure to make it on sell?'),
             actions: [
               // The "Yes" button
               CupertinoDialogAction(
                 onPressed: func,
-                child: Text('Yes'),
+                child: const Text('Yes'),
                 isDefaultAction: true,
                 isDestructiveAction: true,
               ),
@@ -233,7 +235,7 @@ void confirmDialog(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('No'),
+                child: const Text('No'),
                 isDefaultAction: false,
                 isDestructiveAction: false,
               )

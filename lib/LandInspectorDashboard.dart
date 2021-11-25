@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/home_page.dart';
@@ -18,6 +19,7 @@ class _LandInspectorState extends State<LandInspector> {
   final colors = <Color>[Colors.indigo, Colors.blue, Colors.orange, Colors.red];
   List<List<dynamic>> userData = [];
   List<List<dynamic>> landData = [];
+  List<List<dynamic>> paymenList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
   bool isFirstTimeLoad = true;
@@ -70,7 +72,7 @@ class _LandInspectorState extends State<LandInspector> {
       body: Row(
         children: [
           isDesktop ? drawer2() : Container(),
-          if (screen == -1) Center(child: CircularProgressIndicator()),
+          if (screen == -1) const Center(child: CircularProgressIndicator()),
           if (screen == 0)
             Expanded(
                 child: ListView(
@@ -87,15 +89,22 @@ class _LandInspectorState extends State<LandInspector> {
           else if (screen == 1)
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
                 child: userList(),
               ),
             )
           else if (screen == 2)
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
                 child: landList(),
+              ),
+            )
+          else if (screen == 3)
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(25),
+                child: trnasferOwnership(),
               ),
             )
         ],
@@ -103,60 +112,60 @@ class _LandInspectorState extends State<LandInspector> {
     );
   }
 
-  Widget drawer() {
-    return Container(
-      width: 250,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blueGrey,
-              Colors.grey,
-            ],
-          ),
-          //color: Color(0xFFBb3b3cc),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all()),
-      child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        ListTile(
-          leading: const Icon(Icons.dashboard),
-          title: Text('Welcome'),
-          onTap: () {
-            setState(() {
-              screen = 0;
-            });
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('VerifyUser'),
-          onTap: () {
-            setState(() {
-              screen = 2;
-            });
-            getUserList();
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('VerifyLand'),
-          onTap: () async {},
-        ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Logout'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => home_page()));
-          },
-        ),
-      ]),
-    );
-  }
+  // Widget drawer() {
+  //   return Container(
+  //     width: 250,
+  //     margin: EdgeInsets.all(10),
+  //     padding: const EdgeInsets.all(10),
+  //     decoration: BoxDecoration(
+  //         gradient:const LinearGradient(
+  //           begin: Alignment.topRight,
+  //           end: Alignment.bottomLeft,
+  //           colors: [
+  //             Colors.blueGrey,
+  //             Colors.grey,
+  //           ],
+  //         ),
+  //         //color: Color(0xFFBb3b3cc),
+  //         borderRadius: const BorderRadius.all(Radius.circular(10)),
+  //         border: Border.all()),
+  //     child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+  //       ListTile(
+  //         leading: const Icon(Icons.dashboard),
+  //         title: Text('Welcome'),
+  //         onTap: () {
+  //           setState(() {
+  //             screen = 0;
+  //           });
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.verified_user),
+  //         title: Text('VerifyUser'),
+  //         onTap: () {
+  //           setState(() {
+  //             screen = 2;
+  //           });
+  //           getUserList();
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.verified_user),
+  //         title: Text('VerifyLand'),
+  //         onTap: () async {},
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.logout),
+  //         title: Text('Logout'),
+  //         onTap: () {
+  //           Navigator.pop(context);
+  //           Navigator.push(
+  //               context, MaterialPageRoute(builder: (context) => home_page()));
+  //         },
+  //       ),
+  //     ]),
+  //   );
+  // }
 
   getLandList() async {
     List<dynamic> landList = await model.allLandList();
@@ -278,7 +287,7 @@ class _LandInspectorState extends State<LandInspector> {
               Expanded(
                   child: Center(
                     child: data[10]
-                        ? Text('Verified')
+                        ? const Text('Verified')
                         : ElevatedButton(
                             onPressed: () async {
                               SmartDialog.showLoading();
@@ -290,7 +299,7 @@ class _LandInspectorState extends State<LandInspector> {
                               }
                               SmartDialog.dismiss();
                             },
-                            child: Text('Verify')),
+                            child: const Text('Verify')),
                   ),
                   flex: 2),
             ],
@@ -417,7 +426,7 @@ class _LandInspectorState extends State<LandInspector> {
                 Expanded(
                     child: Center(
                       child: data[8]
-                          ? Text('Verified')
+                          ? const Text('Verified')
                           : ElevatedButton(
                               onPressed: () async {
                                 SmartDialog.showLoading();
@@ -429,9 +438,148 @@ class _LandInspectorState extends State<LandInspector> {
                                 }
                                 SmartDialog.dismiss();
                               },
-                              child: Text('Verify')),
+                              child: const Text('Verify')),
                     ),
                     flex: 2),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<void> paymentDoneList() async {
+    SmartDialog.showLoading();
+    try {
+      List<dynamic> list = await model.paymentDoneList();
+
+      List<List<dynamic>> allInfo = [];
+      List<dynamic> temp;
+      for (int i = 0; i < list.length; i++) {
+        temp = await model.requestInfo(list[i]);
+        allInfo.add(temp);
+      }
+      paymenList = allInfo;
+      screen = 3;
+    } catch (e) {}
+    SmartDialog.dismiss();
+    setState(() {});
+    //return allInfo;
+  }
+
+  Widget trnasferOwnership() {
+    return ListView.builder(
+        itemCount: paymenList == null ? 1 : paymenList.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Column(
+              children: [
+                const Divider(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        '#',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      flex: 1,
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Land Id',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      flex: 1,
+                    ),
+                    const Expanded(
+                        child: Center(
+                          child: Text('Seller Address',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                        flex: 6),
+                    const Expanded(
+                      child: Center(
+                        child: Text('Buyer Address',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 6,
+                    ),
+                    const Expanded(
+                      child: Center(
+                        child: Text('Status',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 2,
+                    ),
+                    const Expanded(
+                      child: Center(
+                        child: Text('Transfer Ownership',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      flex: 3,
+                    )
+                  ],
+                ),
+                const Divider(
+                  height: 15,
+                )
+              ],
+            );
+          }
+          index -= 1;
+          List<dynamic> data = paymenList[index];
+          return ListTile(
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text((index + 1).toString()),
+                  flex: 1,
+                ),
+                Expanded(
+                    child: Center(
+                      child: Text(data[3].toString()),
+                    ),
+                    flex: 1),
+                Expanded(
+                    child: Center(
+                      child: Text(data[1].toString()),
+                    ),
+                    flex: 6),
+                Expanded(
+                    child: Center(child: Text(data[2].toString())), flex: 6),
+                Expanded(
+                    child: Center(
+                        child: data[4].toString() == '3'
+                            ? const Text('Payment Done')
+                            : const Text('Completed')),
+                    flex: 2),
+                Expanded(
+                    child: Center(
+                      child: data[4].toString() == '4'
+                          ? const Text('Transfered')
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: () async {
+                                SmartDialog.showLoading();
+                                try {
+                                  await model.transferOwnership(data[0]);
+                                  await paymentDoneList();
+                                  showToast("Payment Success",
+                                      context: context,
+                                      backgroundColor: Colors.green);
+                                } catch (e) {
+                                  print(e);
+                                  showToast("Something Went Wrong",
+                                      context: context,
+                                      backgroundColor: Colors.red);
+                                }
+                                SmartDialog.dismiss();
+                              },
+                              child: const Text('Transfer')),
+                    ),
+                    flex: 3),
               ],
             ),
           );
@@ -442,9 +590,9 @@ class _LandInspectorState extends State<LandInspector> {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(20),
-        color: Color(0xFFE7E7E7),
+        color: const Color(0xFFE7E7E7),
         child: Card(
-          color: Color(0xFFE7E7E7),
+          color: const Color(0xFFE7E7E7),
           child: Container(
             color: colors[index],
             width: 250,
@@ -460,12 +608,12 @@ class _LandInspectorState extends State<LandInspector> {
                           ? CircularProgressIndicator()
                           : Text(
                               userCount.toString(),
-                              style: TextStyle(fontSize: 24),
+                              style: const TextStyle(fontSize: 24),
                             ),
                     ],
                   ),
                 if (index == 0)
-                  Text(
+                  const Text(
                     'Total Users Registered',
                     style: TextStyle(fontSize: 20),
                   ),
@@ -476,15 +624,15 @@ class _LandInspectorState extends State<LandInspector> {
                           ? CircularProgressIndicator()
                           : Text(
                               landCount.toString(),
-                              style: TextStyle(fontSize: 24),
+                              style: const TextStyle(fontSize: 24),
                             ),
                     ],
                   ),
                 if (index == 1)
-                  Text('Total Property Registered',
+                  const Text('Total Property Registered',
                       style: TextStyle(fontSize: 20)),
                 if (index == 2)
-                  Text('Total Property Transfered ',
+                  const Text('Total Property Transfered ',
                       style: TextStyle(fontSize: 20)),
               ],
             ),
@@ -496,7 +644,7 @@ class _LandInspectorState extends State<LandInspector> {
 
   Widget drawer2() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(blurRadius: 10, color: Colors.black26, spreadRadius: 2)
         ],
@@ -507,28 +655,28 @@ class _LandInspectorState extends State<LandInspector> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
-          Icon(
+          const Icon(
             Icons.person,
             size: 50,
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
-          Text('Saurabh',
+          const Text('Saurabh',
               style: TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-          SizedBox(
+          const SizedBox(
             height: 80,
           ),
           Expanded(
             child: ListView.separated(
               separatorBuilder: (context, counter) {
-                return Divider(
+                return const Divider(
                   height: 2,
                 );
               },
@@ -542,11 +690,15 @@ class _LandInspectorState extends State<LandInspector> {
                   onTap: () {
                     if (index == 4) {
                       Navigator.pop(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => home_page()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const home_page()));
                     }
+                    if (index == 0) getUserCount();
                     if (index == 1) getUserList();
                     if (index == 2) getLandList();
+                    if (index == 3) paymentDoneList();
                     setState(() {
                       screen = index;
                     });
@@ -555,7 +707,7 @@ class _LandInspectorState extends State<LandInspector> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],

@@ -1,8 +1,12 @@
-pragma solidity >= 0.5.2;
-//pragma solidity ^0.6.0;
+//pragma solidity >= 0.5.2;
+pragma solidity ^0.6.0;
 
 contract Land {
     address contractOwner;
+
+    constructor() public{
+        contractOwner = msg.sender;
+    }
 
     struct Landreg {
         uint id;
@@ -49,27 +53,26 @@ contract Land {
     }
     enum reqStatus {requested,accepted,rejected,paymentdone,commpleted}
 
-    constructor() public{
-        contractOwner = msg.sender ;
-    }
+
     uint inspectorsCount;
     uint public userCount;
     uint public landsCount;
     uint requestCount;
 
 
-    mapping(address => LandInspector) public InspectorMapping;
-    mapping(address => bool) public RegisteredInspectorMapping;
+    mapping(address => LandInspector)  InspectorMapping;
+    mapping(address => bool)  RegisteredInspectorMapping;
     mapping(address => User) public UserMapping;
-    mapping(uint => address) public AllUsers;
-    mapping(uint => address[]) public allUsersList;
-    mapping(address => bool) public RegisteredUserMapping;
-    mapping(address => uint[]) public MyLands;
+    mapping(uint => address)  AllUsers;
+    mapping(uint => address[])  allUsersList;
+    mapping(address => bool)  RegisteredUserMapping;
+    mapping(address => uint[])  MyLands;
     mapping(uint => Landreg) public lands;
     mapping(uint => LandRequest) public LandRequestMapping;
-    mapping(address => uint[]) public MyReceivedLandRequest;
-    mapping(address => uint[]) public MySentLandRequest;
-    mapping(uint => uint[]) public allLandList;
+    mapping(address => uint[])  MyReceivedLandRequest;
+    mapping(address => uint[])  MySentLandRequest;
+    mapping(uint => uint[])  allLandList;
+    mapping(uint => uint[])  paymentDoneList;
 
 
     function isContractOwner(address _addr) public view returns(bool){
@@ -220,7 +223,12 @@ contract Land {
         //lands[LandRequestMapping[_requestId].landId].ownerAddress.transfer(lands[LandRequestMapping[_requestId].landId].landPrice);
         lands[LandRequestMapping[_requestId].landId].ownerAddress.transfer(msg.value);
         LandRequestMapping[_requestId].isPaymentDone=true;
+        paymentDoneList[1].push(_requestId);
+    }
 
+    function returnPaymentDoneList() public view returns(uint[] memory)
+    {
+        return paymentDoneList[1];
     }
 
     function transferOwnership(uint _requestId) public returns(bool)
@@ -237,11 +245,12 @@ contract Land {
             if(MyLands[LandRequestMapping[_requestId].sellerId][i]==LandRequestMapping[_requestId].landId)
             {
                 MyLands[LandRequestMapping[_requestId].sellerId][i]=MyLands[LandRequestMapping[_requestId].sellerId][len-1];
-                MyLands[LandRequestMapping[_requestId].sellerId].length--;
+                //MyLands[LandRequestMapping[_requestId].sellerId].length--;
+                MyLands[LandRequestMapping[_requestId].sellerId].pop();
                 break;
             }
         }
-
+        lands[LandRequestMapping[_requestId].landId].isforSell=false;
         lands[LandRequestMapping[_requestId].landId].ownerAddress=LandRequestMapping[_requestId].buyerId;
         return true;
     }

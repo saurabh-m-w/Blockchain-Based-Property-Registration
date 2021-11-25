@@ -8,9 +8,9 @@ const spinkitLoader = SpinKitWanderingCubes(
 
 showLoaderDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
-    content: new Row(
+    content: Row(
       children: [
-        CircularProgressIndicator(),
+        const CircularProgressIndicator(),
         Container(margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
       ],
     ),
