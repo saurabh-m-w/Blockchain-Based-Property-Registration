@@ -1,10 +1,16 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:land_registration/UserDashboard.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'LandRegisterModel.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterUser extends StatefulWidget {
   const RegisterUser({Key? key}) : super(key: key);
@@ -19,6 +25,54 @@ class _RegisterUserState extends State<RegisterUser> {
   double width = 590;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false, isAdded = false;
+  String docuName = "";
+  late PlatformFile documentFile;
+  String cid = "", docUrl = "";
+
+  pickDocument() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf'],
+    );
+
+    if (result != null) {
+      docuName = result.files.single.name;
+      documentFile = result.files.first;
+    }
+    setState(() {});
+  }
+
+  Future<bool> uploadDocument() async {
+    String url = "https://api.nft.storage/upload";
+    var header = {
+      "Authorization":
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmNGUwQTQwNTI4MkMyMDNkZDBEZmY2NUNlMkUwRTYyQUNCODFDRWUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzNzkwNzQxNjEwNSwibmFtZSI6ImxhbmRfZG9jdW1lbnQifQ.5ReEuIxsDhWxOLa2lVe9n-B2PUjdEkwJ5jLsBGdBDGA"
+    };
+
+    if (docuName != "") {
+      try {
+        final response = await http.post(Uri.parse(url),
+            headers: header, body: documentFile.bytes);
+        var data = jsonDecode(response.body);
+        //print(data);
+        if (data['ok']) {
+          cid = data["value"]["cid"];
+          docUrl = "https://" + cid + ".ipfs.dweb.link";
+          print(docUrl);
+          return true;
+        }
+      } catch (e) {
+        print(e);
+        showToast("Something went wrong,while document uploading",
+            context: context, backgroundColor: Colors.red);
+      }
+    } else {
+      showToast("Choose Document",
+          context: context, backgroundColor: Colors.red);
+      return false;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,27 +237,15 @@ class _RegisterUserState extends State<RegisterUser> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      onChanged: (val) {
-                        document = val;
-                      },
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      //obscureText: true,
-                      decoration: const InputDecoration(
-                        isDense: true, // Added this
-                        contentPadding: EdgeInsets.all(12),
-                        border: OutlineInputBorder(),
-                        labelText: 'Upload Document',
-                        hintText: 'Upload Adhar/Pan',
-                      ),
+                    child: Row(
+                      children: [
+                        MaterialButton(
+                          color: Colors.grey,
+                          onPressed: pickDocument,
+                          child: Text('Upload Document'),
+                        ),
+                        Text(docuName)
+                      ],
                     ),
                   ),
                   Padding(
@@ -253,18 +295,25 @@ class _RegisterUserState extends State<RegisterUser> {
                                       isLoading = true;
                                     });
                                     try {
-                                      await model.registerUser(
-                                          name,
-                                          age,
-                                          city,
-                                          adharNumber,
-                                          panNumber,
-                                          document,
-                                          email);
-                                      showToast("Successfully Registered",
-                                          context: context,
-                                          backgroundColor: Colors.green);
-                                      isAdded = true;
+                                      SmartDialog.showLoading(
+                                          msg: "Uploading Document");
+                                      bool isFileupload =
+                                          await uploadDocument();
+                                      SmartDialog.dismiss();
+                                      if (isFileupload) {
+                                        await model.registerUser(
+                                            name,
+                                            age,
+                                            city,
+                                            adharNumber,
+                                            panNumber,
+                                            docUrl,
+                                            email);
+                                        showToast("Successfully Registered",
+                                            context: context,
+                                            backgroundColor: Colors.green);
+                                        isAdded = true;
+                                      }
                                     } catch (e) {
                                       print(e);
                                       showToast("Something Went Wrong",

@@ -280,8 +280,14 @@ class _LandInspectorState extends State<LandInspector> {
               Expanded(child: Center(child: Text(data[5].toString())), flex: 2),
               Expanded(
                   child: Center(
-                      child: Text(
-                    data[7].toString(),
+                      child: TextButton(
+                    onPressed: () {
+                      launchUrl(data[7].toString());
+                    },
+                    child: const Text(
+                      'View Document',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   )),
                   flex: 2),
               Expanded(
@@ -419,8 +425,14 @@ class _LandInspectorState extends State<LandInspector> {
                     child: Center(child: Text(data[5].toString())), flex: 2),
                 Expanded(
                     child: Center(
-                        child: Text(
-                      data[6].toString(),
+                        child: TextButton(
+                      onPressed: () {
+                        launchUrl(data[6].toString());
+                      },
+                      child: const Text(
+                        'View Document',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     )),
                     flex: 2),
                 Expanded(

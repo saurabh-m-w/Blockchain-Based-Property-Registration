@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -9,6 +12,7 @@ import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'constant/constants.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:http/http.dart' as http;
 
 class UserDashBoard extends StatefulWidget {
   const UserDashBoard({Key? key}) : super(key: key);
@@ -139,6 +143,57 @@ class _UserDashBoardState extends State<UserDashBoard> {
       isLoading = false;
     });
     print(userInfo);
+  }
+
+  String docuName = "Adhar/Pan (.jpg,.pdf)";
+  late PlatformFile documentFile;
+  String cid = "", docUrl = "";
+  bool isFilePicked = false;
+
+  pickDocument() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf'],
+    );
+
+    if (result != null) {
+      isFilePicked = true;
+      docuName = result.files.single.name;
+      documentFile = result.files.first;
+    }
+    setState(() {});
+  }
+
+  Future<bool> uploadDocument() async {
+    String url = "https://api.nft.storage/upload";
+    var header = {
+      "Authorization":
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmNGUwQTQwNTI4MkMyMDNkZDBEZmY2NUNlMkUwRTYyQUNCODFDRWUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzNzkwNzQxNjEwNSwibmFtZSI6ImxhbmRfZG9jdW1lbnQifQ.5ReEuIxsDhWxOLa2lVe9n-B2PUjdEkwJ5jLsBGdBDGA"
+    };
+
+    if (isFilePicked) {
+      try {
+        final response = await http.post(Uri.parse(url),
+            headers: header, body: documentFile.bytes);
+        var data = jsonDecode(response.body);
+        //print(data);
+        if (data['ok']) {
+          cid = data["value"]["cid"];
+          docUrl = "https://" + cid + ".ipfs.dweb.link";
+          print(docUrl);
+          return true;
+        }
+      } catch (e) {
+        print(e);
+        showToast("Something went wrong,while document uploading",
+            context: context, backgroundColor: Colors.red);
+      }
+    } else {
+      showToast("Choose Document",
+          context: context, backgroundColor: Colors.red);
+      return false;
+    }
+    return false;
   }
 
   @override
@@ -725,27 +780,15 @@ class _UserDashBoardState extends State<UserDashBoard> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty)
-                      return '';
-                    else
-                      return null;
-                  },
-                  style: const TextStyle(
-                    fontSize: 15,
-                  ),
-                  onChanged: (val) {
-                    document = val;
-                  },
-                  //obscureText: true,
-                  decoration: const InputDecoration(
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(12),
-                    border: OutlineInputBorder(),
-                    labelText: 'Land Document',
-                    hintText: 'Land Document',
-                  ),
+                child: Row(
+                  children: [
+                    MaterialButton(
+                      color: Colors.grey,
+                      onPressed: pickDocument,
+                      child: Text('Upload Document'),
+                    ),
+                    Text(docuName)
+                  ],
                 ),
               ),
               CustomButton(
@@ -758,11 +801,18 @@ class _UserDashBoardState extends State<UserDashBoard> {
                               isLoading = true;
                             });
                             try {
-                              await model.addLand(area, city, state, landPrice,
-                                  propertyID, surveyNo, document);
-                              showToast("Land Successfully Added",
-                                  context: context,
-                                  backgroundColor: Colors.green);
+                              SmartDialog.showLoading(
+                                  msg: "Uploading Document");
+                              bool isFileupload = await uploadDocument();
+                              SmartDialog.dismiss();
+                              if (isFileupload) {
+                                await model.addLand(area, city, state,
+                                    landPrice, propertyID, surveyNo, docUrl);
+                                showToast("Land Successfully Added",
+                                    context: context,
+                                    backgroundColor: Colors.green);
+                                isFilePicked = false;
+                              }
                             } catch (e) {
                               print(e);
                               showToast("Something Went Wrong",
@@ -829,9 +879,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
           CustomTextFiled(userInfo[3].toString(), 'City'),
           CustomTextFiled(userInfo[4].toString(), 'Adhar Number'),
           CustomTextFiled(userInfo[5].toString(), 'Pan'),
-          const Text(
-            'View Document',
-            style: TextStyle(color: Colors.blue),
+          TextButton(
+            onPressed: () {
+              launchUrl(userInfo[6].toString());
+            },
+            child: Text(
+              '  View Document',
+              style: TextStyle(color: Colors.blue),
+            ),
           ),
           CustomTextFiled(userInfo[7].toString(), 'Mail'),
         ],
