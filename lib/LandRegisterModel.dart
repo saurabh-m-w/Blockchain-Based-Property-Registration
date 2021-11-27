@@ -13,10 +13,10 @@ import 'package:web_socket_channel/io.dart';
 
 class LandRegisterModel extends ChangeNotifier {
   bool isLoading = true;
-  final String _rpcUrl = "http://192.168.43.130:7545";
-  //"https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
-  final String _wsUrl = "ws://192.168.43.130:7545/";
-  //"wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
+  final String _rpcUrl = //"http://192.168.43.130:7545";
+      "https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
+  final String _wsUrl = //"ws://192.168.43.130:7545/";
+      "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
 
   String _privateKey =
       privateKey; //"b480f30c68bc885cd404d6328db62d5ca7fb4e2ad743c802cb2e6db5ac7530cf";
@@ -75,8 +75,8 @@ class LandRegisterModel extends ChangeNotifier {
         await rootBundle.loadString("src/contracts/Land.json");
     var jsonAbi = jsonDecode(abiStringFile);
     _abiCode = jsonEncode(jsonAbi["abi"]);
-    _contractAddress = EthereumAddress.fromHex(jsonAbi["networks"]["5777"][
-        "address"]); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8");
+    _contractAddress = EthereumAddress.fromHex(
+        "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05"); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8"); //EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
     //print(_contractAddress);
   }
 
@@ -125,33 +125,31 @@ class LandRegisterModel extends ChangeNotifier {
   makePaymentTestFun(dynamic price) async {
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _makePaymentTest,
-          parameters: [
-            EthereumAddress.fromHex(
-                '0x55b9f7D85085c5938803c7A90a90C2e79157140B')
-          ],
-          value: EtherAmount.fromUnitAndValue(
-              EtherUnit.wei, (price * pow(10, 18)).toString())),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _makePaymentTest,
+            parameters: [
+              EthereumAddress.fromHex(
+                  '0x0d1E9c89A88A3BcAB4cECb31686b132e1727E379')
+            ],
+            value: EtherAmount.fromUnitAndValue(
+                EtherUnit.wei, (price * pow(10, 18)).toString())),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   transferOwnership(dynamic reqId) async {
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-        contract: _contract,
-        function: _transferOwner,
-        parameters: [reqId],
-      ),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+          contract: _contract,
+          function: _transferOwner,
+          parameters: [reqId],
+        ),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<List<dynamic>> paymentDoneList() async {
@@ -167,16 +165,15 @@ class LandRegisterModel extends ChangeNotifier {
   makePayment(dynamic reqId, dynamic price) async {
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _makePayment,
-          parameters: [reqId],
-          value: EtherAmount.fromUnitAndValue(
-              EtherUnit.wei, (price * pow(10, 18)).toString())),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _makePayment,
+            parameters: [reqId],
+            value: EtherAmount.fromUnitAndValue(
+                EtherUnit.wei, (price * pow(10, 18)).toString())),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<dynamic> landPrice(dynamic landId) async {
@@ -198,7 +195,9 @@ class LandRegisterModel extends ChangeNotifier {
             function: _acceptRequest,
             parameters: [
               reqId,
-            ]));
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   rejectRequest(dynamic reqId) async {
@@ -210,7 +209,9 @@ class LandRegisterModel extends ChangeNotifier {
             function: _rejectRequest,
             parameters: [
               reqId,
-            ]));
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<List<dynamic>> requestInfo(dynamic requestId) async {
@@ -252,7 +253,9 @@ class LandRegisterModel extends ChangeNotifier {
             function: _sendRequestToBuy,
             parameters: [
               landId,
-            ]));
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   makeForSell(dynamic id) async {
@@ -264,7 +267,9 @@ class LandRegisterModel extends ChangeNotifier {
             function: _makeforSell,
             parameters: [
               id,
-            ]));
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<List<dynamic>> landInfo(dynamic id) async {
@@ -280,16 +285,15 @@ class LandRegisterModel extends ChangeNotifier {
   verifyLand(dynamic id) async {
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _verifyLand,
-          parameters: [
-            id,
-          ]),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _verifyLand,
+            parameters: [
+              id,
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<List<dynamic>> allLandList() async {
@@ -322,22 +326,21 @@ class LandRegisterModel extends ChangeNotifier {
   addLand(String area, String city, String state, String landPrice, String PID,
       String surveyNo, String docu) async {
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _addLand,
-          parameters: [
-            BigInt.parse(area),
-            city,
-            state,
-            BigInt.parse(landPrice),
-            BigInt.parse(PID),
-            BigInt.parse(surveyNo),
-            docu
-          ]),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _addLand,
+            parameters: [
+              BigInt.parse(area),
+              city,
+              state,
+              BigInt.parse(landPrice),
+              BigInt.parse(PID),
+              BigInt.parse(surveyNo),
+              docu
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<dynamic> landCount() async {
@@ -367,16 +370,15 @@ class LandRegisterModel extends ChangeNotifier {
   verifyUser(String address) async {
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _verifyUser,
-          parameters: [
-            EthereumAddress.fromHex(address),
-          ]),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _verifyUser,
+            parameters: [
+              EthereumAddress.fromHex(address),
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   Future<List<dynamic>> userInfo(String address) async {
@@ -404,20 +406,19 @@ class LandRegisterModel extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _addLandInspector,
-          parameters: [
-            EthereumAddress.fromHex(address),
-            name,
-            BigInt.parse(age),
-            desig,
-            city
-          ]),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _addLandInspector,
+            parameters: [
+              EthereumAddress.fromHex(address),
+              name,
+              BigInt.parse(age),
+              desig,
+              city
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   isLandInspector(String address) async {
@@ -440,21 +441,20 @@ class LandRegisterModel extends ChangeNotifier {
     notifyListeners();
 
     await _client.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-          contract: _contract,
-          function: _registerUser,
-          parameters: [
-            name,
-            BigInt.parse(age),
-            city,
-            adhar,
-            pan,
-            document,
-            email
-          ]),
-      // chainId: 80001,
-      // fetchChainIdFromNetworkId: false
-    );
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _registerUser,
+            parameters: [
+              name,
+              BigInt.parse(age),
+              city,
+              adhar,
+              pan,
+              document,
+              email
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 }

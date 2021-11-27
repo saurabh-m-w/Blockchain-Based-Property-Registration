@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
     return ChangeNotifierProvider(
       create: (context) => LandRegisterModel(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorObservers: [FlutterSmartDialog.observer],
         builder: FlutterSmartDialog.init(),
         home: home_page(),

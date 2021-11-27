@@ -70,9 +70,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - src/contracts/Land.json
-     - assets/contract_owner_icon.jpg
-     - assets/land_ins_icon.jpg
-     - assets/landimg.jpg
+     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

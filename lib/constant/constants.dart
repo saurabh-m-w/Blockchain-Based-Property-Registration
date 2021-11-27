@@ -40,7 +40,6 @@ Widget CustomButton(text, fun) => Container(
       margin: const EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: fun,
-        //color: Theme.of(context).accentColor,
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Container(
@@ -106,6 +105,7 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
           height: 270,
           width: 250,
           decoration: BoxDecoration(
+              color: Colors.white,
               border: Border.all(color: Colors.black54, width: 2),
               borderRadius: const BorderRadius.all(Radius.circular(13))),
           child: Center(
@@ -135,15 +135,17 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
               if (text == 'User')
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: const Icon(
-                    Icons.person,
-                    size: 85,
+                  child: Image.asset(
+                    'user_icon.png',
+                    width: 110.0,
+                    height: 110.0,
+                    fit: BoxFit.fill,
                   ),
                 ),
               Text(
                 text,
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
               CustomButton2('Continue', fun)
             ],
@@ -154,6 +156,7 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
           height: 270,
           width: 250,
           decoration: BoxDecoration(
+              color: Colors.white,
               border: Border.all(color: Colors.blue, width: 2),
               borderRadius: const BorderRadius.all(Radius.circular(20))),
           child: Center(
@@ -183,15 +186,17 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
               if (text == 'User')
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: const Icon(
-                    Icons.person,
-                    size: 90,
+                  child: Image.asset(
+                    'user_icon.png',
+                    width: 110.0,
+                    height: 110.0,
+                    fit: BoxFit.fill,
                   ),
                 ),
               Text(
                 text,
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
               CustomButton2('Continue', fun)
             ],

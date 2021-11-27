@@ -20,91 +20,93 @@ class _home_pageState extends State<home_page> {
       width = 590;
       isDesktop = true;
     }
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF272D34),
-        centerTitle: true,
-        title: const Text('Blockchain Based Property Registration'),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          //colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop),
+          image: AssetImage(
+              'land_background.jpeg'), //NetworkImage('https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      body: Container(
-        child: Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Flex(
-              mainAxisAlignment: MainAxisAlignment.center,
-              direction: isDesktop ? Axis.horizontal : Axis.vertical,
-              children: [
-                CustomAnimatedContainer('Contract Owner', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "owner",
-                              )));
-                }),
-                CustomAnimatedContainer('Land Inspector', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "LandInspector",
-                              )));
-                }),
-                CustomAnimatedContainer('User', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "UserLogin",
-                              )));
-                }),
-                // CustomAnimatedContainer('User Register', () {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => CheckPrivateKey(
-                //                 val: "RegisterUser",
-                //               )));
-                // })
-              ],
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          toolbarHeight: 60,
+          backgroundColor: Colors.transparent, //const Color(0xFF272D34),
+          title: const Text('Property Registry',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25)),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                onPressed: () {
+                  launchUrl(
+                      "https://github.com/saurabh-m-w/Blockchain-Based-Property-Registration");
+                },
+                iconSize: 30,
+                icon: Image.asset(
+                  'github-logo.png',
+                  color: Colors.white,
+                  width: 60.0,
+                  height: 60.0,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: isDesktop ? Axis.horizontal : Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    '     Blockchain Based \nProperty Registration and \n  Ownership Transfer',
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Flex(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction: isDesktop ? Axis.horizontal : Axis.vertical,
+                    children: [
+                      CustomAnimatedContainer('Contract Owner', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CheckPrivateKey(
+                                      val: "owner",
+                                    )));
+                      }),
+                      CustomAnimatedContainer('Land Inspector', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CheckPrivateKey(
+                                      val: "LandInspector",
+                                    )));
+                      }),
+                      CustomAnimatedContainer('User', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CheckPrivateKey(
+                                      val: "UserLogin",
+                                    )));
+                      }),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          // Column(
-          //   children: [
-          //     CustomButton('Login as ContractOwner', () {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => CheckPrivateKey(
-          //                     val: "owner",
-          //                   )));
-          //     }),
-          //     CustomButton('Login as LandInspector', () {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => CheckPrivateKey(
-          //                     val: "LandInspector",
-          //                   )));
-          //     }),
-          //     CustomButton("Login as User", () {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => CheckPrivateKey(
-          //                     val: "UserLogin",
-          //                   )));
-          //     }),
-          //     CustomButton("RegisterUser", () {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => CheckPrivateKey(
-          //                     val: "RegisterUser",
-          //                   )));
-          //     }),
-          //   ],
-          // ),
         ),
       ),
     );

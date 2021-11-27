@@ -45,6 +45,13 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
         alignment: Alignment.topCenter,
         child: Column(
           children: [
+            Image.asset(
+              'authenticate.png',
+              height: 300,
+              width: 550,
+            ),
+            Text(
+                'We need your private key to Authenticate and login to your wallet'),
             Container(
               width: width,
               child: Padding(
