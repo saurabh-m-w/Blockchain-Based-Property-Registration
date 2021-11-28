@@ -914,24 +914,24 @@ aqa(a,b){var s=null
 return M.aB(s,D.ma(new T.b2(C.ao,M.aB(C.p,L.aJ(a,s,s,s,C.yk,s,s),s,s,s,s,s,s,s),s),b,s),s,C.zq,s,s,C.af,s,s)},
 aqb(a,b,c){var s=null,r=D.wS(s,s,s,s,s,s,s,s,s,s,s,c,s,s,s,s,s,s,s)
 return M.aB(s,D.ma(new T.b2(C.ao,M.aB(C.p,L.aJ(a,s,s,s,A.fs(s,s,c.k(0,C.l)?C.u:C.l,s,s,s,s,s,s,s,s,15,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),c,s,s,s,s,s,s),s),b,r),s,C.zp,s,s,C.af,s,s)},
-alP(a,b){var s,r,q,p=null,o="contract_owner_icon.jpg",n="land_ins_icon.jpg",m="user_icon.png",l="Continue",k=F.vY(C.U,2),j=t.p,i=H.a([],j),h=a==="Contract Owner"
-if(h)i.push(T.qz(K.hj(8),U.ka(o,p,C.be,110,110)))
+alP(a,b){var s,r,q,p=null,o="Continue",n=F.vY(C.U,2),m=t.p,l=H.a([],m),k=a==="Contract Owner"
+if(k)l.push(T.qz(K.hj(8),U.ka("assets/contract_owner_icon.jpg",p,C.be,110,110)))
 s=a==="Land Inspector"
-if(s)i.push(T.qz(K.hj(8),U.ka(n,p,C.be,110,110)))
+if(s)l.push(T.qz(K.hj(8),U.ka("assets/land_ins_icon.jpg",p,C.be,110,110)))
 r=a==="User"
-if(r)i.push(T.qz(K.hj(8),U.ka(m,p,C.be,110,110)))
-i.push(L.aJ(a,p,p,p,C.ym,p,p))
-i.push(A.aqa(l,b))
-k=M.aB(p,T.bi(T.dj(i,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,k,C.zd,p,p,C.Y),270,p,p,250)
-i=P.cM(0,100)
+if(r)l.push(T.qz(K.hj(8),U.ka("assets/user_icon.png",p,C.be,110,110)))
+l.push(L.aJ(a,p,p,p,C.ym,p,p))
+l.push(A.aqa(o,b))
+n=M.aB(p,T.bi(T.dj(l,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,n,C.zd,p,p,C.Y),270,p,p,250)
+l=P.cM(0,100)
 q=F.vY(C.bB,2)
-j=H.a([],j)
-if(h)j.push(T.qz(K.hj(8),U.ka(o,p,C.be,110,110)))
-if(s)j.push(T.qz(K.hj(8),U.ka(n,p,C.be,110,110)))
-if(r)j.push(T.qz(K.hj(8),U.ka(m,p,C.be,110,110)))
-j.push(L.aJ(a,p,p,p,C.ym,p,p))
-j.push(A.aqa(l,b))
-return new T.b2(C.af,new U.xq(k,M.aB(p,T.bi(T.dj(j,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,q,C.ze,p,p,C.Y),270,p,p,250),i,p),p)},
+m=H.a([],m)
+if(k)m.push(T.qz(K.hj(8),U.ka("contract_owner_icon.jpg",p,C.be,110,110)))
+if(s)m.push(T.qz(K.hj(8),U.ka("land_ins_icon.jpg",p,C.be,110,110)))
+if(r)m.push(T.qz(K.hj(8),U.ka("user_icon.png",p,C.be,110,110)))
+m.push(L.aJ(a,p,p,p,C.ym,p,p))
+m.push(A.aqa(o,b))
+return new T.b2(C.af,new U.xq(n,M.aB(p,T.bi(T.dj(m,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,q,C.ze,p,p,C.Y),270,p,p,250),l,p),p)},
 qO(a,b){var s=null
 return new T.b2(C.af,E.ec(L.kb(s,C.aM,s,C.aK,s,s,s,s,!0,s,s,s,s,s,C.ji,!0,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!1,!0,s,C.bJ,b,s,s,s,s,s,s,s,s,s,s,s),a,s,s,!1,s,!0,C.bn,s),s)},
 aJ_(a,b){var s=K.c_(a,!0),r=C.Cx.cO(a)
@@ -11967,7 +11967,7 @@ ahh:function ahh(a){this.a=a},
 ahg:function ahg(){},
 DY:function DY(){},
 a1_:function a1_(){},
-aJX(a,b,c,d,e,f){var s,r,q=null,p=H.a([C.l8],t.sq),o=F.vY(C.u,1),n=M.aB(q,U.ka("landimg.jpg",q,C.be,q,q),C.rx,q,q,200,q,q,400),m=L.aJ(a?"Verified":"Not Yet Verified",q,q,q,C.jY,q,q),l=L.aJ(J.ei(b," Sq.Ft"),q,q,q,C.yl,q,q),k=L.aJ(c,q,q,q,C.bJ,q,q),j=L.aJ(C.b.M("Price:",d),q,q,q,C.bJ,q,q)
+aJX(a,b,c,d,e,f){var s,r,q=null,p=H.a([C.l8],t.sq),o=F.vY(C.u,1),n=M.aB(q,U.ka("assets/landimg.jpg",q,C.be,q,q),C.rx,q,q,200,q,q,400),m=L.aJ(a?"Verified":"Not Yet Verified",q,q,q,C.jY,q,q),l=L.aJ(J.ei(b," Sq.Ft"),q,q,q,C.yl,q,q),k=L.aJ(c,q,q,q,C.bJ,q,q),j=L.aJ(C.b.M("Price:",d),q,q,q,C.bJ,q,q)
 if(e)s=B.oJ(C.OZ,C.dR,q)
 else{s=a?f:q
 s=B.oJ(L.aJ("Make it for Sell",q,q,q,q,q,q),C.dR,s)}r=t.p
@@ -67420,7 +67420,7 @@ F.MH.prototype={
 O(a,b){var s,r,q,p,o,n,m=this,l=null,k=Y.yV(b,t.jJ),j=m.r=b.a0(t.w).f.a.a
 if(j>600)j=m.r=590
 s=E.vM(l,C.cz,l,l,l,C.P6,l)
-r=U.ka("authenticate.png",l,l,300,550)
+r=U.ka("assets/authenticate.png",l,l,300,550)
 q=L.aJ("We need your private key to Authenticate and login to your wallet",l,l,l,l,l,l)
 p=m.x
 j=M.aB(l,new T.b2(C.eV,A.ZU(E.ec(L.kb(l,C.aM,l,l,l,l,l,l,!0,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,"Enter Your PrivateKey",l,l,l,!1,l,l,l,"Private Key",l,l,l,l,l,l,l,B.Hg(l,L.a0l(p?C.DY:C.DZ,l,l),24,new F.acO(m),l),l,l,l),l,l,l,p,new F.acP(m),!1,l,new F.acQ()),m.z),l),l,l,l,l,l,l,j)
@@ -69044,12 +69044,12 @@ s=b.a0(t.w).f.a.a
 $.El=s
 if(s>600){$.El=590
 $.hd=!0}s=t.p
-r=E.vM(H.a([new T.b2(C.aQ,B.Hg(m,U.ka("github-logo.png",C.l,C.be,60,60),30,new X.ajB(),m),m)],s),C.ab,m,m,m,C.OB,60)
+r=E.vM(H.a([new T.b2(C.aQ,B.Hg(m,U.ka("assets/github-logo.png",C.l,C.be,60,60),30,new X.ajB(),m),m)],s),C.ab,m,m,m,C.OB,60)
 q=$.hd?C.r:C.q
 p=L.aJ("     Blockchain Based \nProperty Registration and \n  Ownership Transfer",m,m,m,A.fs(m,m,m,m,m,m,m,m,m,m,m,40,m,C.aA,m,m,!0,m,m,m,m,m,m,m,m),m,m)
 o=T.fo(m,15,m)
 n=$.hd?C.r:C.q
-return M.aB(m,M.zG(r,C.ab,M.aB(m,T.bi(E.an8(T.dj(H.a([p,o,T.aCd(H.a([A.alP("Contract Owner",new X.ajC(b)),A.alP("Land Inspector",new X.ajD(b)),A.alP("User",new X.ajE(b))],s),C.A,n,m,C.dO,C.x,m,m,C.hb)],s),C.A,C.bW,C.x),m,q),m,m),m,m,m,m,m,m,m),m,m,m),m,m,new S.cW(m,new X.G_(new L.qk("land_background.jpeg",m,m),C.l6),m,m,m,m,C.Y),m,m,m,m)}}
+return M.aB(m,M.zG(r,C.ab,M.aB(m,T.bi(E.an8(T.dj(H.a([p,o,T.aCd(H.a([A.alP("Contract Owner",new X.ajC(b)),A.alP("Land Inspector",new X.ajD(b)),A.alP("User",new X.ajE(b))],s),C.A,n,m,C.dO,C.x,m,m,C.hb)],s),C.A,C.bW,C.x),m,q),m,m),m,m,m,m,m,m,m),m,m,m),m,m,new S.cW(m,new X.G_(new L.qk("assets/land_background.jpeg",m,m),C.l6),m,m,m,m,C.Y),m,m,m,m)}}
 X.ajB.prototype={
 $0(){A.qa("https://github.com/saurabh-m-w/Blockchain-Based-Property-Registration")},
 $S:0}
