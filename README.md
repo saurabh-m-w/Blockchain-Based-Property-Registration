@@ -8,7 +8,7 @@
 1.) Removal of middlemen.\
 Removal of middlemen or brokers makes the process less expensive. Brokers trying to cheat uneducated
 people will no longer be able to do so. Brokers often take a long time to complete the procedures and so
-our project will also save people time.
+our project will also save people time.\
 2.) Distributed tamper proof ledger which prevents any fraud in ownership.\
 3.) Secure storage of sensitive property registration documents using IPFS.
 
