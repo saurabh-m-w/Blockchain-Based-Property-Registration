@@ -5,12 +5,12 @@
 <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white">
 
 ## Problem it Solves:
-1.) Removal of middlemen.\n
+1.) Removal of middlemen./n
 Removal of middlemen or brokers makes the process less expensive. Brokers trying to cheat uneducated 
 people will no longer be able to do so. Brokers often take a long time to complete the procedures and so
-our project will also save people time.\n
-2.) Distributed tamper proof ledger which prevents any fraud in ownership.\n
-3.) Secure storage of sensitive property registration documents using IPFS.\n
+our project will also save people time./n
+2.) Distributed tamper proof ledger which prevents any fraud in ownership./n
+3.) Secure storage of sensitive property registration documents using IPFS./n
 
 ## Technology Stack:
 1. Ethereum Blockchain
