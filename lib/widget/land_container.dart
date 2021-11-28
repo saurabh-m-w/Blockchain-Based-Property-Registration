@@ -116,7 +116,7 @@ Widget landWid2(isverified, area, address, price, isMyLand, isForSell,
             width: 400,
             color: Colors.lightGreenAccent,
             child: Image.asset(
-              'landimg.jpg',
+              'assets/landimg.jpg',
               fit: BoxFit.fill,
             ),
           ),
