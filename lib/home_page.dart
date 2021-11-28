@@ -25,7 +25,7 @@ class _home_pageState extends State<home_page> {
         image: DecorationImage(
           //colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop),
           image: AssetImage(
-              'land_background.jpeg'), //NetworkImage('https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg'),
+              'assets/land_background.jpeg'), //NetworkImage('https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -49,7 +49,7 @@ class _home_pageState extends State<home_page> {
                 },
                 iconSize: 30,
                 icon: Image.asset(
-                  'github-logo.png',
+                  'assets/github-logo.png',
                   color: Colors.white,
                   width: 60.0,
                   height: 60.0,

@@ -25,7 +25,7 @@ Widget landWid(isverified, area, address, price, isForSell, makeforSellFun) =>
             width: 400,
             color: Colors.lightGreenAccent,
             child: Image.asset(
-              'landimg.jpg',
+              'assets/landimg.jpg',
               fit: BoxFit.fill,
             ),
           ),

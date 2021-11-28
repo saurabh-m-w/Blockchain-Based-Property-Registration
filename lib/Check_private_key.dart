@@ -46,7 +46,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
         child: Column(
           children: [
             Image.asset(
-              'authenticate.png',
+              'assets/authenticate.png',
               height: 300,
               width: 550,
             ),
