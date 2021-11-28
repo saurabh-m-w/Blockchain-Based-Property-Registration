@@ -914,24 +914,24 @@ aqa(a,b){var s=null
 return M.aB(s,D.ma(new T.b2(C.ao,M.aB(C.p,L.aJ(a,s,s,s,C.yk,s,s),s,s,s,s,s,s,s),s),b,s),s,C.zq,s,s,C.af,s,s)},
 aqb(a,b,c){var s=null,r=D.wS(s,s,s,s,s,s,s,s,s,s,s,c,s,s,s,s,s,s,s)
 return M.aB(s,D.ma(new T.b2(C.ao,M.aB(C.p,L.aJ(a,s,s,s,A.fs(s,s,c.k(0,C.l)?C.u:C.l,s,s,s,s,s,s,s,s,15,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),c,s,s,s,s,s,s),s),b,r),s,C.zp,s,s,C.af,s,s)},
-alP(a,b){var s,r,q,p=null,o="Continue",n=F.vY(C.U,2),m=t.p,l=H.a([],m),k=a==="Contract Owner"
-if(k)l.push(T.qz(K.hj(8),U.ka("assets/contract_owner_icon.jpg",p,C.be,110,110)))
+alP(a,b){var s,r,q,p=null,o="assets/contract_owner_icon.jpg",n="assets/land_ins_icon.jpg",m="assets/user_icon.png",l="Continue",k=F.vY(C.U,2),j=t.p,i=H.a([],j),h=a==="Contract Owner"
+if(h)i.push(T.qz(K.hj(8),U.ka(o,p,C.be,110,110)))
 s=a==="Land Inspector"
-if(s)l.push(T.qz(K.hj(8),U.ka("assets/land_ins_icon.jpg",p,C.be,110,110)))
+if(s)i.push(T.qz(K.hj(8),U.ka(n,p,C.be,110,110)))
 r=a==="User"
-if(r)l.push(T.qz(K.hj(8),U.ka("assets/user_icon.png",p,C.be,110,110)))
-l.push(L.aJ(a,p,p,p,C.ym,p,p))
-l.push(A.aqa(o,b))
-n=M.aB(p,T.bi(T.dj(l,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,n,C.zd,p,p,C.Y),270,p,p,250)
-l=P.cM(0,100)
+if(r)i.push(T.qz(K.hj(8),U.ka(m,p,C.be,110,110)))
+i.push(L.aJ(a,p,p,p,C.ym,p,p))
+i.push(A.aqa(l,b))
+k=M.aB(p,T.bi(T.dj(i,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,k,C.zd,p,p,C.Y),270,p,p,250)
+i=P.cM(0,100)
 q=F.vY(C.bB,2)
-m=H.a([],m)
-if(k)m.push(T.qz(K.hj(8),U.ka("contract_owner_icon.jpg",p,C.be,110,110)))
-if(s)m.push(T.qz(K.hj(8),U.ka("land_ins_icon.jpg",p,C.be,110,110)))
-if(r)m.push(T.qz(K.hj(8),U.ka("user_icon.png",p,C.be,110,110)))
-m.push(L.aJ(a,p,p,p,C.ym,p,p))
-m.push(A.aqa(o,b))
-return new T.b2(C.af,new U.xq(n,M.aB(p,T.bi(T.dj(m,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,q,C.ze,p,p,C.Y),270,p,p,250),l,p),p)},
+j=H.a([],j)
+if(h)j.push(T.qz(K.hj(8),U.ka(o,p,C.be,110,110)))
+if(s)j.push(T.qz(K.hj(8),U.ka(n,p,C.be,110,110)))
+if(r)j.push(T.qz(K.hj(8),U.ka(m,p,C.be,110,110)))
+j.push(L.aJ(a,p,p,p,C.ym,p,p))
+j.push(A.aqa(l,b))
+return new T.b2(C.af,new U.xq(k,M.aB(p,T.bi(T.dj(j,C.A,C.bW,C.x),p,p),p,p,new S.cW(C.l,p,q,C.ze,p,p,C.Y),270,p,p,250),i,p),p)},
 qO(a,b){var s=null
 return new T.b2(C.af,E.ec(L.kb(s,C.aM,s,C.aK,s,s,s,s,!0,s,s,s,s,s,C.ji,!0,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!1,!0,s,C.bJ,b,s,s,s,s,s,s,s,s,s,s,s),a,s,s,!1,s,!0,C.bn,s),s)},
 aJ_(a,b){var s=K.c_(a,!0),r=C.Cx.cO(a)
@@ -11972,7 +11972,7 @@ if(e)s=B.oJ(C.OZ,C.dR,q)
 else{s=a?f:q
 s=B.oJ(L.aJ("Make it for Sell",q,q,q,q,q,q),C.dR,s)}r=t.p
 return M.aB(q,T.dj(H.a([n,C.aI,m,C.aI,l,C.aI,k,C.aI,j,C.aI,T.cY(H.a([s,B.oJ(C.yu,C.fE,new L.akL())],r),C.A,C.bW,C.x)],r),C.c7,C.D,C.x),q,q,new S.cW(C.eN,q,o,C.i1,p,q,C.Y),400,q,C.eV,400)},
-aJY(a,b,c,d,e,f,g){var s,r,q=null,p=H.a([C.l8],t.sq),o=F.vY(C.u,1),n=M.aB(q,U.ka("landimg.jpg",q,C.be,q,q),C.rx,q,q,200,q,q,400),m=L.aJ(a?"Verified":"Not Yet Verified",q,q,q,C.jY,q,q),l=L.aJ(J.ei(b," Sq.Ft"),q,q,q,C.yl,q,q),k=L.aJ(c,q,q,q,A.fs(q,q,q,q,q,q,q,q,q,q,q,20,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),j=T.fo(q,10,q),i=L.aJ(C.b.M("Price:",d),q,q,q,C.bJ,q,q)
+aJY(a,b,c,d,e,f,g){var s,r,q=null,p=H.a([C.l8],t.sq),o=F.vY(C.u,1),n=M.aB(q,U.ka("assets/landimg.jpg",q,C.be,q,q),C.rx,q,q,200,q,q,400),m=L.aJ(a?"Verified":"Not Yet Verified",q,q,q,C.jY,q,q),l=L.aJ(J.ei(b," Sq.Ft"),q,q,q,C.yl,q,q),k=L.aJ(c,q,q,q,A.fs(q,q,q,q,q,q,q,q,q,q,q,20,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),j=T.fo(q,10,q),i=L.aJ(C.b.M("Price:",d),q,q,q,C.bJ,q,q)
 if(e)s=B.oJ(C.yr,C.dR,q)
 else s=B.oJ(C.yr,C.dR,f?g:q)
 r=t.p
