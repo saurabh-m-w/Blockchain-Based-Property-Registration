@@ -75,8 +75,9 @@ class LandRegisterModel extends ChangeNotifier {
         await rootBundle.loadString("src/contracts/Land.json");
     var jsonAbi = jsonDecode(abiStringFile);
     _abiCode = jsonEncode(jsonAbi["abi"]);
-    _contractAddress = EthereumAddress.fromHex(
-        "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05"); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8"); //EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
+    _contractAddress = //EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
+        EthereumAddress.fromHex(
+            "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05"); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8"); //
     //print(_contractAddress);
   }
 
