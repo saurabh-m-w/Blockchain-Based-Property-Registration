@@ -22,9 +22,8 @@ our project will also save people time.\
 ## Demo
 Demonstration video of our Dapp [here](https://youtu.be/DgadxdjChTM)\
 You can also check website [here](https://saurabh-m-w.github.io/Blockchain-Based-Property-Registration/)\
-This is demo purpose. You can login as Contract owner using\
-this private key: 83058d8b5b353e252882fe81e4cf222cd81f3da3daaefa18a8e02665aee267d0\
-For Land Inspector: 6ad0d44f54e9a0233e731c3a8444efdec1aba9657a29b048a3d4e506feefb4cf\
+This is demo purpose. You can login as Land Inspector using this key:
+ 6ad0d44f54e9a0233e731c3a8444efdec1aba9657a29b048a3d4e506feefb4cf\
 For user: 3ed4aff1a8ff8e28df3cd307112f9166886edcc85a27136908e3b1687b111f89\
 For user you can also use your own Ethereum wallet key,as this is on Polygon testnet so get Matic Faucet from [here](https://faucet.polygon.technology/)
 
@@ -34,6 +33,8 @@ For user you can also use your own Ethereum wallet key,as this is on Polygon tes
 ![Screenshot](screenshots/flowchart.png)
 
 ## Screenshots
-![Screenshot](screenshots/Screenshot1.png) ![Screenshot](screenshots/Screenshot2.png)
-![Screenshot](screenshots/Screenshot3.png) ![Screenshot](screenshots/Screenshot4.png)
-![Screenshot](screenshots/Screenshot5.png) ![Screenshot](screenshots/Screenshot6.png)
+<img src="screenshots/Screenshot1.png" height="200">  | <img src="screenshots/Screenshot2.png" height="200">
+
+<img src="screenshots/Screenshot3.png" height="200">  | <img src="screenshots/Screenshot4.png" height="200">
+
+<img src="screenshots/Screenshot5.png" height="200">  | <img src="screenshots/Screenshot6.png" height="200">
