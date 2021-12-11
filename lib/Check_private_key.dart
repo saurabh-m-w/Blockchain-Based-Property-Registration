@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:land_registration/LandInspectorDashboard.dart';
 import 'package:land_registration/UserDashboard.dart';
 import 'package:land_registration/addLandInspector.dart';
+import 'package:land_registration/constant/MetamaskProvider.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/registerUser.dart';
@@ -29,6 +31,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<LandRegisterModel>(context);
+    var model2 = Provider.of<MetaMaskProvider>(context);
     width = MediaQuery.of(context).size.width;
 
     if (width > 600) {
@@ -47,11 +50,11 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
           children: [
             Image.asset(
               'assets/authenticate.png',
-              height: 300,
-              width: 550,
+              height: 280,
+              width: 520,
             ),
             Text(
-                'We need your private key to Authenticate and login to your wallet'),
+                'You can enter private key of your wallet Or you connect Metamask wallet'),
             Container(
               width: width,
               child: Padding(
@@ -180,6 +183,43 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                           });
                         }
                       }),
+            Text('Or Click to connect Metamask'),
+            ElevatedButton(
+              onPressed: () async {
+                await model2.connect();
+                if (model2.isConnected && model2.isInOperatingChain) {
+                  showToast("Connected",
+                      context: context, backgroundColor: Colors.green);
+                  bool temp = await model2.isUserRegistered();
+                  if (temp == false) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterUser()));
+                  } else {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserDashBoard()));
+                  }
+                  connectedWithMetamask = true;
+                } else if (model2.isConnected && !model2.isInOperatingChain) {
+                  showToast("Wrong Netword connected,\nConnect Polygon Testnet",
+                      context: context, backgroundColor: Colors.red);
+                }
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.orange),
+              child: Container(
+                child: Image.network(
+                    'https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?fit=1549%2C480&ssl=1',
+                    width: 280,
+                    height: 80),
+              ),
+            ),
             isLoading ? spinkitLoader : Container()
           ],
         ),

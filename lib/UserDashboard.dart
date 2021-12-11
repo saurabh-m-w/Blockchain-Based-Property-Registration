@@ -10,6 +10,7 @@ import 'package:land_registration/home_page.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
+import 'constant/MetamaskProvider.dart';
 import 'constant/constants.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,7 @@ class UserDashBoard extends StatefulWidget {
 }
 
 class _UserDashBoardState extends State<UserDashBoard> {
-  var model;
+  var model, model2;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int screen = 0;
   late List<dynamic> userInfo;
@@ -57,11 +58,19 @@ class _UserDashBoardState extends State<UserDashBoard> {
     setState(() {
       isLoading = true;
     });
-    List<dynamic> landList = await model.myAllLands();
+    List<dynamic> landList;
+    if (connectedWithMetamask)
+      landList = await model2.myAllLands();
+    else
+      landList = await model.myAllLands();
+
     List<List<dynamic>> info = [];
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      temp = await model.landInfo(landList[i]);
+      if (connectedWithMetamask)
+        temp = await model2.landInfo(landList[i]);
+      else
+        temp = await model.landInfo(landList[i]);
       info.add(temp);
     }
     landInfo = info;
@@ -75,11 +84,19 @@ class _UserDashBoardState extends State<UserDashBoard> {
     setState(() {
       isLoading = true;
     });
-    List<dynamic> landList = await model.allLandList();
+    List<dynamic> landList;
+    if (connectedWithMetamask)
+      landList = await model2.allLandList();
+    else
+      landList = await model.allLandList();
+
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      temp = await model.landInfo(landList[i]);
+      if (connectedWithMetamask)
+        temp = await model2.landInfo(landList[i]);
+      else
+        temp = await model.landInfo(landList[i]);
       allInfo.add(temp);
     }
     LandGall = allInfo;
@@ -95,14 +112,23 @@ class _UserDashBoardState extends State<UserDashBoard> {
       isLoading = true;
     });
     await getEthToInr();
-    List<dynamic> requestList = await model.mySentRequest();
+    List<dynamic> requestList;
+    if (connectedWithMetamask)
+      requestList = await model2.mySentRequest();
+    else
+      requestList = await model.mySentRequest();
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     List<dynamic> tempPrice = [];
     var pri;
     for (int i = 0; i < requestList.length; i++) {
-      temp = await model.requestInfo(requestList[i]);
-      pri = await model.landPrice(temp[3]);
+      if (connectedWithMetamask) {
+        temp = await model2.requestInfo(requestList[i]);
+        pri = await model2.landPrice(temp[3]);
+      } else {
+        temp = await model.requestInfo(requestList[i]);
+        pri = await model.landPrice(temp[3]);
+      }
       tempPrice.add(pri);
       allInfo.add(temp);
     }
@@ -119,11 +145,18 @@ class _UserDashBoardState extends State<UserDashBoard> {
     setState(() {
       isLoading = true;
     });
-    List<dynamic> requestList = await model.myReceivedRequest();
+    List<dynamic> requestList;
+    if (connectedWithMetamask)
+      requestList = await model2.myReceivedRequest();
+    else
+      requestList = await model.myReceivedRequest();
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < requestList.length; i++) {
-      temp = await model.requestInfo(requestList[i]);
+      if (connectedWithMetamask)
+        temp = await model2.requestInfo(requestList[i]);
+      else
+        temp = await model.requestInfo(requestList[i]);
       allInfo.add(temp);
     }
     receivedRequestInfo = allInfo;
@@ -137,7 +170,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
     // setState(() {
     //   isLoading = true;
     // });
-    userInfo = await model.myProfileInfo();
+    if (connectedWithMetamask)
+      userInfo = await model2.myProfileInfo();
+    else
+      userInfo = await model.myProfileInfo();
     name = userInfo[1];
     setState(() {
       isLoading = false;
@@ -199,6 +235,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   @override
   Widget build(BuildContext context) {
     model = Provider.of<LandRegisterModel>(context);
+    model2 = Provider.of<MetaMaskProvider>(context);
     if (isUpdated) {
       getProfileInfo();
       isUpdated = false;
@@ -484,7 +521,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             : () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  await model.rejectRequest(data[0]);
+                                  if (connectedWithMetamask)
+                                    await model2.rejectRequest(data[0]);
+                                  else
+                                    await model.rejectRequest(data[0]);
                                   await getMyReceivedRequest();
                                 } catch (e) {
                                   print(e);
@@ -506,7 +546,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             : () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  await model.acceptRequest(data[0]);
+                                  if (connectedWithMetamask)
+                                    await model2.acceptRequest(data[0]);
+                                  else
+                                    await model.acceptRequest(data[0]);
                                   await getMyReceivedRequest();
                                 } catch (e) {
                                   print(e);
@@ -549,7 +592,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 LandGall[index][8], () async {
               SmartDialog.showLoading();
               try {
-                await model.sendRequestToBuy(LandGall[index][0]);
+                if (connectedWithMetamask)
+                  await model2.sendRequestToBuy(LandGall[index][0]);
+                else
+                  await model.sendRequestToBuy(LandGall[index][0]);
                 showToast("Request sent",
                     context: context, backgroundColor: Colors.green);
               } catch (e) {
@@ -588,7 +634,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 landInfo[index][8],
                 () => confirmDialog(context, () async {
                       SmartDialog.showLoading();
-                      await model.makeForSell(landInfo[index][0]);
+                      if (connectedWithMetamask)
+                        await model2.makeForSell(landInfo[index][0]);
+                      else
+                        await model.makeForSell(landInfo[index][0]);
                       Navigator.pop(context);
                       await getLandInfo();
                       SmartDialog.dismiss();
@@ -806,8 +855,12 @@ class _UserDashBoardState extends State<UserDashBoard> {
                               bool isFileupload = await uploadDocument();
                               SmartDialog.dismiss();
                               if (isFileupload) {
-                                await model.addLand(area, city, state,
-                                    landPrice, propertyID, surveyNo, docUrl);
+                                if (connectedWithMetamask)
+                                  await model2.addLand(area, city, state,
+                                      landPrice, propertyID, surveyNo, docUrl);
+                                else
+                                  await model.addLand(area, city, state,
+                                      landPrice, propertyID, surveyNo, docUrl);
                                 showToast("Land Successfully Added",
                                     context: context,
                                     backgroundColor: Colors.green);

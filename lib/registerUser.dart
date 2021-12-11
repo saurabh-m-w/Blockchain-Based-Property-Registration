@@ -12,6 +12,8 @@ import 'LandRegisterModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
+import 'constant/MetamaskProvider.dart';
+
 class RegisterUser extends StatefulWidget {
   const RegisterUser({Key? key}) : super(key: key);
 
@@ -77,7 +79,7 @@ class _RegisterUserState extends State<RegisterUser> {
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<LandRegisterModel>(context);
-
+    var model2 = Provider.of<MetaMaskProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272D34),
@@ -301,14 +303,24 @@ class _RegisterUserState extends State<RegisterUser> {
                                           await uploadDocument();
                                       SmartDialog.dismiss();
                                       if (isFileupload) {
-                                        await model.registerUser(
-                                            name,
-                                            age,
-                                            city,
-                                            adharNumber,
-                                            panNumber,
-                                            docUrl,
-                                            email);
+                                        if (connectedWithMetamask)
+                                          await model2.registerUser(
+                                              name,
+                                              age,
+                                              city,
+                                              adharNumber,
+                                              panNumber,
+                                              docUrl,
+                                              email);
+                                        else
+                                          await model.registerUser(
+                                              name,
+                                              age,
+                                              city,
+                                              adharNumber,
+                                              panNumber,
+                                              docUrl,
+                                              email);
                                         showToast("Successfully Registered",
                                             context: context,
                                             backgroundColor: Colors.green);

@@ -10,6 +10,8 @@ double width = 590;
 bool isDesktop = false;
 String privateKey = "";
 double ethToInr = 0;
+bool connectedWithMetamask =
+    false; //1->entered private key ; 2->connected with metamask
 
 launchUrl(String url) async {
   if (await canLaunch(url)) {

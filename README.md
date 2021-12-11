@@ -18,6 +18,7 @@ our project will also save people time.\
 3. Web3Dart
 4. IPFS
 5. Flutter
+6. Metamask
 
 ## Demo
 Demonstration video of our Dapp [here](https://youtu.be/DgadxdjChTM)\
@@ -27,7 +28,7 @@ This is demo purpose. You can login as Land Inspector using this key:
 For user: 3ed4aff1a8ff8e28df3cd307112f9166886edcc85a27136908e3b1687b111f89\
 For user you can also use your own Ethereum wallet key,as this is on Polygon testnet so get Matic Faucet from [here](https://faucet.polygon.technology/)
 
-#### Check Smart contract At Polygon Testnet: [here](https://mumbai.polygonscan.com/address/0x5fa4972ab37701fa32907e79b46ddd436bd73b05)\
+#### Check Smart contract At Polygon Testnet: [here](https://mumbai.polygonscan.com/address/0x5fa4972ab37701fa32907e79b46ddd436bd73b05)
 
 ## Project Flowchart
 ![Screenshot](screenshots/flowchart.png)
@@ -38,3 +39,5 @@ For user you can also use your own Ethereum wallet key,as this is on Polygon tes
 <img src="screenshots/Screenshot3.png" height="200">  | <img src="screenshots/Screenshot4.png" height="200">
 
 <img src="screenshots/Screenshot5.png" height="200">  | <img src="screenshots/Screenshot6.png" height="200">
+
+<img src="screenshots/Screenshot7.png" height="200">
