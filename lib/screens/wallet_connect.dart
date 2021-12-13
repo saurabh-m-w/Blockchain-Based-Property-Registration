@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:land_registration/LandInspectorDashboard.dart';
-import 'package:land_registration/UserDashboard.dart';
-import 'package:land_registration/addLandInspector.dart';
-import 'package:land_registration/constant/MetamaskProvider.dart';
+import 'package:land_registration/screens/LandInspectorDashboard.dart';
+import 'package:land_registration/screens/UserDashboard.dart';
+import 'package:land_registration/screens/addLandInspector.dart';
+import 'package:land_registration/providers/MetamaskProvider.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
-import 'package:land_registration/registerUser.dart';
+import 'package:land_registration/screens/registerUser.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'LandRegisterModel.dart';
+import '../providers/LandRegisterModel.dart';
 
 class CheckPrivateKey extends StatefulWidget {
   final String val;
@@ -190,21 +190,52 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                 if (model2.isConnected && model2.isInOperatingChain) {
                   showToast("Connected",
                       context: context, backgroundColor: Colors.green);
-                  bool temp = await model2.isUserRegistered();
-                  if (temp == false) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterUser()));
-                  } else {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UserDashBoard()));
+
+                  if (widget.val == "owner") {
+                    bool temp = await model2.isContractOwner();
+                    if (temp == false) {
+                      setState(() {
+                        errorMessage = "You are not authrosied";
+                      });
+                    } else {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddLandInspector()));
+                    }
+                  } else if (widget.val == "UserLogin") {
+                    bool temp = await model2.isUserRegistered();
+                    if (temp == false) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterUser()));
+                    } else {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserDashBoard()));
+                    }
+                  } else if (widget.val == "LandInspector") {
+                    bool temp = await model2.isLandInspector();
+                    if (temp == false) {
+                      setState(() {
+                        errorMessage = "You are not authrosied";
+                      });
+                    } else {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LandInspector()));
+                    }
                   }
                   connectedWithMetamask = true;
                 } else if (model2.isConnected && !model2.isInOperatingChain) {

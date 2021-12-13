@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:land_registration/LandRegisterModel.dart';
+import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 //import 'package:land_registration/constant/loadingScreen.dart';
-import 'package:land_registration/home_page.dart';
+import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+
+import '../providers/MetamaskProvider.dart';
 
 class AddLandInspector extends StatefulWidget {
   const AddLandInspector({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class AddLandInspector extends StatefulWidget {
 
 class _AddLandInspectorState extends State<AddLandInspector> {
   late String address, name, age, desig, city;
-  var model;
+  var model, model2;
   double width = 490;
   int screen = 0;
   bool isLoading = false;
@@ -30,7 +32,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
   @override
   Widget build(BuildContext context) {
     model = Provider.of<LandRegisterModel>(context);
-
+    model2 = Provider.of<MetaMaskProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -187,8 +189,12 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                                 isLoading = true;
                               });
                               try {
-                                await model.addLandInspector(
-                                    address, name, age, desig, city);
+                                if (connectedWithMetamask)
+                                  await model2.addLandInspector(
+                                      address, name, age, desig, city);
+                                else
+                                  await model.addLandInspector(
+                                      address, name, age, desig, city);
                                 showToast("Successfully Added",
                                     context: context,
                                     backgroundColor: Colors.green);

@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
-  static const operatingChain = 80001;
+  static const operatingChain = 80001; //1337;
+
+  String contractAddress = "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+  //"0x32690887538dD7EEbF009562ab452daDF2778E6F";
 
   String currentAddress = '';
 
@@ -17,14 +20,13 @@ class MetaMaskProvider extends ChangeNotifier {
 
   bool get isConnected => isEnabled && currentAddress.isNotEmpty;
 
-  final rpcProvider = JsonRpcProvider(
-      'https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23');
+  //final rpcProvider = JsonRpcProvider('https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23');
 
   var contract;
 
   final abi = [
     // Some details about the token
-    "function ReturnAllLandList() public view returns(uint[] memory)",
+
     "function ReturnAllUserList() public view returns(address[] memory)",
     "function isUserRegistered(address _addr) public view returns(bool)",
     "function makePaymentTestFun(address payable _reveiver) public payable",
@@ -41,7 +43,17 @@ class MetaMaskProvider extends ChangeNotifier {
     "function acceptRequest(uint _requestId) public",
     "function rejectRequest(uint _requestId) public",
     "function registerUser(string memory _name, uint _age, string memory _city,string memory _aadharNumber, string memory _panNumber, string memory _document, string memory _email) public",
-    "function makePayment(uint _requestId) public payable"
+    "function makePayment(uint _requestId) public payable",
+    "function addLandInspector(address _addr,string memory _name, uint _age, string memory _designation,string memory _city) public returns(bool)",
+    "function isContractOwner(address _addr) public view returns(bool)",
+    "function isLandInspector(address _id) public view returns (bool)",
+    "function userCount() public view returns(uint)",
+    "function landsCount() public view returns(uint)",
+    "function verifyUser(address _userId) public",
+    "function verifyLand(uint _id) public",
+    "function returnPaymentDoneList() public view returns(uint[] memory)",
+    "function transferOwnership(uint _requestId) public returns(bool)",
+    "function landPrice(uint id) public view returns(uint)"
   ];
 
   Future<void> connect() async {
@@ -56,7 +68,7 @@ class MetaMaskProvider extends ChangeNotifier {
       // var t = await signer.getBalance();
 
       contract = Contract(
-        "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05",
+        contractAddress,
         Interface(abi),
         provider!.getSigner(),
       );
@@ -88,6 +100,16 @@ class MetaMaskProvider extends ChangeNotifier {
         clear();
       });
     }
+  }
+
+  Future<dynamic> readFunction(String funName, List<String> param) async {
+    final val = await contract.call<dynamic>(funName, param);
+    print(val);
+    return val;
+  }
+
+  writeFunctionCall(String funName, List<String> param) async {
+    await contract.send(funName, param);
   }
 
   Future<bool> isUserRegistered() async {
@@ -192,6 +214,69 @@ class MetaMaskProvider extends ChangeNotifier {
         value: BigInt.from(price * pow(10, 18)),
       ),
     );
+  }
+
+  Future<bool> isContractOwner() async {
+    final val =
+        await contract.call<dynamic>('isContractOwner', [currentAddress]);
+    print(val);
+    return val;
+  }
+
+  Future<bool> isLandInspector() async {
+    final val =
+        await contract.call<dynamic>('isLandInspector', [currentAddress]);
+    print(val);
+    return val;
+  }
+
+  addLandInspector(String address, String name, String age, String desig,
+      String city) async {
+    await contract.send('addLandInspector', [address, name, age, desig, city]);
+  }
+
+  Future<dynamic> landCount() async {
+    return await readFunction('landsCount', []);
+  }
+
+  Future<dynamic> userCount() async {
+    return await readFunction('userCount', []);
+  }
+
+  verifyUser(String address) async {
+    await writeFunctionCall('verifyUser', [address]);
+  }
+
+  verifyLand(dynamic id) async {
+    await writeFunctionCall('verifyLand', [id.toString()]);
+  }
+
+  Future<List<dynamic>> allUsers() async {
+    List<dynamic> temp = await readFunction('ReturnAllUserList', []);
+    return temp;
+  }
+
+  Future<List<dynamic>> paymentDoneList() async {
+    List<dynamic> temp = await readFunction('returnPaymentDoneList', []);
+    return temp;
+  }
+
+  transferOwnership(dynamic reqId) async {
+    final val = await contract.send('transferOwnership', [reqId.toString()]);
+    print(val);
+    return val;
+  }
+
+  Future<List<dynamic>> userInfo(String address) async {
+    final val = await contract.call<dynamic>('UserMapping', [address]);
+    print(val);
+    return val;
+  }
+
+  Future<dynamic> landPrice(dynamic landId) async {
+    final val = await contract.call<dynamic>('landPrice', [landId.toString()]);
+    print(val);
+    return val;
   }
 
   makeTestPayment() async {

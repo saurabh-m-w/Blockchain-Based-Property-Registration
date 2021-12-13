@@ -9,17 +9,17 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
-import 'package:web_socket_channel/io.dart';
+//import 'package:web_socket_channel/io.dart';
 
 class LandRegisterModel extends ChangeNotifier {
   bool isLoading = true;
-  final String _rpcUrl = //"http://192.168.43.130:7545";
-      "https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
-  final String _wsUrl = //"ws://192.168.43.130:7545/";
-      "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
+  final String _rpcUrl =
+      "https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23"; //"http://127.0.0.1:7545"
+  //final String _wsUrl = "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
 
-  String _privateKey =
-      privateKey; //"b480f30c68bc885cd404d6328db62d5ca7fb4e2ad743c802cb2e6db5ac7530cf";
+  String _privateKey = privateKey;
+
+  String contractAddress = "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   late Web3Client _client;
   late String _abiCode;
@@ -77,7 +77,7 @@ class LandRegisterModel extends ChangeNotifier {
     _abiCode = jsonEncode(jsonAbi["abi"]);
     _contractAddress = //EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
         EthereumAddress.fromHex(
-            "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05"); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8"); //
+            contractAddress); //EthereumAddress.fromHex("0xD6af79CcaaCc6e1d747909d7580630aFc69Ff0B8"); //
     //print(_contractAddress);
   }
 

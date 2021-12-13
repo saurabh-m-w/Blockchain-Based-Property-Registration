@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:land_registration/LandRegisterModel.dart';
+import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
-import 'package:land_registration/home_page.dart';
+import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/MetamaskProvider.dart';
 
 class LandInspector extends StatefulWidget {
   const LandInspector({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class LandInspector extends StatefulWidget {
 }
 
 class _LandInspectorState extends State<LandInspector> {
-  var model;
+  var model, model2;
   final colors = <Color>[Colors.indigo, Colors.blue, Colors.orange, Colors.red];
   List<List<dynamic>> userData = [];
   List<List<dynamic>> landData = [];
@@ -34,8 +36,13 @@ class _LandInspectorState extends State<LandInspector> {
   ];
 
   getUserCount() async {
-    userCount = await model.userCount();
-    landCount = await model.landCount();
+    if (connectedWithMetamask) {
+      userCount = await model2.userCount();
+      landCount = await model2.landCount();
+    } else {
+      userCount = await model.userCount();
+      landCount = await model.landCount();
+    }
     isFirstTimeLoad = false;
     setState(() {});
   }
@@ -43,6 +50,7 @@ class _LandInspectorState extends State<LandInspector> {
   @override
   Widget build(BuildContext context) {
     model = Provider.of<LandRegisterModel>(context);
+    model2 = Provider.of<MetaMaskProvider>(context);
     if (isFirstTimeLoad) {
       getUserCount();
     }
@@ -168,11 +176,18 @@ class _LandInspectorState extends State<LandInspector> {
   // }
 
   getLandList() async {
-    List<dynamic> landList = await model.allLandList();
+    List<dynamic> landList;
+    if (connectedWithMetamask)
+      landList = await model2.allLandList();
+    else
+      landList = await model.allLandList();
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      temp = await model.landInfo(landList[i]);
+      if (connectedWithMetamask)
+        temp = await model2.landInfo(landList[i]);
+      else
+        temp = await model.landInfo(landList[i]);
       allInfo.add(temp);
     }
     landData = allInfo;
@@ -298,7 +313,10 @@ class _LandInspectorState extends State<LandInspector> {
                             onPressed: () async {
                               SmartDialog.showLoading();
                               try {
-                                await model.verifyLand(data[0]);
+                                if (connectedWithMetamask)
+                                  await model2.verifyLand(data[0]);
+                                else
+                                  await model.verifyLand(data[0]);
                                 await getLandList();
                               } catch (e) {
                                 print(e);
@@ -316,13 +334,20 @@ class _LandInspectorState extends State<LandInspector> {
   }
 
   Future<void> getUserList() async {
-    List<dynamic> userList = await model.allUsers();
+    List<dynamic> userList;
+    if (connectedWithMetamask)
+      userList = await model2.allUsers();
+    else
+      userList = await model.allUsers();
 
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < userList.length; i++) {
       print(userList[i].toString());
-      temp = await model.userInfo(userList[i].toString());
+      if (connectedWithMetamask)
+        temp = await model2.userInfo(userList[i].toString());
+      else
+        temp = await model.userInfo(userList[i].toString());
       allInfo.add(temp);
     }
     setState(() {
@@ -443,7 +468,10 @@ class _LandInspectorState extends State<LandInspector> {
                               onPressed: () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  await model.verifyUser(data[0].toString());
+                                  if (connectedWithMetamask)
+                                    await model2.verifyUser(data[0].toString());
+                                  else
+                                    await model.verifyUser(data[0].toString());
                                   await getUserList();
                                 } catch (e) {
                                   print(e);
@@ -462,12 +490,19 @@ class _LandInspectorState extends State<LandInspector> {
   Future<void> paymentDoneList() async {
     SmartDialog.showLoading();
     try {
-      List<dynamic> list = await model.paymentDoneList();
+      List<dynamic> list;
+      if (connectedWithMetamask)
+        list = await model2.paymentDoneList();
+      else
+        list = await model.paymentDoneList();
 
       List<List<dynamic>> allInfo = [];
       List<dynamic> temp;
       for (int i = 0; i < list.length; i++) {
-        temp = await model.requestInfo(list[i]);
+        if (connectedWithMetamask)
+          temp = await model2.requestInfo(list[i]);
+        else
+          temp = await model.requestInfo(list[i]);
         allInfo.add(temp);
       }
       paymenList = allInfo;
@@ -576,9 +611,13 @@ class _LandInspectorState extends State<LandInspector> {
                               onPressed: () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  await model.transferOwnership(data[0]);
+                                  if (connectedWithMetamask)
+                                    await model2.transferOwnership(data[0]);
+                                  else
+                                    await model.transferOwnership(data[0]);
+
                                   await paymentDoneList();
-                                  showToast("Payment Success",
+                                  showToast("Ownership Transfered",
                                       context: context,
                                       backgroundColor: Colors.green);
                                 } catch (e) {

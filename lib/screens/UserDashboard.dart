@@ -4,14 +4,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:land_registration/LandRegisterModel.dart';
+import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
-import 'package:land_registration/home_page.dart';
+import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
-import 'constant/MetamaskProvider.dart';
-import 'constant/constants.dart';
+import '../providers/MetamaskProvider.dart';
+import '../constant/constants.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:http/http.dart' as http;
 
@@ -1161,7 +1161,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         CustomButton3('Confirm', () async {
                           SmartDialog.showLoading();
                           try {
-                            await model.makePayment(reqID, total);
+                            if (connectedWithMetamask)
+                              await model2.makePayment(reqID, total);
+                            else
+                              await model.makePayment(reqID, total);
                             await getMySentRequest();
                             showToast("Payment Success",
                                 context: context,

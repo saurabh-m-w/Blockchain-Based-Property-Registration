@@ -4,15 +4,15 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:land_registration/UserDashboard.dart';
+import 'package:land_registration/screens/UserDashboard.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'LandRegisterModel.dart';
+import '../providers/LandRegisterModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
-import 'constant/MetamaskProvider.dart';
+import '../providers/MetamaskProvider.dart';
 
 class RegisterUser extends StatefulWidget {
   const RegisterUser({Key? key}) : super(key: key);

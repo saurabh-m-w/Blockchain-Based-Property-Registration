@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:land_registration/LandRegisterModel.dart';
-import 'package:land_registration/home_page.dart';
+import 'package:land_registration/providers/LandRegisterModel.dart';
+import 'package:land_registration/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
-import 'constant/MetamaskProvider.dart';
+import 'providers/MetamaskProvider.dart';
 
 void main() {
   runApp(const MyApp());

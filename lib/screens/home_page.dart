@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:land_registration/Check_private_key.dart';
-import 'package:land_registration/LandRegisterModel.dart';
+import 'package:land_registration/screens/wallet_connect.dart';
+import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:provider/provider.dart';
 
