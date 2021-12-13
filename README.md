@@ -47,7 +47,7 @@ truffle compile
 truffle migrate
 ```
 6.Copy contract address paste in ./lib/providers/MetamaskProvider.dart - 'contractAddress' and Change operatingChain to '1337'\
-7.Copy contract address paste in  ./lib/providers/LandRegisterModel.dart - 'contractAddress' and change '_rpcUrl' to "http://127.0.0.1:7545"\
+7.Copy contract address paste in  ./lib/providers/LandRegisterModel.dart - 'contractAddress' and change '_rpcUrl' to "http://127.0.0.1:7545" \
 8.Run flutter web app
 ```
 flutter run -d web-server --web-port 5555
@@ -58,10 +58,10 @@ flutter run -d web-server --web-port 5555
 ![Screenshot](screenshots/flowchart.png)
 
 ## Screenshots
-<img src="screenshots/Screenshot1.png" height="230">  | <img src="screenshots/Screenshot2.png" height="230">
+<img src="screenshots/Screenshot1.png" height="225">  | <img src="screenshots/Screenshot2.png" height="225">
 
-<img src="screenshots/Screenshot3.png" height="230">  | <img src="screenshots/Screenshot4.png" height="230">
+<img src="screenshots/Screenshot3.png" height="225">  | <img src="screenshots/Screenshot4.png" height="225">
 
-<img src="screenshots/Screenshot5.png" height="230">  | <img src="screenshots/Screenshot6.png" height="230">
+<img src="screenshots/Screenshot5.png" height="225">  | <img src="screenshots/Screenshot6.png" height="225">
 
-<img src="screenshots/Screenshot7.png" height="230">
+<img src="screenshots/Screenshot7.png" height="225">
