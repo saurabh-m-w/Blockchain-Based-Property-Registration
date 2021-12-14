@@ -73160,7 +73160,7 @@ P(a,b){var s=null,r=b.Z(t.w).f.a.a
 $.Gt=r
 if(r>600){$.Gt=590
 $.jj=!0}r=t.p
-return M.BC(s,s,E.at_(T.dr(H.a([C.M5,new T.aZ(C.Gk,T.cC(H.a([C.HV,T.bt(M.aG(s,G.ayw("background_svg.svg",!0,20,20),s,s,s,804,s,s,600),s,s)],r),C.y,C.hm,C.w),s),C.kr,T.cC(H.a([A.arx("Contract Owner",new X.aoQ(b)),A.arx("Land Inspector",new X.aoR(b)),A.arx("User",new X.aoS(b))],r),C.y,C.ee,C.w),C.kr],r),C.y,C.B,C.w),s),s,s,s)}}
+return M.BC(s,s,E.at_(T.dr(H.a([C.M5,new T.aZ(C.Gk,T.cC(H.a([C.HV,T.bt(M.aG(s,G.ayw("assets/background_svg.svg",!0,20,20),s,s,s,804,s,s,600),s,s)],r),C.y,C.hm,C.w),s),C.kr,T.cC(H.a([A.arx("Contract Owner",new X.aoQ(b)),A.arx("Land Inspector",new X.aoR(b)),A.arx("User",new X.aoS(b))],r),C.y,C.ee,C.w),C.kr],r),C.y,C.B,C.w),s),s,s,s)}}
 X.aoQ.prototype={
 $0(){var s=V.ee(new X.aoP(),null,t.z)
 K.bl(this.a,!1).dH(s)},
@@ -73383,7 +73383,7 @@ P(a,b){var s,r,q,p,o,n,m=this,l=null,k=Y.lh(b,t.jJ),j=Y.lh(b,t.dF),i=b.Z(t.w).f.
 m.r=i
 if(i>600)m.r=590
 i=E.GP(C.cK,l,l,l,C.SN)
-s=G.ayw("auth.svg",!0,280,520)
+s=G.ayw("assets/auth.svg",!0,280,520)
 r=m.r
 q=m.x
 r=M.aG(l,new T.aZ(C.fD,A.a2r(E.eA(L.kV(l,C.aR,l,l,l,l,l,l,!0,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,"Enter Your PrivateKey",l,l,l,!1,l,l,l,"Private Key",l,l,l,l,l,l,l,B.JF(l,L.a4b(q?C.Hf:C.Hg,l,l),24,new K.ahy(m),l),l,l,l),l,l,l,q,new K.ahz(m),!1,l,new K.ahA()),m.z),l),l,l,l,l,l,l,r)
