@@ -33,8 +33,8 @@ For user you can also use your own Ethereum wallet key,as this is on Polygon tes
 #### Check Smart contract At Polygon Testnet: [here](https://mumbai.polygonscan.com/address/0x5fa4972ab37701fa32907e79b46ddd436bd73b05)
 
 ## Run Application Locally
-1.Clone the github repository and cd to the folder
-2.Install flutter,nodejs
+1.Clone the github repository and cd to the folder\
+2.Install flutter,nodejs\
 3.Install ganache and truffle
 ```
 npm install -g truffle

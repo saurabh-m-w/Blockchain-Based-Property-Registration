@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:land_registration/screens/LandInspectorDashboard.dart';
 import 'package:land_registration/screens/UserDashboard.dart';
 import 'package:land_registration/screens/addLandInspector.dart';
@@ -48,12 +49,18 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
         alignment: Alignment.topCenter,
         child: Column(
           children: [
-            Image.asset(
-              'assets/authenticate.png',
-              height: 280,
-              width: 520,
+            SvgPicture.asset(
+              'assets/auth.svg',
+              height: 280.0,
+              width: 520.0,
+              allowDrawingOutsideViewBox: true,
             ),
-            Text(
+            // Image.asset(
+            //   'assets/authenticate.png',
+            //   height: 280,
+            //   width: 520,
+            // ),
+            const Text(
                 'You can enter private key of your wallet Or you connect Metamask wallet'),
             Container(
               width: width,
@@ -101,7 +108,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                     : () async {
                         if (_formKey.currentState!.validate()) {
                           privateKey = privatekey;
-                          print(privateKey);
+                          //print(privateKey);
                           setState(() {
                             isLoading = true;
                           });
@@ -183,7 +190,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                           });
                         }
                       }),
-            Text('Or Click to connect Metamask'),
+            const Text('Or Click to connect Metamask'),
             ElevatedButton(
               onPressed: () async {
                 await model2.connect();
@@ -244,12 +251,10 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                 }
               },
               style: ElevatedButton.styleFrom(primary: Colors.orange),
-              child: Container(
-                child: Image.network(
-                    'https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?fit=1549%2C480&ssl=1',
-                    width: 280,
-                    height: 80),
-              ),
+              child: Image.network(
+                  'https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?fit=1549%2C480&ssl=1',
+                  width: 280,
+                  height: 80),
             ),
             isLoading ? spinkitLoader : Container()
           ],

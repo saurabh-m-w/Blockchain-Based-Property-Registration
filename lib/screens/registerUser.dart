@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -244,7 +242,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         MaterialButton(
                           color: Colors.grey,
                           onPressed: pickDocument,
-                          child: Text('Upload Document'),
+                          child: const Text('Upload Document'),
                         ),
                         Text(docuName)
                       ],

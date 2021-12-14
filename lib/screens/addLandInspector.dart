@@ -42,9 +42,9 @@ class _AddLandInspectorState extends State<AddLandInspector> {
         leading: isDesktop
             ? Container()
             : GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Icon(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
                     Icons.menu,
                     color: Colors.white,
                   ), //AnimatedIcon(icon: AnimatedIcons.menu_arrow,progress: _animationController,),
@@ -74,13 +74,13 @@ class _AddLandInspectorState extends State<AddLandInspector> {
       child: Container(
         width: width,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -91,7 +91,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                     onChanged: (val) {
                       address = val;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Address',
                       hintText:
@@ -100,7 +100,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -112,7 +112,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                       name = val;
                     },
                     //obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Name',
                       hintText: 'Enter Name',
@@ -120,7 +120,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -132,7 +132,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                       age = val;
                     },
                     //obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Age',
                       hintText: 'Enter Age',
@@ -140,7 +140,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -152,7 +152,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                       desig = val;
                     },
                     //obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Designation',
                       hintText: 'Enter Designation',
@@ -160,7 +160,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -172,7 +172,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                       city = val;
                     },
                     //obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'City',
                       hintText: 'Enter City',
@@ -209,7 +209,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                               });
                             }
                           }),
-                isLoading ? CircularProgressIndicator() : Container()
+                isLoading ? const CircularProgressIndicator() : Container()
               ],
             ),
           ),
@@ -220,7 +220,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
 
   Widget drawer2() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(blurRadius: 10, color: Colors.black26, spreadRadius: 2)
         ],
@@ -231,22 +231,22 @@ class _AddLandInspectorState extends State<AddLandInspector> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
-          Icon(
+          const Icon(
             Icons.person,
             size: 50,
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
-          Text('Contract Owner',
+          const Text('Contract Owner',
               style: TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-          SizedBox(
+          const SizedBox(
             height: 80,
           ),
           Expanded(
@@ -300,11 +300,11 @@ class _AddLandInspectorState extends State<AddLandInspector> {
             ],
           ),
           //color: Color(0xFFBb3b3cc),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(const Radius.circular(10)),
           border: Border.all()),
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         ListTile(
-          leading: Icon(Icons.dashboard),
+          leading: const Icon(Icons.dashboard),
           title:
               Text('Add Land Inspector', style: TextStyle(color: Colors.white)),
           onTap: () {
@@ -314,13 +314,13 @@ class _AddLandInspectorState extends State<AddLandInspector> {
           },
         ),
         ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('All Land Inspectors'),
+          leading: const Icon(Icons.verified_user),
+          title: const Text('All Land Inspectors'),
           onTap: () {},
         ),
         ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Logout'),
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
           onTap: () {
             Navigator.pop(context);
             Navigator.push(

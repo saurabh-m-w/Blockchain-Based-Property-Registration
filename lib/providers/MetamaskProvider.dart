@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
@@ -62,6 +61,7 @@ class MetaMaskProvider extends ChangeNotifier {
       if (accs.isNotEmpty) currentAddress = accs.first;
       print(currentAddress);
       currentChain = await ethereum!.getChainId();
+      print(currentChain);
 
       // Get signer from provider
       // final signer = provider!.getSigner();

@@ -148,8 +148,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
     List<dynamic> requestList;
     if (connectedWithMetamask)
       requestList = await model2.myReceivedRequest();
-    else
+    else {
       requestList = await model.myReceivedRequest();
+    }
     List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < requestList.length; i++) {
@@ -310,42 +311,42 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 height: 15,
               ),
               Row(
-                children: [
-                  const Expanded(
+                children: const [
+                  Expanded(
                     child: Text(
                       '#',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     flex: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Land Id',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     flex: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                       child: Center(
                         child: Text('Owner Address',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 5),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Status',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 3,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Price(in ₹)',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Make Payment',
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -433,49 +434,49 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 height: 15,
               ),
               Row(
-                children: [
-                  const Expanded(
+                children: const [
+                  Expanded(
                     child: Text(
                       '#',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     flex: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Land Id',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     flex: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                       child: Center(
                         child: Text('Buyer Address',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 5),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Status',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 3,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Payment Done',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Reject',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Accept',
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -652,11 +653,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
     return Center(
       widthFactor: isDesktop ? 2 : 1,
       child: Container(
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             //color: Color(0xFFBb3b3cc),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             border: Border.all()),
         width: width,
         child: Form(
@@ -666,9 +667,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
             // shrinkWrap: true,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 child: TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                   validator: (value) {
@@ -733,10 +734,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     state = val;
                   },
                   //obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
-                    border: const OutlineInputBorder(),
+                    border: OutlineInputBorder(),
                     labelText: 'State',
                     hintText: 'Enter State',
                   ),
@@ -834,7 +835,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     MaterialButton(
                       color: Colors.grey,
                       onPressed: pickDocument,
-                      child: Text('Upload Document'),
+                      child: const Text('Upload Document'),
                     ),
                     Text(docuName)
                   ],
@@ -909,13 +910,13 @@ class _UserDashBoardState extends State<UserDashBoard> {
           ),
           userInfo[8]
               ? Row(
-                  children: [
+                  children: const [
                     Text(
                       'Verified',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.green),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.verified,
                       color: Colors.green,
                     )
