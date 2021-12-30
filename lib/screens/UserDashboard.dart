@@ -629,9 +629,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
           itemBuilder: (context, index) {
             return landWid(
                 landInfo[index][10],
-                landInfo[index][4].toString(),
-                landInfo[index][2].toString() + landInfo[index][3].toString(),
                 landInfo[index][1].toString(),
+                landInfo[index][2].toString() + landInfo[index][3].toString(),
+                landInfo[index][4].toString(),
                 landInfo[index][8],
                 () => confirmDialog(context, () async {
                       SmartDialog.showLoading();
@@ -1020,60 +1020,6 @@ class _UserDashBoardState extends State<UserDashBoard> {
       ),
     );
   }
-
-  // Widget drawer() {
-  //   return Container(
-  //     width: 250,
-  //     margin: EdgeInsets.all(10),
-  //     padding: EdgeInsets.all(10),
-  //     decoration: BoxDecoration(
-  //         gradient: const LinearGradient(
-  //           begin: Alignment.topRight,
-  //           end: Alignment.bottomLeft,
-  //           colors: [
-  //             Colors.blueGrey,
-  //             Colors.grey,
-  //           ],
-  //         ),
-  //         //color: Color(0xFFBb3b3cc),
-  //         borderRadius: BorderRadius.all(Radius.circular(10)),
-  //         border: Border.all()),
-  //     child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-  //       ListTile(
-  //         leading: Icon(Icons.dashboard),
-  //         title: Text('Welcome'),
-  //         onTap: () => {},
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.verified_user),
-  //         title: Text('Add Lands'),
-  //         onTap: () => {},
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.verified_user),
-  //         title: Text('My Lands'),
-  //         onTap: () async {},
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.verified_user),
-  //         title: Text('My Land Request'),
-  //         onTap: () async {
-  //           //await model.allUsers();
-  //           //await model.userInfo('0x97Ac9Fa9797eb63f54ECCe96A89AD10010eCDD2F');
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.logout),
-  //         title: Text('Logout'),
-  //         onTap: () async {
-  //           Navigator.pop(context);
-  //           Navigator.push(
-  //               context, MaterialPageRoute(builder: (context) => home_page()));
-  //         },
-  //       ),
-  //     ]),
-  //   );
-  // }
 
   _paymentDialog(buyerAdd, sellAdd, amountINR, total, ethval, reqID) async {
     return showDialog<void>(

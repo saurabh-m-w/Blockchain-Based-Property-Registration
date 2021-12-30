@@ -4,6 +4,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/screens/home_page.dart';
+import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -119,61 +120,6 @@ class _LandInspectorState extends State<LandInspector> {
       ),
     );
   }
-
-  // Widget drawer() {
-  //   return Container(
-  //     width: 250,
-  //     margin: EdgeInsets.all(10),
-  //     padding: const EdgeInsets.all(10),
-  //     decoration: BoxDecoration(
-  //         gradient:const LinearGradient(
-  //           begin: Alignment.topRight,
-  //           end: Alignment.bottomLeft,
-  //           colors: [
-  //             Colors.blueGrey,
-  //             Colors.grey,
-  //           ],
-  //         ),
-  //         //color: Color(0xFFBb3b3cc),
-  //         borderRadius: const BorderRadius.all(Radius.circular(10)),
-  //         border: Border.all()),
-  //     child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-  //       ListTile(
-  //         leading: const Icon(Icons.dashboard),
-  //         title: Text('Welcome'),
-  //         onTap: () {
-  //           setState(() {
-  //             screen = 0;
-  //           });
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.verified_user),
-  //         title: Text('VerifyUser'),
-  //         onTap: () {
-  //           setState(() {
-  //             screen = 2;
-  //           });
-  //           getUserList();
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.verified_user),
-  //         title: Text('VerifyLand'),
-  //         onTap: () async {},
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.logout),
-  //         title: Text('Logout'),
-  //         onTap: () {
-  //           Navigator.pop(context);
-  //           Navigator.push(
-  //               context, MaterialPageRoute(builder: (context) => home_page()));
-  //         },
-  //       ),
-  //     ]),
-  //   );
-  // }
 
   getLandList() async {
     List<dynamic> landList;
@@ -605,30 +551,39 @@ class _LandInspectorState extends State<LandInspector> {
                     child: Center(
                       child: data[4].toString() == '4'
                           ? const Text('Transfered')
-                          : ElevatedButton(
+                          : ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.green),
                               onPressed: () async {
-                                SmartDialog.showLoading();
-                                try {
-                                  if (connectedWithMetamask)
-                                    await model2.transferOwnership(data[0]);
-                                  else
-                                    await model.transferOwnership(data[0]);
-
-                                  await paymentDoneList();
-                                  showToast("Ownership Transfered",
-                                      context: context,
-                                      backgroundColor: Colors.green);
-                                } catch (e) {
-                                  print(e);
-                                  showToast("Something Went Wrong",
-                                      context: context,
-                                      backgroundColor: Colors.red);
-                                }
-                                SmartDialog.dismiss();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => transferOwnership(
+                                              sellerAdd: data[2].toString(),
+                                              landId: data[3].toString(),
+                                              buyerAdd: data[1].toString(),
+                                            )));
+                                // SmartDialog.showLoading();
+                                // try {
+                                //   if (connectedWithMetamask)
+                                //     await model2.transferOwnership(data[0]);
+                                //   else
+                                //     await model.transferOwnership(data[0]);
+                                //
+                                //   await paymentDoneList();
+                                //   showToast("Ownership Transfered",
+                                //       context: context,
+                                //       backgroundColor: Colors.green);
+                                // } catch (e) {
+                                //   print(e);
+                                //   showToast("Something Went Wrong",
+                                //       context: context,
+                                //       backgroundColor: Colors.red);
+                                // }
+                                // SmartDialog.dismiss();
                               },
-                              child: const Text('Transfer')),
+                              icon: Icon(Icons.arrow_forward_ios),
+                              label: const Text('Transfer')),
                     ),
                     flex: 3),
               ],

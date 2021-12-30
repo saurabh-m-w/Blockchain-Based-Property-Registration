@@ -57,6 +57,7 @@ contract Land {
     uint inspectorsCount;
     uint public userCount;
     uint public landsCount;
+    uint public documentId;
     uint requestCount;
 
 
@@ -231,11 +232,12 @@ contract Land {
         return paymentDoneList[1];
     }
 
-    function transferOwnership(uint _requestId) public returns(bool)
+    function transferOwnership(uint _requestId,string memory documentUrl) public returns(bool)
     {
         require(isLandInspector(msg.sender));
         if(LandRequestMapping[_requestId].isPaymentDone==false)
             return false;
+        documentId++;
         LandRequestMapping[_requestId].requestStatus=reqStatus.commpleted;
         MyLands[LandRequestMapping[_requestId].buyerId].push(LandRequestMapping[_requestId].landId);
 
@@ -250,6 +252,7 @@ contract Land {
                 break;
             }
         }
+        lands[LandRequestMapping[_requestId].landId].document=documentUrl;
         lands[LandRequestMapping[_requestId].landId].isforSell=false;
         lands[LandRequestMapping[_requestId].landId].ownerAddress=LandRequestMapping[_requestId].buyerId;
         return true;

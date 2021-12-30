@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
-  static const operatingChain = 80001; //1337;
+  static const operatingChain = 1337; //80001; //
 
-  String contractAddress = "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
-  //"0x32690887538dD7EEbF009562ab452daDF2778E6F";
+  String contractAddress =
+      "0xCF8f1A28b1f42a72A8b26EcF112ee5d895B42f8C"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   String currentAddress = '';
 

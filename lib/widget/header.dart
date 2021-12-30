@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
+import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/screens/wallet_connect.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -148,22 +149,25 @@ class HeaderWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(14.0),
-              child: MouseRegion(
-                onHover: (PointerHoverEvent evt) {
-                  appContainer?.style.cursor = 'pointer';
-                },
-                onExit: (PointerExitEvent evt) {
-                  appContainer?.style.cursor = 'default';
-                },
-                child: const Text(
-                  'About',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Color(0xff28313b),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    letterSpacing: 1.627907,
+              child: GestureDetector(
+                onTap: () {},
+                child: MouseRegion(
+                  onHover: (PointerHoverEvent evt) {
+                    appContainer?.style.cursor = 'pointer';
+                  },
+                  onExit: (PointerExitEvent evt) {
+                    appContainer?.style.cursor = 'default';
+                  },
+                  child: const Text(
+                    'About',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Color(0xff28313b),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      letterSpacing: 1.627907,
+                    ),
                   ),
                 ),
               ),

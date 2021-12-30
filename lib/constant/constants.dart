@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 double width = 590;
 bool isDesktop = false;
@@ -54,7 +55,7 @@ Widget CustomButton(text, fun) => Container(
             child: Text(
               text,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 18,
                 color: Colors.white,
               ),
             ),
@@ -268,3 +269,8 @@ void confirmDialog(
             ],
           );
         });
+
+pw.TableRow tableRow(text1, text2) =>
+    pw.TableRow(children: [pw.Text(text1), pw.Text(text2)]);
+pw.TableRow tableRowSizedBox() =>
+    pw.TableRow(children: [pw.SizedBox(height: 14), pw.SizedBox(height: 14)]);
