@@ -13,16 +13,19 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:universal_html/html.dart' as html;
 import 'package:camera/camera.dart';
+import 'package:http/http.dart' as http;
 
 class transferOwnership extends StatefulWidget {
   final String buyerAdd;
   final String sellerAdd;
   final String landId;
+  final String reqId;
   const transferOwnership({
     Key? key,
     required this.buyerAdd,
     required this.sellerAdd,
     required this.landId,
+    required this.reqId,
   }) : super(key: key);
 
   @override
@@ -41,41 +44,40 @@ class _transferOwnershipState extends State<transferOwnership> {
   bool isSellerpicturetaken = false,
       isBuyerpicturetaken = false,
       isWitnesspicturetaken = false;
-  bool cameraInilizing = true;
+  bool cameraInilizing = true, isOwnershipTransfered = false;
   final pdf = pw.Document();
   String witnessName = "", witnessAge = "", witnessAddress = "";
   late List<CameraDescription> cameras;
+  String documentId = "", docUrl = "";
 
-  Future<bool> uploadDocument() async {
+  @override
+  Future<void> dispose() async {
+    await controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> uploadDocument(bytes) async {
     String url = "https://api.nft.storage/upload";
     var header = {
       "Authorization":
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmNGUwQTQwNTI4MkMyMDNkZDBEZmY2NUNlMkUwRTYyQUNCODFDRWUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzNzkwNzQxNjEwNSwibmFtZSI6ImxhbmRfZG9jdW1lbnQifQ.5ReEuIxsDhWxOLa2lVe9n-B2PUjdEkwJ5jLsBGdBDGA"
     };
 
-    // if (docuName != "") {
-    //   try {
-    //     final response = await http.post(Uri.parse(url),
-    //         headers: header, body: documentFile.bytes);
-    //     var data = jsonDecode(response.body);
-    //     //print(data);
-    //     if (data['ok']) {
-    //       var cid = data["value"]["cid"];
-    //       docUrl = "https://" + cid + ".ipfs.dweb.link";
-    //       print(docUrl);
-    //       return true;
-    //     }
-    //   } catch (e) {
-    //     print(e);
-    //     showToast("Something went wrong,while document uploading",
-    //         context: context, backgroundColor: Colors.red);
-    //   }
-    // } else {
-    //   showToast("Choose Document",
-    //       context: context, backgroundColor: Colors.red);
-    //   return false;
-    // }
-    return false;
+    try {
+      final response =
+          await http.post(Uri.parse(url), headers: header, body: bytes);
+      var data = jsonDecode(response.body);
+      //print(data);
+      if (data['ok']) {
+        var cid = data["value"]["cid"];
+        docUrl = "https://" + cid + ".ipfs.dweb.link";
+        print(docUrl);
+      }
+    } catch (e) {
+      print(e);
+      showToast("Something went wrong,while document uploading",
+          context: context, backgroundColor: Colors.red);
+    }
   }
 
   generateDocument(villegename, price, sellername, buyername, selleraddress,
@@ -152,11 +154,11 @@ class _transferOwnershipState extends State<transferOwnership> {
                     children: [
                       pw.Text(date),
                       pw.Text('Document Abstract'),
-                      pw.Text('Document No.:'),
+                      pw.Text('Document No.:' + documentId),
                     ]),
                 pw.Divider(),
                 pw.Text('Type of Document: Sale Deed'),
-                pw.Text('Document No.:'),
+                pw.Text('Document No.:' + documentId),
                 pw.Divider(),
                 pw.Table(columnWidths: {
                   0: const pw.FractionColumnWidth(0.3),
@@ -234,13 +236,15 @@ class _transferOwnershipState extends State<transferOwnership> {
 
     var data = await pdf.save();
     Uint8List bytes = Uint8List.fromList(data);
-    final blob = html.Blob([bytes], 'application/pdf');
-    final url = html.Url.createObjectUrlFromBlob(blob);
+    await uploadDocument(bytes);
+
+    /// final blob = html.Blob([bytes], 'application/pdf');
+    /// final url = html.Url.createObjectUrlFromBlob(blob);
     // final anchor = html.document.createElement('a') as html.AnchorElement
     //   ..href = url
     //   ..style.display = 'none'
     //   ..download = 'some_name.pdf';
-    html.window.open(url, "_blank");
+    /// html.window.open(url, "_blank");
     // html.document.body!.children.add(anchor);
     // anchor.click();
     // html.document.body!.children.remove(anchor);
@@ -264,6 +268,11 @@ class _transferOwnershipState extends State<transferOwnership> {
     else
       landInfo = await model.landInfo(BigInt.parse(widget.landId));
 
+    if (connectedWithMetamask)
+      documentId = await model2.documentId();
+    else
+      documentId = await model.documentId();
+
     cameras = await availableCameras();
     controller =
         CameraController(cameras[0], ResolutionPreset.max, enableAudio: false);
@@ -277,6 +286,29 @@ class _transferOwnershipState extends State<transferOwnership> {
     });
     isLoading = false;
     setState(() {});
+  }
+
+  Future<bool> transferOwnershipFunction() async {
+    try {
+      if (connectedWithMetamask)
+        await model2.transferOwnership(widget.reqId, docUrl);
+      else
+        await model.transferOwnership(BigInt.parse(widget.reqId), docUrl);
+      // await paymentDoneList();
+      showToast("Ownership Transfered",
+          context: context,
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3));
+      isOwnershipTransfered = true;
+      return true;
+    } catch (e) {
+      print(e);
+      showToast("Something Went Wrong",
+          context: context,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3));
+      return false;
+    }
   }
 
   @override
@@ -344,32 +376,68 @@ class _transferOwnershipState extends State<transferOwnership> {
                     ],
                   ),
                   const SizedBox(
-                    height: 14,
+                    height: 10,
                   ),
-                  CustomButton("Transfer", () {
-                    if (isBuyerpicturetaken &&
-                        isSellerpicturetaken &&
-                        isWitnesspicturetaken &&
-                        witnessName != "" &&
-                        witnessAge != "" &&
-                        witnessAddress != "") {
-                      generateDocument(
-                          landInfo[2],
-                          landInfo[4].toString(),
-                          sellerInfo[1],
-                          buyerInfo[1],
-                          sellerInfo[3],
-                          buyerInfo[3],
-                          landInfo[6].toString(),
-                          landInfo[1].toString(),
-                          DateTime.now().toString(),
-                          sellerInfo[5],
-                          buyerInfo[5]);
-                    } else {
-                      showToast("Complete All the details",
-                          context: context, backgroundColor: Colors.red);
-                    }
-                  }),
+                  if (isOwnershipTransfered)
+                    Text("Successfully Transferred",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  if (isOwnershipTransfered)
+                    MaterialButton(
+                      onPressed: () {
+                        launchUrl(docUrl);
+                      },
+                      child: Text(
+                        'View Document',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  CustomButton(
+                      "Transfer",
+                      isOwnershipTransfered
+                          ? null
+                          : () async {
+                              if (isBuyerpicturetaken &&
+                                  isSellerpicturetaken &&
+                                  isWitnesspicturetaken &&
+                                  witnessName != "" &&
+                                  witnessAge != "" &&
+                                  witnessAddress != "") {
+                                SmartDialog.showLoading(msg: "Please Wait");
+                                await generateDocument(
+                                    landInfo[2],
+                                    landInfo[4].toString(),
+                                    sellerInfo[1],
+                                    buyerInfo[1],
+                                    sellerInfo[3],
+                                    buyerInfo[3],
+                                    landInfo[6].toString(),
+                                    landInfo[1].toString(),
+                                    DateTime.now().toString(),
+                                    sellerInfo[5],
+                                    buyerInfo[5]);
+                                //SmartDialog.dismiss();
+                                //SmartDialog.showLoading(msg: "please wait");
+                                bool temp = await transferOwnershipFunction();
+                                SmartDialog.dismiss();
+                                setState(() {});
+                                //await Duration(seconds: 1);
+                                //if (temp) launchUrl(docUrl);
+                              } else {
+                                showToast("Complete All the details",
+                                    context: context,
+                                    backgroundColor: Colors.red);
+                              }
+                            }),
                   const SizedBox(
                     height: 14,
                   ),

@@ -555,14 +555,16 @@ class _LandInspectorState extends State<LandInspector> {
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.green),
                               onPressed: () async {
-                                Navigator.push(
+                                await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => transferOwnership(
-                                              sellerAdd: data[2].toString(),
+                                              reqId: data[0].toString(),
+                                              sellerAdd: data[1].toString(),
                                               landId: data[3].toString(),
-                                              buyerAdd: data[1].toString(),
+                                              buyerAdd: data[2].toString(),
                                             )));
+                                await paymentDoneList();
                                 // SmartDialog.showLoading();
                                 // try {
                                 //   if (connectedWithMetamask)

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:land_registration/screens/LandInspectorDashboard.dart';
 import 'package:land_registration/screens/UserDashboard.dart';
@@ -28,6 +29,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
   bool _isObscure = true;
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
+  TextEditingController keyController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
+                    controller: keyController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter private key';
@@ -80,10 +83,30 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                       privatekey = val;
                     },
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                      suffixIcon: MaterialButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () async {
+                          final clipPaste =
+                              await Clipboard.getData(Clipboard.kTextPlain);
+                          keyController.text = clipPaste!.text!;
+                          privatekey = keyController.text;
+                          setState(() {});
+                        },
+                        child: Text(
+                          "Paste",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                      suffix: IconButton(
+                          iconSize: 20,
+                          constraints:
+                              BoxConstraints.tightFor(height: 15, width: 15),
+                          padding: EdgeInsets.all(0),
+                          icon: Icon(
+                            _isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
                           onPressed: () {
                             setState(() {
                               _isObscure = !_isObscure;

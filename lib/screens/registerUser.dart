@@ -171,8 +171,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(12),
                         border: OutlineInputBorder(),
-                        labelText: 'City',
-                        hintText: 'Enter City',
+                        labelText: 'Address',
+                        hintText: 'Enter Address',
                       ),
                     ),
                   ),

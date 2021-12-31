@@ -1123,7 +1123,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           }
                           SmartDialog.dismiss();
                           Navigator.of(context).pop();
-                        }, Colors.blueAccent)
+                        }, Colors.blue)
                       ],
                     )
                   ],

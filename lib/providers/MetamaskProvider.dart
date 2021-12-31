@@ -47,11 +47,12 @@ class MetaMaskProvider extends ChangeNotifier {
     "function isContractOwner(address _addr) public view returns(bool)",
     "function isLandInspector(address _id) public view returns (bool)",
     "function userCount() public view returns(uint)",
+    "function documentId() public view returns(uint)",
     "function landsCount() public view returns(uint)",
     "function verifyUser(address _userId) public",
     "function verifyLand(uint _id) public",
     "function returnPaymentDoneList() public view returns(uint[] memory)",
-    "function transferOwnership(uint _requestId) public returns(bool)",
+    "function transferOwnership(uint _requestId,string memory documentUrl) public returns(bool)",
     "function landPrice(uint id) public view returns(uint)"
   ];
 
@@ -243,6 +244,10 @@ class MetaMaskProvider extends ChangeNotifier {
     return await readFunction('userCount', []);
   }
 
+  Future<dynamic> documentId() async {
+    return await readFunction('documentId', []).toString();
+  }
+
   verifyUser(String address) async {
     await writeFunctionCall('verifyUser', [address]);
   }
@@ -261,8 +266,9 @@ class MetaMaskProvider extends ChangeNotifier {
     return temp;
   }
 
-  transferOwnership(dynamic reqId) async {
-    final val = await contract.send('transferOwnership', [reqId.toString()]);
+  transferOwnership(dynamic reqId, String docUrl) async {
+    final val =
+        await contract.send('transferOwnership', [reqId.toString(), docUrl]);
     print(val);
     return val;
   }

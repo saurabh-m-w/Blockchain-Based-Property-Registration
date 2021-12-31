@@ -13,13 +13,14 @@ import 'package:http/http.dart';
 
 class LandRegisterModel extends ChangeNotifier {
   bool isLoading = true;
-  final String _rpcUrl =
-      "https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23"; //"http://127.0.0.1:7545"
+  final String _rpcUrl = "http://127.0.0.1:7545";
+  //"https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23"; //"http://127.0.0.1:7545"
   //final String _wsUrl = "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
 
   String _privateKey = privateKey;
 
-  String contractAddress = "0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+  String contractAddress =
+      "0x04e8b9e02f8279628d40B3F8653D4780BCeb0205"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   late Web3Client _client;
   late String _abiCode;
@@ -37,6 +38,7 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _userInfo;
   late ContractFunction _verifyUser;
   late ContractFunction _userCount;
+  late ContractFunction _DocumentId;
   late ContractFunction _addLand;
   late ContractFunction _myAllLands;
   late ContractFunction _landInfo;
@@ -104,6 +106,7 @@ class LandRegisterModel extends ChangeNotifier {
     _userInfo = _contract.function("UserMapping");
     _verifyUser = _contract.function("verifyUser");
     _userCount = _contract.function("userCount");
+    _DocumentId = _contract.function("documentId");
     _addLand = _contract.function("addLand");
     _myAllLands = _contract.function("myAllLands");
     _landInfo = _contract.function("lands");
@@ -140,17 +143,18 @@ class LandRegisterModel extends ChangeNotifier {
         fetchChainIdFromNetworkId: false);
   }
 
-  transferOwnership(dynamic reqId) async {
+  transferOwnership(dynamic reqId, String docUrl) async {
     notifyListeners();
     await _client.sendTransaction(
         _credentials,
         Transaction.callContract(
           contract: _contract,
           function: _transferOwner,
-          parameters: [reqId],
+          parameters: [reqId, docUrl],
         ),
         chainId: 80001,
         fetchChainIdFromNetworkId: false);
+    print("Ownership Transfered");
   }
 
   Future<List<dynamic>> paymentDoneList() async {
@@ -358,6 +362,14 @@ class LandRegisterModel extends ChangeNotifier {
         .call(contract: _contract, function: _userCount, params: []);
     print(val);
     return val[0];
+  }
+
+  Future<dynamic> documentId() async {
+    notifyListeners();
+    final val = await _client
+        .call(contract: _contract, function: _DocumentId, params: []);
+    print(val);
+    return val[0].toString();
   }
 
   Future<List<dynamic>> allUsers() async {
