@@ -64,6 +64,6 @@ flutter run -d web-server --web-port 5555
 
 <img src="screenshots/Screenshot5.png" height="225">  | <img src="screenshots/Screenshot6.png" height="225">
 
-<img src="screenshots/Screenshot7.png" height="225">  | <img src="screenshots/Screenshot7.png" height="225">
+<img src="screenshots/Screenshot7.png" height="225">  | <img src="screenshots/Screenshot8.png" height="225">
 
-<img src="screenshots/Screenshot8.png" height="225">
+<img src="screenshots/Screenshot9.png" height="225">
