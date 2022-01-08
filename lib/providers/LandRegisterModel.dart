@@ -20,7 +20,7 @@ class LandRegisterModel extends ChangeNotifier {
   String _privateKey = privateKey;
 
   String contractAddress =
-      "0x04e8b9e02f8279628d40B3F8653D4780BCeb0205"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+      "0x46a15cABafb435B6107A51a2B15007886D663Bf4"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   late Web3Client _client;
   late String _abiCode;
@@ -328,8 +328,8 @@ class LandRegisterModel extends ChangeNotifier {
     return val[0];
   }
 
-  addLand(String area, String city, String state, String landPrice, String PID,
-      String surveyNo, String docu) async {
+  addLand(String area, String landAddress, String allLatiLongi,
+      String landPrice, String PID, String surveyNo, String docu) async {
     await _client.sendTransaction(
         _credentials,
         Transaction.callContract(
@@ -337,11 +337,11 @@ class LandRegisterModel extends ChangeNotifier {
             function: _addLand,
             parameters: [
               BigInt.parse(area),
-              city,
-              state,
+              landAddress,
               BigInt.parse(landPrice),
+              allLatiLongi,
               BigInt.parse(PID),
-              BigInt.parse(surveyNo),
+              surveyNo,
               docu
             ]),
         chainId: 80001,

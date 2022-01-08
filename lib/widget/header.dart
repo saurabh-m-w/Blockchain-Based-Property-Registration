@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
+import 'package:land_registration/screens/mapTest.dart';
+
 import 'package:land_registration/screens/transferOwnership.dart';
+import 'package:land_registration/screens/viewLandDetails.dart';
 import 'package:land_registration/screens/wallet_connect.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -150,7 +153,10 @@ class HeaderWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(14.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  // await Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => MapSample()));
+                },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {
                     appContainer?.style.cursor = 'pointer';

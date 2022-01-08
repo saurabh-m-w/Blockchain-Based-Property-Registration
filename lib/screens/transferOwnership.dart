@@ -11,7 +11,6 @@ import 'package:land_registration/widget/land_container.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:universal_html/html.dart' as html;
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 
@@ -306,7 +305,7 @@ class _transferOwnershipState extends State<transferOwnership> {
       showToast("Something Went Wrong",
           context: context,
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 3));
+          duration: const Duration(seconds: 3));
       return false;
     }
   }
@@ -366,8 +365,8 @@ class _transferOwnershipState extends State<transferOwnership> {
                       landWid3(
                         landInfo[9].toString(),
                         landInfo[1].toString(),
-                        landInfo[2] + landInfo[3],
-                        landInfo[4].toString(),
+                        landInfo[2],
+                        landInfo[3].toString(),
                         landInfo[5].toString(),
                         landInfo[6].toString(),
                         landInfo[7].toString(),
@@ -379,7 +378,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                     height: 10,
                   ),
                   if (isOwnershipTransfered)
-                    Text("Successfully Transferred",
+                    const Text("Successfully Transferred",
                         style: TextStyle(
                           color: Colors.green,
                           fontSize: 20,
@@ -393,7 +392,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                       onPressed: () {
                         launchUrl(docUrl);
                       },
-                      child: Text(
+                      child: const Text(
                         'View Document',
                         style: TextStyle(color: Colors.blue),
                       ),
@@ -479,7 +478,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                       ? (!isWitnesspicturetaken
                           ? CameraPreview(controller)
                           : Image.memory(witnessPictureBytes))
-                      : Center(child: const Text('Capture Witness Photo'))),
+                      : const Center(child: Text('Capture Witness Photo'))),
             ),
             Center(
               child: Padding(

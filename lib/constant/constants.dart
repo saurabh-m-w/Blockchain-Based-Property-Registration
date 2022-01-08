@@ -14,6 +14,30 @@ double ethToInr = 0;
 bool connectedWithMetamask =
     false; //1->entered private key ; 2->connected with metamask
 
+class LandInfo {
+  final String area;
+  final String landAddress;
+  final String landPrice;
+  //string allLongitude;
+  final String propertyPID;
+  final String physicalSurveyNumber;
+  final String document;
+  final bool isforSell;
+  final String ownerAddress;
+  final bool isLandVerified;
+
+  LandInfo(
+      this.area,
+      this.landAddress,
+      this.landPrice,
+      this.propertyPID,
+      this.physicalSurveyNumber,
+      this.document,
+      this.isforSell,
+      this.ownerAddress,
+      this.isLandVerified);
+}
+
 launchUrl(String url) async {
   if (await canLaunch(url)) {
     await launch(

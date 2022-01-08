@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
+import 'package:land_registration/screens/ChooseLandMap.dart';
 import 'package:land_registration/screens/home_page.dart';
+import 'package:land_registration/screens/viewLandDetails.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +35,13 @@ class _UserDashBoardState extends State<UserDashBoard> {
   String name = "";
 
   final _formKey = GlobalKey<FormState>();
-  late String area, city, state, landPrice, propertyID, surveyNo, document;
+  late String area,
+      landAddress,
+      landPrice,
+      propertyID,
+      surveyNo,
+      document,
+      allLatiLongi;
   List<List<dynamic>> landInfo = [];
   List<List<dynamic>> receivedRequestInfo = [];
   List<List<dynamic>> sentRequestInfo = [];
@@ -587,8 +595,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
             return landWid2(
                 LandGall[index][10],
                 LandGall[index][1].toString(),
-                LandGall[index][2].toString() + LandGall[index][3].toString(),
-                LandGall[index][4].toString(),
+                LandGall[index][2].toString(),
+                LandGall[index][3].toString(),
                 LandGall[index][9] == userInfo[0],
                 LandGall[index][8], () async {
               SmartDialog.showLoading();
@@ -605,6 +613,28 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     context: context, backgroundColor: Colors.red);
               }
               SmartDialog.dismiss();
+            }, () {
+              List<String> allLatiLongi =
+                  LandGall[index][4].toString().split('|');
+              print(allLatiLongi);
+              LandInfo landinfo = LandInfo(
+                  LandGall[index][1].toString(),
+                  LandGall[index][2].toString(),
+                  LandGall[index][3].toString(),
+                  LandGall[index][5].toString(),
+                  LandGall[index][6].toString(),
+                  LandGall[index][7].toString(),
+                  LandGall[index][8],
+                  LandGall[index][9].toString(),
+                  LandGall[index][10]);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => viewLandDetails(
+                            allLatitude: allLatiLongi[0],
+                            allLongitude: allLatiLongi[1],
+                            landinfo: landinfo,
+                          )));
             });
           },
         ),
@@ -630,8 +660,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
             return landWid(
                 landInfo[index][10],
                 landInfo[index][1].toString(),
-                landInfo[index][2].toString() + landInfo[index][3].toString(),
-                landInfo[index][4].toString(),
+                landInfo[index][2].toString(),
+                landInfo[index][3].toString(),
                 landInfo[index][8],
                 () => confirmDialog(context, () async {
                       SmartDialog.showLoading();
@@ -699,7 +729,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter city';
+                      return 'Please enter Land Address';
                     }
                     return null;
                   },
@@ -707,39 +737,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     fontSize: 15,
                   ),
                   onChanged: (val) {
-                    city = val;
+                    landAddress = val;
                   },
                   decoration: InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(),
-                    labelText: 'City',
-                    hintText: 'Enter city',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                  onChanged: (val) {
-                    state = val;
-                  },
-                  //obscureText: true,
-                  decoration: const InputDecoration(
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(12),
-                    border: OutlineInputBorder(),
-                    labelText: 'State',
-                    hintText: 'Enter State',
+                    labelText: 'Address',
+                    hintText: 'Enter Land Address',
                   ),
                 ),
               ),
@@ -829,6 +834,21 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
+                padding: EdgeInsets.all(10),
+                child: MaterialButton(
+                  color: Colors.grey,
+                  onPressed: () async {
+                    allLatiLongi = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => landOnMap()));
+                    if (allLatiLongi.isEmpty || allLatiLongi == "")
+                      showToast("Please select area on map",
+                          context: context, backgroundColor: Colors.red);
+                    //print(res);
+                  },
+                  child: const Text('Draw Land on Map'),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
@@ -846,7 +866,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   isLoading
                       ? null
                       : () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate() &&
+                              allLatiLongi.isNotEmpty &&
+                              allLatiLongi != "") {
                             setState(() {
                               isLoading = true;
                             });
@@ -857,11 +879,23 @@ class _UserDashBoardState extends State<UserDashBoard> {
                               SmartDialog.dismiss();
                               if (isFileupload) {
                                 if (connectedWithMetamask)
-                                  await model2.addLand(area, city, state,
-                                      landPrice, propertyID, surveyNo, docUrl);
+                                  await model2.addLand(
+                                      area,
+                                      landAddress,
+                                      allLatiLongi,
+                                      landPrice,
+                                      propertyID,
+                                      surveyNo,
+                                      docUrl);
                                 else
-                                  await model.addLand(area, city, state,
-                                      landPrice, propertyID, surveyNo, docUrl);
+                                  await model.addLand(
+                                      area,
+                                      landAddress,
+                                      allLatiLongi,
+                                      landPrice,
+                                      propertyID,
+                                      surveyNo,
+                                      docUrl);
                                 showToast("Land Successfully Added",
                                     context: context,
                                     backgroundColor: Colors.green);

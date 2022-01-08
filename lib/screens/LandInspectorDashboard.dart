@@ -233,12 +233,12 @@ class _LandInspectorState extends State<LandInspector> {
                   flex: 5),
               Expanded(
                   child: Center(
-                    child: Text(data[2].toString() + ' ' + data[3].toString()),
+                    child: Text(data[2].toString()),
                   ),
                   flex: 3),
-              Expanded(child: Center(child: Text(data[4].toString())), flex: 2),
-              Expanded(child: Center(child: Text(data[6].toString())), flex: 2),
+              Expanded(child: Center(child: Text(data[3].toString())), flex: 2),
               Expanded(child: Center(child: Text(data[5].toString())), flex: 2),
+              Expanded(child: Center(child: Text(data[6].toString())), flex: 2),
               Expanded(
                   child: Center(
                       child: TextButton(

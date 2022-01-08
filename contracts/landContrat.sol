@@ -11,11 +11,12 @@ contract Land {
     struct Landreg {
         uint id;
         uint area;
-        string city;
-        string state;
+        string landAddress;
         uint landPrice;
+        string allLatitudeLongitude;
+        //string allLongitude;
         uint propertyPID;
-        uint physicalSurveyNumber;
+        string physicalSurveyNumber;
         string document;
         bool isforSell;
         address payable ownerAddress;
@@ -61,7 +62,7 @@ contract Land {
     uint requestCount;
 
 
-    mapping(address => LandInspector)  InspectorMapping;
+    mapping(address => LandInspector) InspectorMapping;
     mapping(address => bool)  RegisteredInspectorMapping;
     mapping(address => User) public UserMapping;
     mapping(uint => address)  AllUsers;
@@ -144,10 +145,10 @@ contract Land {
 
 
     //-----------------------------------------------Land-----------------------------------------------
-    function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum, string memory _document) public {
+    function addLand(uint _area, string memory _address, uint landPrice,string memory _allLatiLongi, uint _propertyPID,string memory _surveyNum, string memory _document) public {
         require(isUserVerified(msg.sender));
         landsCount++;
-        lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum , _document,false,msg.sender,false);
+        lands[landsCount] = Landreg(landsCount, _area, _address, landPrice,_allLatiLongi,_propertyPID, _surveyNum , _document,false,msg.sender,false);
         MyLands[msg.sender].push(landsCount);
         allLandList[1].push(landsCount);
         // emit AddingLand(landsCount);
@@ -169,9 +170,7 @@ contract Land {
     function myAllLands(address id) public view returns( uint[] memory){
         return MyLands[id];
     }
-    function landInfo(uint id) public view returns(uint,string memory,string memory,uint,string memory,bool,address) {
-        return (lands[id].area,lands[id].city,lands[id].state,lands[id].landPrice,lands[id].document,lands[id].isforSell,lands[id].ownerAddress);
-    }
+
 
     function makeItforSell(uint id) public{
         require(lands[id].ownerAddress==msg.sender);

@@ -30,7 +30,7 @@ class MetaMaskProvider extends ChangeNotifier {
     "function isUserRegistered(address _addr) public view returns(bool)",
     "function makePaymentTestFun(address payable _reveiver) public payable",
     "function UserMapping(address) public view returns(address id,string name,uint age,string city,string aadharNumber,string panNumber,string document,string email,bool isUserVerified)",
-    "function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum, string memory _document) public",
+    "function addLand(uint _area, string memory _address, uint landPrice,string memory _allLatiLongi, uint _propertyPID,string memory _surveyNum, string memory _document) public",
     "function myAllLands(address id) public view returns( uint[] memory)",
     "function lands(uint) public view returns(uint id,uint area,string city,string state,uint landPrice,uint propertyPID,uint physicalSurveyNumber,string document,bool isforSell,address payable ownerAddress,bool isLandVerified)",
     "function ReturnAllLandList() public view returns(uint[] memory)",
@@ -126,11 +126,11 @@ class MetaMaskProvider extends ChangeNotifier {
     return t;
   }
 
-  addLand(String area, String city, String state, String landPrice, String PID,
-      String surveyNo, String docu) async {
+  addLand(String area, String landAddress, String allLatiLongi,
+      String landPrice, String PID, String surveyNo, String docu) async {
     await contract.send(
       'addLand',
-      [area, city, state, landPrice, PID, surveyNo, docu],
+      [area, landAddress, landPrice, allLatiLongi, PID, surveyNo, docu],
     );
   }
 

@@ -92,7 +92,7 @@ Widget landWid(isverified, area, address, price, isForSell, makeforSellFun) =>
       ),
     );
 Widget landWid2(isverified, area, address, price, isMyLand, isForSell,
-        sendRequestFun) =>
+        sendRequestFun, viewDetailsFun) =>
     Container(
       padding: const EdgeInsets.all(15),
       width: 400,
@@ -174,7 +174,7 @@ Widget landWid2(isverified, area, address, price, isMyLand, isForSell,
                     ),
               MaterialButton(
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: viewDetailsFun,
                 child: const Text('View Details'),
               )
             ],
