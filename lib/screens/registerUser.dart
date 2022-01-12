@@ -9,6 +9,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import '../providers/LandRegisterModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapbox_search/mapbox_search.dart';
 
 import '../providers/MetamaskProvider.dart';
 
@@ -28,6 +29,74 @@ class _RegisterUserState extends State<RegisterUser> {
   String docuName = "";
   late PlatformFile documentFile;
   String cid = "", docUrl = "";
+
+  List<MapBoxPlace> predictions = [];
+  late PlacesSearch placesSearch;
+  final FocusNode _focusNode = FocusNode();
+  late OverlayEntry _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+  TextEditingController addressController = TextEditingController();
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+        builder: (context) => Positioned(
+              width: 540,
+              child: CompositedTransformFollower(
+                link: this._layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0.0, 90 + 5.0),
+                child: Material(
+                  elevation: 4.0,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    children: List.generate(
+                        predictions.length,
+                        (index) => ListTile(
+                              title:
+                                  Text(predictions[index].placeName.toString()),
+                              onTap: () {
+                                addressController.text =
+                                    predictions[index].placeName.toString();
+
+                                setState(() {});
+                                _overlayEntry.remove();
+                                _overlayEntry.dispose();
+                              },
+                            )),
+                  ),
+                ),
+              ),
+            ));
+  }
+
+  Future<void> autocomplete(value) async {
+    List<MapBoxPlace>? res = await placesSearch.getPlaces(value);
+    if (res != null) predictions = res;
+    setState(() {});
+    // print(res);
+    // print(res![0].placeName);
+    // print(res![0].geometry!.coordinates);
+    // print(res![0]);
+  }
+
+  @override
+  void initState() {
+    placesSearch = PlacesSearch(
+      apiKey: mapBoxApiKey,
+      limit: 10,
+    );
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _overlayEntry = this._createOverlayEntry();
+        Overlay.of(context)!.insert(_overlayEntry);
+      } else {
+        _overlayEntry.remove();
+      }
+    });
+    super.initState();
+  }
 
   pickDocument() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -163,9 +232,23 @@ class _RegisterUserState extends State<RegisterUser> {
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (val) {
-                        city = val;
+
+                      controller: addressController,
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          autocomplete(value);
+                          _overlayEntry.remove();
+                          _overlayEntry = this._createOverlayEntry();
+                          Overlay.of(context)!.insert(_overlayEntry);
+                        } else {
+                          if (predictions.length > 0 && mounted) {
+                            setState(() {
+                              predictions = [];
+                            });
+                          }
+                        }
                       },
+                      focusNode: this._focusNode,
                       //obscureText: true,
                       decoration: const InputDecoration(
                         isDense: true, // Added this
@@ -305,7 +388,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                           await model2.registerUser(
                                               name,
                                               age,
-                                              city,
+                                              addressController.text,
                                               adharNumber,
                                               panNumber,
                                               docUrl,
@@ -314,7 +397,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                           await model.registerUser(
                                               name,
                                               age,
-                                              city,
+                                              addressController.text,
                                               adharNumber,
                                               panNumber,
                                               docUrl,

@@ -3,7 +3,6 @@ import 'dart:html';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/material.dart';
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 

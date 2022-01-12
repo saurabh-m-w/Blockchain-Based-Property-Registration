@@ -11,6 +11,7 @@ import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/screens/viewLandDetails.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 import 'package:provider/provider.dart';
 import '../providers/MetamaskProvider.dart';
 import '../constant/constants.dart';
@@ -62,6 +63,75 @@ class _UserDashBoardState extends State<UserDashBoard> {
     '3': 'Payment Done',
     '4': 'Completed'
   };
+
+  List<MapBoxPlace> predictions = [];
+  late PlacesSearch placesSearch;
+  final FocusNode _focusNode = FocusNode();
+  late OverlayEntry _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+  TextEditingController addressController = TextEditingController();
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+        builder: (context) => Positioned(
+              width: 540,
+              child: CompositedTransformFollower(
+                link: this._layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0.0, 90 + 5.0),
+                child: Material(
+                  elevation: 4.0,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    children: List.generate(
+                        predictions.length,
+                        (index) => ListTile(
+                              title:
+                                  Text(predictions[index].placeName.toString()),
+                              onTap: () {
+                                addressController.text =
+                                    predictions[index].placeName.toString();
+
+                                setState(() {});
+                                _overlayEntry.remove();
+                                _overlayEntry.dispose();
+                              },
+                            )),
+                  ),
+                ),
+              ),
+            ));
+  }
+
+  Future<void> autocomplete(value) async {
+    List<MapBoxPlace>? res = await placesSearch.getPlaces(value);
+    if (res != null) predictions = res;
+    setState(() {});
+    // print(res);
+    // print(res![0].placeName);
+    // print(res![0].geometry!.coordinates);
+    // print(res![0]);
+  }
+
+  @override
+  void initState() {
+    placesSearch = PlacesSearch(
+      apiKey: mapBoxApiKey,
+      limit: 10,
+    );
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _overlayEntry = this._createOverlayEntry();
+        Overlay.of(context)!.insert(_overlayEntry);
+      } else {
+        _overlayEntry.remove();
+      }
+    });
+    super.initState();
+  }
+
   getLandInfo() async {
     setState(() {
       isLoading = true;
@@ -736,9 +806,23 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   style: TextStyle(
                     fontSize: 15,
                   ),
-                  onChanged: (val) {
-                    landAddress = val;
+                  controller: addressController,
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      autocomplete(value);
+                      _overlayEntry.remove();
+                      _overlayEntry = this._createOverlayEntry();
+                      Overlay.of(context)!.insert(_overlayEntry);
+                    } else {
+                      if (predictions.length > 0 && mounted) {
+                        setState(() {
+                          predictions = [];
+                        });
+                      }
+                    }
                   },
+                  focusNode: this._focusNode,
+                  //obscureText: true,
                   decoration: InputDecoration(
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(12),
@@ -881,7 +965,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                 if (connectedWithMetamask)
                                   await model2.addLand(
                                       area,
-                                      landAddress,
+                                      addressController.text,
                                       allLatiLongi,
                                       landPrice,
                                       propertyID,
@@ -890,7 +974,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                 else
                                   await model.addLand(
                                       area,
-                                      landAddress,
+                                      addressController.text,
                                       allLatiLongi,
                                       landPrice,
                                       propertyID,

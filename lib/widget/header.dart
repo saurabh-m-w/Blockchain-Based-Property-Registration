@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/screens/ChooseLandMap.dart';
 import 'package:land_registration/screens/mapTest.dart';
+import 'package:land_registration/screens/registerUser.dart';
 
 import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/screens/viewLandDetails.dart';
@@ -156,7 +157,7 @@ class HeaderWidget extends StatelessWidget {
               child: GestureDetector(
                 onTap: () async {
                   await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => landOnMap()));
+                      MaterialPageRoute(builder: (context) => RegisterUser()));
                 },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {
