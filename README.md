@@ -55,7 +55,7 @@ flutter run -d web-server --web-port 5555
 9.Open the browser and the dapp will be running in http://localhost:5555/
 
 ## Project Flowchart
-![Screenshot](screenshots/flowchart.png)
+<img src="screenshots/flowchart.png" height="450">
 
 ## Screenshots
 <img src="screenshots/Screenshot1.png" height="225">  | <img src="screenshots/Screenshot2.png" height="225">

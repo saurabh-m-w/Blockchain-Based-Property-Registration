@@ -3,6 +3,9 @@ import 'dart:html';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/material.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:land_registration/constant/constants.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 
 class landOnMap extends StatefulWidget {
   const landOnMap({Key? key}) : super(key: key);
@@ -18,6 +21,87 @@ class _landOnMapState extends State<landOnMap> {
   bool _polygonAdded = false;
   bool isSatelliteView = true;
   String allLatitude = "", allLongitude = "";
+  TextEditingController addressController = TextEditingController();
+  LatLng initialPos = LatLng(17.4838891, 75.2999884);
+  List<MapBoxPlace> predictions = [];
+  late PlacesSearch placesSearch;
+  final FocusNode _focusNode = FocusNode();
+  late OverlayEntry _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+        builder: (context) => Positioned(
+              width: 600,
+              child: CompositedTransformFollower(
+                link: this._layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0.0, 40 + 5.0),
+                child: Material(
+                  elevation: 4.0,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    children: List.generate(
+                        predictions.length,
+                        (index) => ListTile(
+                              title:
+                                  Text(predictions[index].placeName.toString()),
+                              onTap: () {
+                                addressController.text =
+                                    predictions[index].placeName.toString();
+                                initialPos = LatLng(
+                                    predictions[index]
+                                        .geometry!
+                                        .coordinates![1],
+                                    predictions[index]
+                                        .geometry!
+                                        .coordinates![0]);
+
+                                mapController.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                  zoom: 15.0,
+                                  target: initialPos,
+                                )));
+                                setState(() {});
+                                _overlayEntry.remove();
+                                _overlayEntry.dispose();
+                              },
+                            )),
+                  ),
+                ),
+              ),
+            ));
+  }
+
+  Future<void> autocomplete(value) async {
+    List<MapBoxPlace>? res = await placesSearch.getPlaces(value);
+    if (res != null) predictions = res;
+    setState(() {});
+    // print(res);
+    // print(res![0].placeName);
+    // print(res![0].geometry!.coordinates);
+    // print(res![0]);
+  }
+
+  @override
+  void initState() {
+    placesSearch = PlacesSearch(
+      apiKey: mapBoxApiKey,
+      limit: 10,
+    );
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _overlayEntry = this._createOverlayEntry();
+        Overlay.of(context)!.insert(_overlayEntry);
+      } else {
+        _overlayEntry.remove();
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +109,50 @@ class _landOnMapState extends State<landOnMap> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF272D34),
         title: Text('Draw Land on Map'),
+        actions: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              width: 600,
+              decoration: BoxDecoration(color: Colors.white10),
+              child: CompositedTransformTarget(
+                link: this._layerLink,
+                child: TextField(
+                  controller: addressController,
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      autocomplete(value);
+                      _overlayEntry.remove();
+                      _overlayEntry = this._createOverlayEntry();
+                      Overlay.of(context)!.insert(_overlayEntry);
+                    } else {
+                      if (predictions.length > 0 && mounted) {
+                        setState(() {
+                          predictions = [];
+                        });
+                      }
+                    }
+                  },
+                  focusNode: this._focusNode,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                      prefix: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
+                      isDense: true, // Added this
+                      contentPadding: EdgeInsets.all(12),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      fillColor: Colors.white,
+                      focusColor: Colors.white,
+                      hintText: 'Search',
+                      hintStyle: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
       body: Center(
         child: Column(
@@ -36,13 +164,13 @@ class _landOnMapState extends State<landOnMap> {
               height: 600,
               width: 900,
               child: MapboxMap(
-                  accessToken:
-                      "pk.eyJ1Ijoic2F1cmFiaG13IiwiYSI6ImNreTRiYzNidjBhMTkydnB2dmpoeGt4ZmgifQ.2QZ4CsNiygDTAhkqASpbPg",
-                  styleString:
-                      "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k",
+                  accessToken: mapBoxApiKey,
+                  styleString: isSatelliteView
+                      ? "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k"
+                      : "mapbox://styles/saurabhmw/ckyb6byh90rvy15pcc8bej1r7",
                   initialCameraPosition: CameraPosition(
                     zoom: 15.0,
-                    target: LatLng(17.4838891, 75.2999884),
+                    target: initialPos,
                   ),
                   onMapCreated: (MapboxMapController controller) {
                     mapController = controller;

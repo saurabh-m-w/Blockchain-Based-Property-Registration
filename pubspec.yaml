@@ -45,16 +45,9 @@ dependencies:
   pdf: ^3.6.5
   camera: ^0.9.2+2
   camera_web: ^0.2.1+1
-  google_place: ^0.4.3
-#  google_maps_flutter_web: ^0.3.2
-#  google_maps_flutter: ^2.0.8
-#  google_maps: ^5.3.0
-  flutter_google_places: ^0.3.0
-  flutter_google_maps:
-    git:
-      url: https://github.com/marchdev-tk/flutter_google_maps
-      ref: f5bf3e3
   mapbox_gl: ^0.14.0
+  mapbox_search: ^3.0.1+2
+  anim_search_bar: ^2.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

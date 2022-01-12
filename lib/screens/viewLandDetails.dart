@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
@@ -47,8 +44,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                 height: 500,
                 width: 700,
                 child: MapboxMap(
-                    accessToken:
-                        "pk.eyJ1Ijoic2F1cmFiaG13IiwiYSI6ImNreTRiYzNidjBhMTkydnB2dmpoeGt4ZmgifQ.2QZ4CsNiygDTAhkqASpbPg",
+                    accessToken: mapBoxApiKey,
                     styleString:
                         "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k",
                     initialCameraPosition: CameraPosition(

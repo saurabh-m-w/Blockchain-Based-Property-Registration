@@ -13,6 +13,8 @@ String privateKey = "";
 double ethToInr = 0;
 bool connectedWithMetamask =
     false; //1->entered private key ; 2->connected with metamask
+String mapBoxApiKey =
+    'pk.eyJ1Ijoic2F1cmFiaG13IiwiYSI6ImNreTRiYzNidjBhMTkydnB2dmpoeGt4ZmgifQ.2QZ4CsNiygDTAhkqASpbPg';
 
 class LandInfo {
   final String area;
