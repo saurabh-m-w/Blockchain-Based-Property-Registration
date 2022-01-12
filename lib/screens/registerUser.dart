@@ -44,7 +44,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: CompositedTransformFollower(
                 link: this._layerLink,
                 showWhenUnlinked: false,
-                offset: Offset(0.0, 90 + 5.0),
+                offset: Offset(0.0, 40 + 5.0),
                 child: Material(
                   elevation: 4.0,
                   child: ListView(
@@ -222,40 +222,43 @@ class _RegisterUserState extends State<RegisterUser> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-
-                      controller: addressController,
-                      onChanged: (value) {
-                        if (value.isNotEmpty) {
-                          autocomplete(value);
-                          _overlayEntry.remove();
-                          _overlayEntry = this._createOverlayEntry();
-                          Overlay.of(context)!.insert(_overlayEntry);
-                        } else {
-                          if (predictions.length > 0 && mounted) {
-                            setState(() {
-                              predictions = [];
-                            });
+                    child: CompositedTransformTarget(
+                      link: this._layerLink,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
                           }
-                        }
-                      },
-                      focusNode: this._focusNode,
-                      //obscureText: true,
-                      decoration: const InputDecoration(
-                        isDense: true, // Added this
-                        contentPadding: EdgeInsets.all(12),
-                        border: OutlineInputBorder(),
-                        labelText: 'Address',
-                        hintText: 'Enter Address',
+                          return null;
+                        },
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+
+                        controller: addressController,
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            autocomplete(value);
+                            _overlayEntry.remove();
+                            _overlayEntry = this._createOverlayEntry();
+                            Overlay.of(context)!.insert(_overlayEntry);
+                          } else {
+                            if (predictions.length > 0 && mounted) {
+                              setState(() {
+                                predictions = [];
+                              });
+                            }
+                          }
+                        },
+                        focusNode: this._focusNode,
+                        //obscureText: true,
+                        decoration: const InputDecoration(
+                          isDense: true, // Added this
+                          contentPadding: EdgeInsets.all(12),
+                          border: OutlineInputBorder(),
+                          labelText: 'Address',
+                          hintText: 'Enter Address',
+                        ),
                       ),
                     ),
                   ),

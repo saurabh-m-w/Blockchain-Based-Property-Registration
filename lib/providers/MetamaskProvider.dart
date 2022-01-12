@@ -53,7 +53,11 @@ class MetaMaskProvider extends ChangeNotifier {
     "function verifyLand(uint _id) public",
     "function returnPaymentDoneList() public view returns(uint[] memory)",
     "function transferOwnership(uint _requestId,string memory documentUrl) public returns(bool)",
-    "function landPrice(uint id) public view returns(uint)"
+    "function landPrice(uint id) public view returns(uint)",
+    "function changeContractOwner(address _addr)public",
+    "function ReturnAllLandIncpectorList() public view returns(address[] memory)",
+    "function removeLandInspector(address _addr) public",
+    "function InspectorMapping(address) public view returns(uint id,address _addr,string name,uint age,string designation,string city)"
   ];
 
   Future<void> connect() async {
@@ -150,6 +154,33 @@ class MetaMaskProvider extends ChangeNotifier {
     final val = await contract.call<dynamic>('ReturnAllLandList', []);
     print(val);
     return val;
+  }
+
+  Future<List<dynamic>> landInspectorInfo(dynamic addr) async {
+    final val =
+        await contract.call<dynamic>('InspectorMapping', [addr.toString()]);
+    print(val);
+    return val;
+  }
+
+  Future<List<dynamic>> allLandInspectorList() async {
+    final val = await contract.call<dynamic>('ReturnAllLandIncpectorList', []);
+    print(val);
+    return val;
+  }
+
+  changeContractOwner(dynamic id) async {
+    await contract.send(
+      'changeContractOwner',
+      [id.toString()],
+    );
+  }
+
+  removeLandInspector(dynamic id) async {
+    await contract.send(
+      'removeLandInspector',
+      [id.toString()],
+    );
   }
 
   makeForSell(dynamic id) async {

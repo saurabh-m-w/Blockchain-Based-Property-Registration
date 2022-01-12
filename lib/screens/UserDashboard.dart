@@ -78,7 +78,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               child: CompositedTransformFollower(
                 link: this._layerLink,
                 showWhenUnlinked: false,
-                offset: Offset(0.0, 90 + 5.0),
+                offset: Offset(0.0, 40 + 5.0),
                 child: Material(
                   elevation: 4.0,
                   child: ListView(
@@ -733,7 +733,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 landInfo[index][2].toString(),
                 landInfo[index][3].toString(),
                 landInfo[index][8],
-                () => confirmDialog(context, () async {
+                () => confirmDialog('Are you sure to make it on sell?', context,
+                        () async {
                       SmartDialog.showLoading();
                       if (connectedWithMetamask)
                         await model2.makeForSell(landInfo[index][0]);
@@ -796,39 +797,42 @@ class _UserDashBoardState extends State<UserDashBoard> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Land Address';
-                    }
-                    return null;
-                  },
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                  controller: addressController,
-                  onChanged: (value) {
-                    if (value.isNotEmpty) {
-                      autocomplete(value);
-                      _overlayEntry.remove();
-                      _overlayEntry = this._createOverlayEntry();
-                      Overlay.of(context)!.insert(_overlayEntry);
-                    } else {
-                      if (predictions.length > 0 && mounted) {
-                        setState(() {
-                          predictions = [];
-                        });
+                child: CompositedTransformTarget(
+                  link: this._layerLink,
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Land Address';
                       }
-                    }
-                  },
-                  focusNode: this._focusNode,
-                  //obscureText: true,
-                  decoration: InputDecoration(
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(12),
-                    border: OutlineInputBorder(),
-                    labelText: 'Address',
-                    hintText: 'Enter Land Address',
+                      return null;
+                    },
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                    controller: addressController,
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        autocomplete(value);
+                        _overlayEntry.remove();
+                        _overlayEntry = this._createOverlayEntry();
+                        Overlay.of(context)!.insert(_overlayEntry);
+                      } else {
+                        if (predictions.length > 0 && mounted) {
+                          setState(() {
+                            predictions = [];
+                          });
+                        }
+                      }
+                    },
+                    focusNode: this._focusNode,
+                    //obscureText: true,
+                    decoration: InputDecoration(
+                      isDense: true, // Added this
+                      contentPadding: EdgeInsets.all(12),
+                      border: OutlineInputBorder(),
+                      labelText: 'Address',
+                      hintText: 'Enter Land Address',
+                    ),
                   ),
                 ),
               ),

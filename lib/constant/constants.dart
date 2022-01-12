@@ -266,6 +266,7 @@ class Menu {
 }
 
 void confirmDialog(
+  msg,
   context,
   func,
 ) =>
@@ -274,7 +275,7 @@ void confirmDialog(
         builder: (BuildContext ctx) {
           return CupertinoAlertDialog(
             title: const Text('Please Confirm'),
-            content: const Text('Are you sure to make it on sell?'),
+            content: Text(msg),
             actions: [
               // The "Yes" button
               CupertinoDialogAction(

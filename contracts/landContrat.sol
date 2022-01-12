@@ -1,4 +1,3 @@
-//pragma solidity >= 0.5.2;
 pragma solidity ^0.6.0;
 
 contract Land {
@@ -62,7 +61,8 @@ contract Land {
     uint requestCount;
 
 
-    mapping(address => LandInspector) InspectorMapping;
+    mapping(address => LandInspector) public InspectorMapping;
+    mapping(uint => address[]) allLandInspectorList;
     mapping(address => bool)  RegisteredInspectorMapping;
     mapping(address => User) public UserMapping;
     mapping(uint => address)  AllUsers;
@@ -84,6 +84,12 @@ contract Land {
             return false;
     }
 
+    function changeContractOwner(address _addr)public {
+        require(msg.sender==contractOwner,"you are not contractOwner");
+
+        contractOwner=_addr;
+    }
+
     //-----------------------------------------------LandInspector-----------------------------------------------
 
     function addLandInspector(address _addr,string memory _name, uint _age, string memory _designation,string memory _city) public returns(bool){
@@ -91,11 +97,33 @@ contract Land {
             return false;
         require(contractOwner==msg.sender);
         RegisteredInspectorMapping[_addr]=true;
+        allLandInspectorList[1].push(_addr);
         InspectorMapping[_addr] = LandInspector(inspectorsCount,_addr,_name, _age, _designation,_city);
         return true;
     }
 
+    function ReturnAllLandIncpectorList() public view returns(address[] memory)
+    {
+        return allLandInspectorList[1];
+    }
 
+    function removeLandInspector(address _addr) public{
+        require(msg.sender==contractOwner,"You are not contractOwner");
+        require(RegisteredInspectorMapping[_addr],"Land Inspector not found");
+        RegisteredInspectorMapping[_addr]=false;
+
+
+        uint len=allLandInspectorList[1].length;
+        for(uint i=0;i<len;i++)
+        {
+            if(allLandInspectorList[1][i]==_addr)
+            {
+                allLandInspectorList[1][i]=allLandInspectorList[1][len-1];
+                allLandInspectorList[1].pop();
+                break;
+            }
+        }
+    }
 
     function isLandInspector(address _id) public view returns (bool) {
         if(RegisteredInspectorMapping[_id]){

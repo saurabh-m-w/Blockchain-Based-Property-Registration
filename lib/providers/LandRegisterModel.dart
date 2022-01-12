@@ -20,7 +20,7 @@ class LandRegisterModel extends ChangeNotifier {
   String _privateKey = privateKey;
 
   String contractAddress =
-      "0x46a15cABafb435B6107A51a2B15007886D663Bf4"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+      "0xBe6E54f386a30627F31C50e70Ae7B47EDB47c395"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   late Web3Client _client;
   late String _abiCode;
@@ -55,6 +55,10 @@ class LandRegisterModel extends ChangeNotifier {
   late ContractFunction _makePayment;
   late ContractFunction _paymentDoneList;
   late ContractFunction _transferOwner;
+  late ContractFunction _allLandInspectorList,
+      _removeLandInspector,
+      _landInspectorInfo,
+      _changeContractOwner;
 
   LandRegisterModel() {
     //initiateSetup();
@@ -124,6 +128,59 @@ class LandRegisterModel extends ChangeNotifier {
     _makePayment = _contract.function("makePayment");
     _paymentDoneList = _contract.function("returnPaymentDoneList");
     _transferOwner = _contract.function("transferOwnership");
+
+    _allLandInspectorList = _contract.function("ReturnAllLandIncpectorList");
+    _removeLandInspector = _contract.function("removeLandInspector");
+    _landInspectorInfo = _contract.function("InspectorMapping");
+    _changeContractOwner = _contract.function("changeContractOwner");
+  }
+
+  Future<List<dynamic>> landInspectorInfo(dynamic _addr) async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _landInspectorInfo,
+        params: [_addr]);
+    //print(val);
+    return val;
+  }
+
+  removeLandInspector(dynamic id) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _removeLandInspector,
+            parameters: [
+              id,
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
+  }
+
+  Future<List<dynamic>> allLandInspectorList() async {
+    final val = await _client.call(
+        sender: _ownAddress,
+        contract: _contract,
+        function: _allLandInspectorList,
+        params: []);
+    //print(val);
+    return val[0];
+  }
+
+  changeContractOwner(dynamic addr) async {
+    notifyListeners();
+    await _client.sendTransaction(
+        _credentials,
+        Transaction.callContract(
+            contract: _contract,
+            function: _changeContractOwner,
+            parameters: [
+              EthereumAddress.fromHex(addr),
+            ]),
+        chainId: 80001,
+        fetchChainIdFromNetworkId: false);
   }
 
   makePaymentTestFun(dynamic price) async {
