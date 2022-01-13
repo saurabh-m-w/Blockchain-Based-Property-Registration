@@ -3,10 +3,12 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/screens/home_page.dart';
 import 'package:provider/provider.dart';
-
+import 'package:url_strategy/url_strategy.dart';
+import 'constant/routes.dart';
 import 'providers/MetamaskProvider.dart';
 
 void main() {
+  setPathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -42,7 +44,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         navigatorObservers: [FlutterSmartDialog.observer],
         builder: FlutterSmartDialog.init(),
-        home: home_page(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
+        // home: home_page(),
       ),
     );
   }

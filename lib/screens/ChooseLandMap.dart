@@ -168,8 +168,8 @@ class _landOnMapState extends State<landOnMap> {
                       ? "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k"
                       : "mapbox://styles/saurabhmw/ckyb6byh90rvy15pcc8bej1r7",
                   initialCameraPosition: CameraPosition(
-                    zoom: 15.0,
-                    target: initialPos,
+                    zoom: 3.0,
+                    target: LatLng(19.663280, 75.300293),
                   ),
                   onMapCreated: (MapboxMapController controller) {
                     mapController = controller;

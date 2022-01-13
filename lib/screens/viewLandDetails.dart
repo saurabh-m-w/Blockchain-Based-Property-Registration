@@ -48,8 +48,8 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                     styleString:
                         "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k",
                     initialCameraPosition: CameraPosition(
-                      zoom: 15.0,
-                      target: LatLng(17.48444169085768, 75.29472411820925),
+                      zoom: 3.0,
+                      target: LatLng(19.663280, 75.300293),
                     ),
                     compassEnabled: false,
                     onMapCreated: (MapboxMapController controller) async {
@@ -63,7 +63,13 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                           .map((a) => double.parse(a))
                           .toList();
                       mapController = controller;
+
                       await Future.delayed(Duration(seconds: 3));
+                      mapController.animateCamera(
+                          CameraUpdate.newCameraPosition(CameraPosition(
+                        zoom: 15.0,
+                        target: LatLng(lati[1], longi[0]),
+                      )));
                       for (int i = 0; i < lati.length; i++) {
                         mapController.addCircle(CircleOptions(
                             geometry: LatLng(lati[i], longi[i]),

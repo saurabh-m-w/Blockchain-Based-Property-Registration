@@ -62,28 +62,40 @@ class _home_pageState extends State<home_page> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomAnimatedContainer('Contract Owner', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "owner",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "owner",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "owner",
+                  );
                 }),
                 CustomAnimatedContainer('Land Inspector', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "LandInspector",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "LandInspector",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "LandInspector",
+                  );
                 }),
                 CustomAnimatedContainer('User', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "UserLogin",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "UserLogin",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "UserLogin",
+                  );
                 }),
               ],
             ),

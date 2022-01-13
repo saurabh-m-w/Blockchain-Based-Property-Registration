@@ -698,10 +698,13 @@ class _LandInspectorState extends State<LandInspector> {
                   onTap: () {
                     if (index == 4) {
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const home_page()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const home_page()));
+                      Navigator.of(context).pushNamed(
+                        '/',
+                      );
                     }
                     if (index == 0) getUserCount();
                     if (index == 1) getUserList();

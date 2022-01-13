@@ -482,8 +482,11 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   onTap: () {
                     if (index == 3) {
                       Navigator.pop(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => home_page()));
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => home_page()));
+                      Navigator.of(context).pushNamed(
+                        '/',
+                      );
                     }
                     if (index == 1) getLandInspectorInfo();
 

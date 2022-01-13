@@ -60,12 +60,16 @@ class HeaderWidget extends StatelessWidget {
               padding: const EdgeInsets.all(14.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "UserLogin",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "UserLogin",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "UserLogin",
+                  );
                 },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {
@@ -92,12 +96,16 @@ class HeaderWidget extends StatelessWidget {
               padding: const EdgeInsets.all(14.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "LandInspector",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "LandInspector",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "LandInspector",
+                  );
                 },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {
@@ -124,12 +132,16 @@ class HeaderWidget extends StatelessWidget {
               padding: const EdgeInsets.all(14.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckPrivateKey(
-                                val: "owner",
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckPrivateKey(
+                  //               val: "owner",
+                  //             )));
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments: "owner",
+                  );
                 },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {
@@ -156,8 +168,8 @@ class HeaderWidget extends StatelessWidget {
               padding: const EdgeInsets.all(14.0),
               child: GestureDetector(
                 onTap: () async {
-                  await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterUser()));
+                  // await Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => RegisterUser()));
                 },
                 child: MouseRegion(
                   onHover: (PointerHoverEvent evt) {

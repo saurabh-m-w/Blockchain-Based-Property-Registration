@@ -47,7 +47,8 @@ dependencies:
   camera_web: ^0.2.1+1
   mapbox_gl: ^0.14.0
   mapbox_search: ^3.0.1+2
-  anim_search_bar: ^2.0.2
+  url_strategy: ^0.2.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

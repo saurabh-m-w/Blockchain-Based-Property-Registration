@@ -1117,10 +1117,13 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   onTap: () {
                     if (index == 6) {
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const home_page()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const home_page()));
+                      Navigator.of(context).pushNamed(
+                        '/',
+                      );
                     }
                     if (index == 0) getProfileInfo();
                     if (index == 2) getLandInfo();

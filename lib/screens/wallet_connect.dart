@@ -148,11 +148,14 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                               } else {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AddLandInspector()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const AddLandInspector()));
+                                Navigator.of(context).pushNamed(
+                                  '/contractowner',
+                                );
                               }
                             } else if (widget.val == "RegisterUser") {
                               bool temp = await model.isUserregistered();
@@ -177,30 +180,39 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                               } else {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LandInspector()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const LandInspector()));
+                                Navigator.of(context).pushNamed(
+                                  '/landinspector',
+                                );
                               }
                             } else if (widget.val == "UserLogin") {
                               bool temp = await model.isUserregistered();
                               if (temp == false) {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RegisterUser()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const RegisterUser()));
+                                Navigator.of(context).pushNamed(
+                                  '/registeruser',
+                                );
                               } else {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserDashBoard()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const UserDashBoard()));
+                                Navigator.of(context).pushNamed(
+                                  '/user',
+                                );
                               }
                             }
                           } catch (e) {

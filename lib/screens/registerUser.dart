@@ -366,10 +366,13 @@ class _RegisterUserState extends State<RegisterUser> {
                   isAdded
                       ? CustomButton('Contine to Login', () {
                           Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserDashBoard()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => UserDashBoard()));
+                          Navigator.of(context).pushNamed(
+                            '/user',
+                          );
                         })
                       : CustomButton(
                           'Add',
