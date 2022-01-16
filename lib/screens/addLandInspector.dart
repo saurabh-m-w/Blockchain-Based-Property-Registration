@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
-//import 'package:land_registration/constant/loadingScreen.dart';
-import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -58,7 +56,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                   _scaffoldKey.currentState!.openDrawer();
                 },
               ),
-        title: Text(
+        title: const Text(
           'Add Land Inspector',
         ),
       ),
@@ -194,8 +192,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Colors.red),
                         onPressed: () async {
-                          confirmDialog(
-                              'Are you sure to make it on sell?', context,
+                          confirmDialog('Are you sure to remove?', context,
                               () async {
                             SmartDialog.showLoading();
                             if (connectedWithMetamask)
@@ -226,7 +223,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: <Widget>[
-              Text(
+              const Text(
                 "Change Contract Owner",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
@@ -469,7 +466,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
           Expanded(
             child: ListView.separated(
               separatorBuilder: (context, counter) {
-                return Divider(
+                return const Divider(
                   height: 2,
                 );
               },
@@ -498,7 +495,7 @@ class _AddLandInspectorState extends State<AddLandInspector> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],

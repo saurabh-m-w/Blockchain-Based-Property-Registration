@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:land_registration/screens/wallet_connect.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/widget/header.dart';
 import 'package:land_registration/widget/homePageDecription.dart';

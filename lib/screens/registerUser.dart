@@ -427,7 +427,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
                                   //model.makePaymentTestFun();
                                 }),
-                  isLoading ? CircularProgressIndicator() : Container()
+                  isLoading ? const CircularProgressIndicator() : Container()
                 ],
               ),
             ),

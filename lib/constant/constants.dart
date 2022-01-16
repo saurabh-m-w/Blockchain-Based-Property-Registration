@@ -185,7 +185,7 @@ Widget CustomAnimatedContainer(text, fun) => Padding(
             ],
           )),
         ),
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         secondChild: Container(
           height: 270,
           width: 250,

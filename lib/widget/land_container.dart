@@ -170,7 +170,9 @@ Widget landWid2(isverified, area, address, price, isMyLand, isForSell,
                   : MaterialButton(
                       color: Colors.redAccent,
                       onPressed: isForSell ? sendRequestFun : null,
-                      child: const Text('Send Request To Buy'),
+                      child: isForSell
+                          ? Text('Send Request To Buy')
+                          : Text('Not for sell yet'),
                     ),
               MaterialButton(
                 color: Colors.blueAccent,

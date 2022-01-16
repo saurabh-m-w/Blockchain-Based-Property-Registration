@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
-import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
@@ -153,56 +151,56 @@ class _LandInspectorState extends State<LandInspector> {
                 height: 15,
               ),
               Row(
-                children: [
-                  const Expanded(
+                children: const [
+                  Expanded(
                     child: Text(
                       '#',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     flex: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                       child: Center(
                         child: Text('Owner Address',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 5),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Area',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 3,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Price',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('PID',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('SurveyNo.',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Document',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     flex: 2,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text('Verify',
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -314,49 +312,49 @@ class _LandInspectorState extends State<LandInspector> {
                   height: 15,
                 ),
                 Row(
-                  children: [
-                    const Expanded(
+                  children: const [
+                    Expanded(
                       child: Text(
                         '#',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       flex: 1,
                     ),
-                    const Expanded(
+                    Expanded(
                         child: Center(
                           child: Text('Address',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         flex: 5),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Name',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 3,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Adhar',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 2,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Pan',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 2,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Document',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 2,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Verify',
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -470,42 +468,42 @@ class _LandInspectorState extends State<LandInspector> {
                   height: 15,
                 ),
                 Row(
-                  children: [
-                    const Expanded(
+                  children: const [
+                    Expanded(
                       child: Text(
                         '#',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       flex: 1,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         'Land Id',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       flex: 1,
                     ),
-                    const Expanded(
+                    Expanded(
                         child: Center(
                           child: Text('Seller Address',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         flex: 6),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Buyer Address',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 6,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Status',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       flex: 2,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text('Transfer Ownership',
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -584,7 +582,7 @@ class _LandInspectorState extends State<LandInspector> {
                                 // }
                                 // SmartDialog.dismiss();
                               },
-                              icon: Icon(Icons.arrow_forward_ios),
+                              icon: const Icon(Icons.arrow_forward_ios),
                               label: const Text('Transfer')),
                     ),
                     flex: 3),
@@ -613,7 +611,7 @@ class _LandInspectorState extends State<LandInspector> {
                   Row(
                     children: [
                       userCount == -1
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : Text(
                               userCount.toString(),
                               style: const TextStyle(fontSize: 24),
@@ -629,7 +627,7 @@ class _LandInspectorState extends State<LandInspector> {
                   Row(
                     children: [
                       landCount == -1
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : Text(
                               landCount.toString(),
                               style: const TextStyle(fontSize: 24),

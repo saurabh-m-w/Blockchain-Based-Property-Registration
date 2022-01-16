@@ -84,7 +84,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                     },
                     decoration: InputDecoration(
                       suffixIcon: MaterialButton(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         onPressed: () async {
                           final clipPaste =
                               await Clipboard.getData(Clipboard.kTextPlain);
@@ -92,16 +92,16 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                           privatekey = keyController.text;
                           setState(() {});
                         },
-                        child: Text(
+                        child: const Text(
                           "Paste",
                           style: TextStyle(color: Colors.blue),
                         ),
                       ),
                       suffix: IconButton(
                           iconSize: 20,
-                          constraints:
-                              BoxConstraints.tightFor(height: 15, width: 15),
-                          padding: EdgeInsets.all(0),
+                          constraints: const BoxConstraints.tightFor(
+                              height: 15, width: 15),
+                          padding: const EdgeInsets.all(0),
                           icon: Icon(
                             _isObscure
                                 ? Icons.visibility
@@ -132,6 +132,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                         if (_formKey.currentState!.validate()) {
                           privateKey = privatekey;
                           //print(privateKey);
+                          connectedWithMetamask = false;
                           setState(() {
                             isLoading = true;
                           });
@@ -242,27 +243,36 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                     } else {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddLandInspector()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const AddLandInspector()));
+                      Navigator.of(context).pushNamed(
+                        '/contractowner',
+                      );
                     }
                   } else if (widget.val == "UserLogin") {
                     bool temp = await model2.isUserRegistered();
                     if (temp == false) {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RegisterUser()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const RegisterUser()));
+                      Navigator.of(context).pushNamed(
+                        '/registeruser',
+                      );
                     } else {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserDashBoard()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const UserDashBoard()));
+                      Navigator.of(context).pushNamed(
+                        '/user',
+                      );
                     }
                   } else if (widget.val == "LandInspector") {
                     bool temp = await model2.isLandInspector();
@@ -273,10 +283,13 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                     } else {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LandInspector()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const LandInspector()));
+                      Navigator.of(context).pushNamed(
+                        '/landinspector',
+                      );
                     }
                   }
                   connectedWithMetamask = true;

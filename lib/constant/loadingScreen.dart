@@ -11,7 +11,9 @@ showLoaderDialog(BuildContext context) {
     content: Row(
       children: [
         const CircularProgressIndicator(),
-        Container(margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
+        Container(
+            margin: const EdgeInsets.only(left: 7),
+            child: const Text("Loading...")),
       ],
     ),
   );

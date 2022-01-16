@@ -297,7 +297,7 @@ class _transferOwnershipState extends State<transferOwnership> {
       showToast("Ownership Transfered",
           context: context,
           backgroundColor: Colors.green,
-          duration: Duration(seconds: 3));
+          duration: const Duration(seconds: 3));
       isOwnershipTransfered = true;
       return true;
     } catch (e) {
@@ -414,7 +414,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                                 SmartDialog.showLoading(msg: "Please Wait");
                                 await generateDocument(
                                     landInfo[2],
-                                    landInfo[4].toString(),
+                                    landInfo[3].toString(),
                                     sellerInfo[1],
                                     buyerInfo[1],
                                     sellerInfo[3],

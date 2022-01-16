@@ -7,7 +7,7 @@ class MetaMaskProvider extends ChangeNotifier {
   static const operatingChain = 1337; //80001; //
 
   String contractAddress =
-      "0xCF8f1A28b1f42a72A8b26EcF112ee5d895B42f8C"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+      "0x634C4c2cd1b6d1F05bE9b98Fc975846fdF0da17f"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   String currentAddress = '';
 
@@ -32,7 +32,7 @@ class MetaMaskProvider extends ChangeNotifier {
     "function UserMapping(address) public view returns(address id,string name,uint age,string city,string aadharNumber,string panNumber,string document,string email,bool isUserVerified)",
     "function addLand(uint _area, string memory _address, uint landPrice,string memory _allLatiLongi, uint _propertyPID,string memory _surveyNum, string memory _document) public",
     "function myAllLands(address id) public view returns( uint[] memory)",
-    "function lands(uint) public view returns(uint id,uint area,string city,string state,uint landPrice,uint propertyPID,uint physicalSurveyNumber,string document,bool isforSell,address payable ownerAddress,bool isLandVerified)",
+    "function lands(uint) public view returns(uint id,uint area,string landAddress,uint landPrice,string allLatitudeLongitude,uint propertyPID,string physicalSurveyNumber,string document,bool isforSell,address payable ownerAddress,bool isLandVerified)",
     "function ReturnAllLandList() public view returns(uint[] memory)",
     "function makeItforSell(uint id) public",
     "function requestforBuy(uint _landId) public",
@@ -276,7 +276,8 @@ class MetaMaskProvider extends ChangeNotifier {
   }
 
   Future<dynamic> documentId() async {
-    return await readFunction('documentId', []).toString();
+    var val = await readFunction('documentId', []);
+    return val.toString();
   }
 
   verifyUser(String address) async {

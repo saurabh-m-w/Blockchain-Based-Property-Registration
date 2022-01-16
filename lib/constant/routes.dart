@@ -20,7 +20,8 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-            builder: (_) => home_page(), settings: RouteSettings(name: '/'));
+            builder: (_) => const home_page(),
+            settings: const RouteSettings(name: '/'));
       case '/login':
         // Validation of correct data type
         if (args is String) {
@@ -28,29 +29,29 @@ class RouteGenerator {
             builder: (_) => CheckPrivateKey(
               val: args,
             ),
-            settings: RouteSettings(name: '/login'),
+            settings: const RouteSettings(name: '/login'),
           );
         }
         return _errorRoute();
       case '/user':
         return MaterialPageRoute(
-          builder: (_) => UserDashBoard(),
-          settings: RouteSettings(name: '/user'),
+          builder: (_) => const UserDashBoard(),
+          settings: const RouteSettings(name: '/user'),
         );
       case '/registeruser':
         return MaterialPageRoute(
-          builder: (_) => RegisterUser(),
-          settings: RouteSettings(name: '/registeruser'),
+          builder: (_) => const RegisterUser(),
+          settings: const RouteSettings(name: '/registeruser'),
         );
       case '/contractowner':
         return MaterialPageRoute(
-          builder: (_) => AddLandInspector(),
-          settings: RouteSettings(name: '/contractowner'),
+          builder: (_) => const AddLandInspector(),
+          settings: const RouteSettings(name: '/contractowner'),
         );
       case '/landinspector':
         return MaterialPageRoute(
-          builder: (_) => LandInspector(),
-          settings: RouteSettings(name: '/landinspector'),
+          builder: (_) => const LandInspector(),
+          settings: const RouteSettings(name: '/landinspector'),
         );
 
       default:
@@ -63,9 +64,9 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: const Text('Error'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('ERROR'),
         ),
       );

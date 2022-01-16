@@ -20,7 +20,7 @@ class LandRegisterModel extends ChangeNotifier {
   String _privateKey = privateKey;
 
   String contractAddress =
-      "0x15c32f687120Da5116dd9E43f701b91B4F6d4699"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+      "0x634C4c2cd1b6d1F05bE9b98Fc975846fdF0da17f"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   late Web3Client _client;
   late String _abiCode;

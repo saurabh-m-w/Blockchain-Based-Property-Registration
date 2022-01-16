@@ -19,7 +19,7 @@ class viewLandDetails extends StatefulWidget {
 
 class _viewLandDetailsState extends State<viewLandDetails> {
   late MapboxMapController mapController;
-  bool _polygonAdded = false;
+
   bool isSatelliteView = true;
   //String allLatitude = "17.48444169085768,17.48505567873093,17.48417562880215,17.48395049906658";
   // String allLongitude = "75.29472411820925,75.2966982240448,75.29665530869948,75.2950674409636";
@@ -29,7 +29,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272D34),
-        title: Text('Land Details'),
+        title: const Text('Land Details'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -49,7 +49,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                         "mapbox://styles/saurabhmw/cky4ce7f61b2414nuh9ng177k",
                     initialCameraPosition: CameraPosition(
                       zoom: 3.0,
-                      target: LatLng(19.663280, 75.300293),
+                      target: const LatLng(19.663280, 75.300293),
                     ),
                     compassEnabled: false,
                     onMapCreated: (MapboxMapController controller) async {
@@ -64,7 +64,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                           .toList();
                       mapController = controller;
 
-                      await Future.delayed(Duration(seconds: 3));
+                      await Future.delayed(const Duration(seconds: 3));
                       mapController.animateCamera(
                           CameraUpdate.newCameraPosition(CameraPosition(
                         zoom: 15.0,
@@ -102,12 +102,12 @@ class _viewLandDetailsState extends State<viewLandDetails> {
               ),
               const Center(
                   child: Text('Details',
-                      style: const TextStyle(
-                          fontSize: 35, color: Colors.blueAccent))),
+                      style:
+                          TextStyle(fontSize: 35, color: Colors.blueAccent))),
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(width: 700, child: Divider()),
+              const SizedBox(width: 700, child: Divider()),
               const SizedBox(
                 height: 10,
               ),
@@ -120,7 +120,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                   },
                   children: [
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Area : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -128,7 +128,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.area,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -137,7 +137,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Owner Address : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -145,7 +145,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.ownerAddress,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -154,7 +154,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Address : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -162,7 +162,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.landAddress,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -171,7 +171,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Price : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -179,7 +179,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.landPrice,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -188,7 +188,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Survey Number : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -196,7 +196,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.physicalSurveyNumber,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -205,7 +205,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Property Id : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -213,7 +213,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       Text(widget.landinfo.propertyPID,
                           style: const TextStyle(fontSize: 20))
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),
@@ -222,7 +222,7 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                       ),
                     ]),
                     TableRow(children: [
-                      Text(
+                      const Text(
                         "Document : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -231,12 +231,11 @@ class _viewLandDetailsState extends State<viewLandDetails> {
                         onPressed: () {
                           launchUrl(widget.landinfo.document);
                         },
-                        child: Text('View',
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.blue)),
+                        child: const Text('View',
+                            style: TextStyle(fontSize: 20, color: Colors.blue)),
                       )
                     ]),
-                    TableRow(children: [
+                    const TableRow(children: [
                       SizedBox(
                         height: 15,
                       ),

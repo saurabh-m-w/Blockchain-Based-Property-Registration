@@ -7,7 +7,6 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/screens/ChooseLandMap.dart';
-import 'package:land_registration/screens/home_page.dart';
 import 'package:land_registration/screens/viewLandDetails.dart';
 import 'package:land_registration/widget/land_container.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
@@ -78,7 +77,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               child: CompositedTransformFollower(
                 link: this._layerLink,
                 showWhenUnlinked: false,
-                offset: Offset(0.0, 40 + 5.0),
+                offset: const Offset(0.0, 40 + 5.0),
                 child: Material(
                   elevation: 4.0,
                   child: ListView(
@@ -637,7 +636,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                 //await Future.delayed(Duration(seconds: 2));
                                 SmartDialog.dismiss();
                               },
-                        child: Text('Accept')),
+                        child: const Text('Accept')),
                   ),
                   flex: 2),
             ],
@@ -648,7 +647,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget LandGallery() {
-    if (isLoading) return CircularProgressIndicator();
+    if (isLoading) return const CircularProgressIndicator();
     return Center(
       child: Container(
         width: isDesktop ? 900 : width,
@@ -806,7 +805,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                     controller: addressController,
@@ -826,7 +825,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     },
                     focusNode: this._focusNode,
                     //obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       isDense: true, // Added this
                       contentPadding: EdgeInsets.all(12),
                       border: OutlineInputBorder(),
@@ -922,12 +921,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: MaterialButton(
                   color: Colors.grey,
                   onPressed: () async {
-                    allLatiLongi = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => landOnMap()));
+                    allLatiLongi = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const landOnMap()));
                     if (allLatiLongi.isEmpty || allLatiLongi == "")
                       showToast("Please select area on map",
                           context: context, backgroundColor: Colors.red);
@@ -1012,7 +1013,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget userProfile() {
-    if (isLoading) return CircularProgressIndicator();
+    if (isLoading) return const CircularProgressIndicator();
     isUserVerified = userInfo[8];
     return Container(
       width: width,
@@ -1044,9 +1045,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     )
                   ],
                 )
-              : Text(
+              : const Text(
                   'Not Yet Verified',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.blueAccent),
                 ),
           CustomTextFiled(userInfo[0].toString(), 'Wallet Address'),
@@ -1059,7 +1060,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
             onPressed: () {
               launchUrl(userInfo[6].toString());
             },
-            child: Text(
+            child: const Text(
               '  View Document',
               style: TextStyle(color: Colors.blue),
             ),
