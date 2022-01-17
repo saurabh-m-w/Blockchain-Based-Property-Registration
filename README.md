@@ -24,13 +24,15 @@ our project will also save people time.\
 Demonstration video of our Dapp [here](https://youtu.be/dbhWR0Fn0fE)\
 
 ## Run Application on deployed website
-Check deployed website [here](https://saurabh-m-w.github.io/Blockchain-Based-Property-Registration/)\
+Check deployed website [here](https://landregistry.live/)\
+https://landregistry.live/ \
+
 This is demo purpose. You can login as Land Inspector using this key:
  6ad0d44f54e9a0233e731c3a8444efdec1aba9657a29b048a3d4e506feefb4cf\
 For user: 3ed4aff1a8ff8e28df3cd307112f9166886edcc85a27136908e3b1687b111f89\
 For user you can also use your own Ethereum wallet key,as this is on Polygon testnet so get Matic Faucet from [here](https://faucet.polygon.technology/)
 
-#### Check Smart contract At Polygon Testnet: [here](https://mumbai.polygonscan.com/address/0x5fa4972ab37701fa32907e79b46ddd436bd73b05)
+#### Check Smart contract At Ropsten Ethereum Testnet: [here](https://ropsten.etherscan.io/address/0x702058ba021cd4e4f847b40f32b58aa5be3a4661)
 
 ## Run Application Locally
 1.Clone the github repository and cd to the folder\
@@ -46,8 +48,8 @@ npm install -g truffle
 truffle compile
 truffle migrate
 ```
-6.Copy contract address paste in ./lib/providers/MetamaskProvider.dart - 'contractAddress' and Change operatingChain to '1337'\
-7.Copy contract address paste in  ./lib/providers/LandRegisterModel.dart - 'contractAddress' and change '_rpcUrl' to "http://127.0.0.1:7545" \
+6.Copy contract address paste in ./lib/constant/constant.dart - 'contractAddress'\
+7.In constant.dart file Change chainId to '1337' and change 'rpcUrl' to "http://127.0.0.1:7545" \
 8.Run flutter web app
 ```
 flutter run -d web-server --web-port 5555

@@ -2,12 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_web3/flutter_web3.dart';
+import 'package:land_registration/constant/constants.dart' as constant;
 
 class MetaMaskProvider extends ChangeNotifier {
-  static const operatingChain = 1337; //80001; //
+  static const operatingChain = constant.chainId;
 
-  String contractAddress =
-      "0x634C4c2cd1b6d1F05bE9b98Fc975846fdF0da17f"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+  String contractAddress = constant.contractAddress;
+  //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
 
   String currentAddress = '';
 
@@ -320,10 +321,11 @@ class MetaMaskProvider extends ChangeNotifier {
   makeTestPayment() async {
     final tx = await contract.send(
       'makePaymentTestFun',
-      ['0xf9949ED609523b1F550094E6c19Be80e6DBE38F1'],
+      ['0xa9Ae3838F49564314D9453810FA31665FD8d94D5'],
       TransactionOverride(
-        value: BigInt.from(100000000000),
+        value: BigInt.from(10000000000),
       ),
     );
+    print("Test payment done");
   }
 }

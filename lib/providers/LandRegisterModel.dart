@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:land_registration/constant/constants.dart';
+import 'package:land_registration/constant/constants.dart' as constant;
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/web3dart.dart';
 import 'dart:convert';
@@ -12,15 +12,18 @@ import 'package:http/http.dart';
 //import 'package:web_socket_channel/io.dart';
 
 class LandRegisterModel extends ChangeNotifier {
-  bool isLoading = true;
-  final String _rpcUrl = "http://127.0.0.1:7545";
+  final String _rpcUrl = constant.rpcUrl;
+  //"https://ropsten.infura.io/v3/e43345b7383246378963be7acd5b6c67";
+  //"http://127.0.0.1:7545";
   //"https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23"; //"http://127.0.0.1:7545"
   //final String _wsUrl = "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
 
-  String _privateKey = privateKey;
+  String _privateKey = constant.privateKey;
 
-  String contractAddress =
-      "0x634C4c2cd1b6d1F05bE9b98Fc975846fdF0da17f"; //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+  String contractAddress = constant.contractAddress;
+  //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
+
+  int _chainId = constant.chainId;
 
   late Web3Client _client;
   late String _abiCode;
@@ -65,7 +68,7 @@ class LandRegisterModel extends ChangeNotifier {
   }
 
   Future<void> initiateSetup() async {
-    _privateKey = privateKey;
+    _privateKey = constant.privateKey;
     // _client = Web3Client(_rpcUrl, Client(), socketConnector: () {
     //   return IOWebSocketChannel.connect(_wsUrl).cast<String>();
     // });
@@ -155,7 +158,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               id,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -179,12 +182,13 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               EthereumAddress.fromHex(addr),
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
-  makePaymentTestFun(dynamic price) async {
+  makeTestPayment() async {
     notifyListeners();
+    double price = 0.1;
     await _client.sendTransaction(
         _credentials,
         Transaction.callContract(
@@ -192,12 +196,13 @@ class LandRegisterModel extends ChangeNotifier {
             function: _makePaymentTest,
             parameters: [
               EthereumAddress.fromHex(
-                  '0x0d1E9c89A88A3BcAB4cECb31686b132e1727E379')
+                  '0xa9Ae3838F49564314D9453810FA31665FD8d94D5')
             ],
             value: EtherAmount.fromUnitAndValue(
                 EtherUnit.wei, (price * pow(10, 18)).toString())),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
+    print("Test payment done");
   }
 
   transferOwnership(dynamic reqId, String docUrl) async {
@@ -209,7 +214,7 @@ class LandRegisterModel extends ChangeNotifier {
           function: _transferOwner,
           parameters: [reqId, docUrl],
         ),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
     print("Ownership Transfered");
   }
@@ -234,7 +239,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [reqId],
             value: EtherAmount.fromUnitAndValue(
                 EtherUnit.wei, (price * pow(10, 18)).toString())),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -258,7 +263,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               reqId,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -272,7 +277,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               reqId,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -316,7 +321,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               landId,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -330,7 +335,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               id,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -354,7 +359,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               id,
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -401,7 +406,7 @@ class LandRegisterModel extends ChangeNotifier {
               surveyNo,
               docu
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -447,7 +452,7 @@ class LandRegisterModel extends ChangeNotifier {
             parameters: [
               EthereumAddress.fromHex(address),
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -473,7 +478,6 @@ class LandRegisterModel extends ChangeNotifier {
 
   addLandInspector(String address, String name, String age, String desig,
       String city) async {
-    isLoading = true;
     notifyListeners();
     await _client.sendTransaction(
         _credentials,
@@ -487,7 +491,7 @@ class LandRegisterModel extends ChangeNotifier {
               desig,
               city
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 
@@ -507,7 +511,6 @@ class LandRegisterModel extends ChangeNotifier {
 
   registerUser(String name, String age, String city, String adhar, String pan,
       String document, String email) async {
-    isLoading = true;
     notifyListeners();
 
     await _client.sendTransaction(
@@ -524,7 +527,7 @@ class LandRegisterModel extends ChangeNotifier {
               document,
               email
             ]),
-        chainId: 80001,
+        chainId: _chainId,
         fetchChainIdFromNetworkId: false);
   }
 }
