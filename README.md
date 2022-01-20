@@ -21,16 +21,16 @@ our project will also save people time.\
 6. Metamask
 
 ## Demo
-Demonstration video of our Dapp [here](https://youtu.be/dbhWR0Fn0fE)\
+Demonstration video of our Dapp [here](https://youtu.be/0Coz_ivOaHs)
 
 ## Run Application on deployed website
 Check deployed website [here](https://landregistry.live/)\
-https://landregistry.live/ \
+https://landregistry.live/ 
 
 This is demo purpose. You can login as Land Inspector using this key:
- 6ad0d44f54e9a0233e731c3a8444efdec1aba9657a29b048a3d4e506feefb4cf\
+ 6b86cddfedbec68ed2a1c7e14b993840a0848595ba5787aec9e8a38b18f0d96a\
 For user: 3ed4aff1a8ff8e28df3cd307112f9166886edcc85a27136908e3b1687b111f89\
-For user you can also use your own Ethereum wallet key,as this is on Polygon testnet so get Matic Faucet from [here](https://faucet.polygon.technology/)
+For user you can also use your own Ethereum wallet key
 
 #### Check Smart contract At Ropsten Ethereum Testnet: [here](https://ropsten.etherscan.io/address/0x702058ba021cd4e4f847b40f32b58aa5be3a4661)
 
@@ -60,12 +60,30 @@ flutter run -d web-server --web-port 5555
 <img src="screenshots/flowchart.png" height="450">
 
 ## Screenshots
-<img src="screenshots/Screenshot1.png" height="225">  | <img src="screenshots/Screenshot2.png" height="225">
+Home Page                   |                   Wallet connect/Login
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot1.png" height="225">  |<img src="screenshots/Screenshot7.png" height="225">
 
-<img src="screenshots/Screenshot3.png" height="225">  | <img src="screenshots/Screenshot4.png" height="225">
+Contract Owner Dashboard               |                   User Registration
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot10.png" height="225">  |<img src="screenshots/Screenshot12.png" height="225">
 
-<img src="screenshots/Screenshot5.png" height="225">  | <img src="screenshots/Screenshot6.png" height="225">
+Land Inspector Dashboard                   |                  User Verification 
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot11.png" height="225">     |<img src="screenshots/Screenshot5.png" height="225">
 
-<img src="screenshots/Screenshot7.png" height="225">  | <img src="screenshots/Screenshot8.png" height="225">
+User Dashboard               |                  Adding land on Map    
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot2.png" height="225">     |<img src="screenshots/Screenshot8.png" height="225">
 
-<img src="screenshots/Screenshot9.png" height="225">
+Land Gallery                |                   Land Details    
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot3.png" height="225">     |<img src="screenshots/Screenshot9.png" height="225">
+
+Received Request           |                   Make Payment  
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot14.png" height="225">     |<img src="screenshots/Screenshot4.png" height="225">
+
+Transfer ownership             |                   Witness info,photo,transfer ownership 
+:---------------------------------:        |      :------------------------------:
+<img src="screenshots/Screenshot14.png" height="225">     |<img src="screenshots/Screenshot13.png" height="225">
