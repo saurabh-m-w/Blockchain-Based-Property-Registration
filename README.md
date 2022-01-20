@@ -82,8 +82,8 @@ Land Gallery                |                   Land Details
 
 Received Request           |                   Make Payment  
 :---------------------------------:        |      :------------------------------:
-<img src="screenshots/Screenshot14.png" height="225">     |<img src="screenshots/Screenshot4.png" height="225">
+<img src="screenshots/Screenshot6.png" height="225">     |<img src="screenshots/Screenshot4.png" height="225">
 
-Transfer ownership             |                   Witness info,photo,transfer ownership 
+Transfer ownership,Seller,buyer photo capture   |                Witness info,photo capture,transfer ownership 
 :---------------------------------:        |      :------------------------------:
 <img src="screenshots/Screenshot14.png" height="225">     |<img src="screenshots/Screenshot13.png" height="225">
