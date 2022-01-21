@@ -259,7 +259,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     print(userInfo);
   }
 
-  String docuName = "Adhar/Pan (.jpg,.pdf)";
+  String docuName = "";
   late PlatformFile documentFile;
   String cid = "", docUrl = "";
   bool isFilePicked = false;
@@ -952,7 +952,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               ),
               CustomButton(
                   'Add',
-                  isLoading
+                  isLoading || !isUserVerified
                       ? null
                       : () async {
                           if (_formKey.currentState!.validate() &&
