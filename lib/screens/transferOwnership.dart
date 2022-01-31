@@ -19,12 +19,14 @@ class transferOwnership extends StatefulWidget {
   final String sellerAdd;
   final String landId;
   final String reqId;
+  final List<CameraDescription> cameraList;
   const transferOwnership({
     Key? key,
     required this.buyerAdd,
     required this.sellerAdd,
     required this.landId,
     required this.reqId,
+    required this.cameraList,
   }) : super(key: key);
 
   @override
@@ -272,9 +274,10 @@ class _transferOwnershipState extends State<transferOwnership> {
     else
       documentId = await model.documentId();
 
-    cameras = await availableCameras();
-    controller =
-        CameraController(cameras[0], ResolutionPreset.max, enableAudio: false);
+    //cameras = await availableCameras();
+
+    controller = CameraController(widget.cameraList[0], ResolutionPreset.max,
+        enableAudio: false);
 
     controller.initialize().then((_) {
       cameraInilizing = false;
@@ -616,7 +619,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                   isSellerpicturetaken = true;
                   await controller.dispose();
                   controller = await CameraController(
-                      cameras[0], ResolutionPreset.max,
+                      widget.cameraList[0], ResolutionPreset.max,
                       enableAudio: false);
                   await controller.initialize();
 
@@ -706,7 +709,7 @@ class _transferOwnershipState extends State<transferOwnership> {
                   isBuyerpicturetaken = true;
                   await controller.dispose();
                   controller = await CameraController(
-                      cameras[0], ResolutionPreset.max,
+                      widget.cameraList[0], ResolutionPreset.max,
                       enableAudio: false);
                   await controller.initialize();
 

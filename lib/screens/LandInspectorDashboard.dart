@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/screens/transferOwnership.dart';
@@ -553,16 +555,31 @@ class _LandInspectorState extends State<LandInspector> {
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.green),
                               onPressed: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => transferOwnership(
-                                              reqId: data[0].toString(),
-                                              sellerAdd: data[1].toString(),
-                                              landId: data[3].toString(),
-                                              buyerAdd: data[2].toString(),
-                                            )));
-                                await paymentDoneList();
+                                SmartDialog.showLoading();
+                                try {
+                                  List<CameraDescription> camerasList =
+                                      await availableCameras();
+                                  SmartDialog.dismiss();
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              transferOwnership(
+                                                reqId: data[0].toString(),
+                                                sellerAdd: data[1].toString(),
+                                                landId: data[3].toString(),
+                                                buyerAdd: data[2].toString(),
+                                                cameraList: camerasList,
+                                              )));
+                                  await paymentDoneList();
+                                } catch (e) {
+                                  SmartDialog.dismiss();
+                                  showToast(
+                                      "Something Went Wrong\n Camera Exception",
+                                      context: context,
+                                      backgroundColor: Colors.red);
+                                }
+
                                 // SmartDialog.showLoading();
                                 // try {
                                 //   if (connectedWithMetamask)
