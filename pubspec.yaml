@@ -43,8 +43,8 @@ dependencies:
   flutter_web3: ^2.1.6
   universal_html: ^2.0.8
   pdf: ^3.6.5
-  camera: ^0.9.4+9
-  camera_web: ^0.2.1+1
+  camera: ^0.9.4+11
+  camera_web: ^0.2.1+2
   mapbox_gl: ^0.14.0
   mapbox_search: ^3.0.1+2
   url_strategy: ^0.2.0

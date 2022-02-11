@@ -294,7 +294,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                   }
                   connectedWithMetamask = true;
                 } else if (model2.isConnected && !model2.isInOperatingChain) {
-                  showToast("Wrong Netword connected,\nConnect Polygon Testnet",
+                  showToast("Wrong Netword connected,\nConnect Ropsten Testnet",
                       context: context, backgroundColor: Colors.red);
                 }
               },
