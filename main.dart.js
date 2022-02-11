@@ -88728,7 +88728,7 @@ A.br(p,!1).dN(0,null)
 A.br(p,!1).iI("/landinspector",t.X)}case 15:case 11:case 7:$.cg=!0
 s=4
 break
-case 5:if(A.pr()!=null&&m.b.length!==0&&m.c!==3)A.dC("Wrong Netword connected,\nConnect Polygon Testnet",B.al,q.c,null)
+case 5:if(A.pr()!=null&&m.b.length!==0&&m.c!==3)A.dC("Wrong Netword connected,\nConnect Ropsten Testnet",B.al,q.c,null)
 case 4:return A.q(null,r)}})
 return A.r($async$$0,r)},
 $S:12}
