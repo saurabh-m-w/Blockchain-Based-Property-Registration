@@ -16,12 +16,17 @@ bool connectedWithMetamask =
 String mapBoxApiKey =
     'pk.eyJ1Ijoic2F1cmFiaG13IiwiYSI6ImNreTRiYzNidjBhMTkydnB2dmpoeGt4ZmgifQ.2QZ4CsNiygDTAhkqASpbPg';
 
-const String rpcUrl =
-    "https://ropsten.infura.io/v3/e43345b7383246378963be7acd5b6c67";
+String nftStorageApiKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmNGUwQTQwNTI4MkMyMDNkZDBEZmY2NUNlMkUwRTYyQUNCODFDRWUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzNzkwNzQxNjEwNSwibmFtZSI6ImxhbmRfZG9jdW1lbnQifQ.5ReEuIxsDhWxOLa2lVe9n-B2PUjdEkwJ5jLsBGdBDGA';
 
-const String contractAddress = "0x702058Ba021Cd4e4F847B40F32b58aA5be3a4661";
+const String rpcUrl = "http://127.0.0.1:7545";
+//"https://ropsten.infura.io/v3/e43345b7383246378963be7acd5b6c67";
 
-const int chainId = 3; //Ropsten-3, Polygon testnet-80001, local ganache-1337
+const String contractAddress =
+    "0xEA0EF43E5fC77F613FD1DA371d8dd0aCFDd9e035"; //"0x702058Ba021Cd4e4F847B40F32b58aA5be3a4661";
+
+const int chainId =
+    1337; //3; //Ropsten-3, Polygon testnet-80001, local ganache-1337
 
 class LandInfo {
   final String area;

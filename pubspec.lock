@@ -288,7 +288,7 @@ packages:
       name: flutter_web3
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.9"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -503,7 +503,7 @@ packages:
       name: pointycastle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.5"
+    version: "3.5.2"
   provider:
     dependency: "direct main"
     description:
@@ -690,14 +690,7 @@ packages:
       name: web3dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
-  web_socket_channel:
-    dependency: "direct main"
-    description:
-      name: web_socket_channel
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
+    version: "2.3.5"
   xml:
     dependency: transitive
     description:

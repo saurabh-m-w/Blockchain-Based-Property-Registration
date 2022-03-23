@@ -59,10 +59,7 @@ class _transferOwnershipState extends State<transferOwnership> {
 
   Future<void> uploadDocument(bytes) async {
     String url = "https://api.nft.storage/upload";
-    var header = {
-      "Authorization":
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmNGUwQTQwNTI4MkMyMDNkZDBEZmY2NUNlMkUwRTYyQUNCODFDRWUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzNzkwNzQxNjEwNSwibmFtZSI6ImxhbmRfZG9jdW1lbnQifQ.5ReEuIxsDhWxOLa2lVe9n-B2PUjdEkwJ5jLsBGdBDGA"
-    };
+    var header = {"Authorization": "Bearer $nftStorageApiKey"};
 
     try {
       final response =

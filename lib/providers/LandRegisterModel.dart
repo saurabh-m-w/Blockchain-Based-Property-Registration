@@ -25,9 +25,9 @@ class LandRegisterModel extends ChangeNotifier {
 
   int _chainId = constant.chainId;
 
-  late Web3Client _client;
+  late var _client;
   late String _abiCode;
-  late Credentials _credentials;
+  late var _credentials;
   late EthereumAddress _contractAddress;
   late EthereumAddress _ownAddress;
   late DeployedContract _contract;
@@ -93,10 +93,11 @@ class LandRegisterModel extends ChangeNotifier {
   Future<void> getCredentials() async {
     print(_privateKey);
 
-    _credentials = EthPrivateKey.fromHex(
-        _privateKey); //await _client.credentialsFromPrivateKey(_privateKey);
-    _ownAddress = await _credentials.extractAddress();
-    print(_ownAddress.toString());
+    //_credentials = EthPrivateKey.fromHex(_privateKey);
+    _credentials = await _client.credentialsFromPrivateKey(_privateKey);
+    _ownAddress = await _credentials.address;
+
+    print("Own address" + _ownAddress.toString());
   }
 
   Future<void> getDeployedContract() async {
