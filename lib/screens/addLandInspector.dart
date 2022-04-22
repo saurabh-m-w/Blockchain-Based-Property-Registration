@@ -6,6 +6,7 @@ import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
+import '../constant/utils.dart';
 import '../providers/MetamaskProvider.dart';
 
 class AddLandInspector extends StatefulWidget {

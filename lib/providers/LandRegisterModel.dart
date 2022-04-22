@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:land_registration/constant/constants.dart' as constant;
+import 'package:land_registration/constant/utils.dart' as utils;
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/web3dart.dart';
 import 'dart:convert';
@@ -18,7 +19,7 @@ class LandRegisterModel extends ChangeNotifier {
   //"https://rpc-mumbai.maticvigil.com/v1/a5be973518c173bacd9be16a6314dd08b6abcd23"; //"http://127.0.0.1:7545"
   //final String _wsUrl = "wss://rpc-mumbai.maticvigil.com/ws/v1/a5be973518c173bacd9be16a6314dd08b6abcd23";
 
-  String _privateKey = constant.privateKey;
+  String _privateKey = utils.privateKey;
 
   String contractAddress = constant.contractAddress;
   //"0x5Fa4972AB37701FA32907E79b46DDD436bd73B05";
@@ -68,7 +69,7 @@ class LandRegisterModel extends ChangeNotifier {
   }
 
   Future<void> initiateSetup() async {
-    _privateKey = constant.privateKey;
+    _privateKey = utils.privateKey;
     // _client = Web3Client(_rpcUrl, Client(), socketConnector: () {
     //   return IOWebSocketChannel.connect(_wsUrl).cast<String>();
     // });

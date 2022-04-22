@@ -3,6 +3,7 @@ import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/widget/header.dart';
 import 'package:land_registration/widget/homePageDecription.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../constant/utils.dart';
 
 class home_page extends StatefulWidget {
   const home_page({Key? key}) : super(key: key);

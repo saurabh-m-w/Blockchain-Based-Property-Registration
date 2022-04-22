@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import '../constant/utils.dart';
 
 class viewLandDetails extends StatefulWidget {
   final String allLatitude;

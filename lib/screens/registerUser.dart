@@ -10,7 +10,7 @@ import '../providers/LandRegisterModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapbox_search/mapbox_search.dart';
-
+import '../constant/utils.dart';
 import '../providers/MetamaskProvider.dart';
 
 class RegisterUser extends StatefulWidget {

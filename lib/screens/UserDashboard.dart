@@ -16,6 +16,7 @@ import '../providers/MetamaskProvider.dart';
 import '../constant/constants.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:http/http.dart' as http;
+import '../constant/utils.dart';
 
 class UserDashBoard extends StatefulWidget {
   const UserDashBoard({Key? key}) : super(key: key);

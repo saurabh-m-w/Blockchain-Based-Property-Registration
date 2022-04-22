@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
+import '../constant/utils.dart';
 
 Widget landWid(isverified, area, address, price, isForSell, makeforSellFun) =>
     Container(

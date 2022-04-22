@@ -7,7 +7,7 @@ import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
-
+import '../constant/utils.dart';
 import '../providers/MetamaskProvider.dart';
 
 class LandInspector extends StatefulWidget {
@@ -27,6 +27,7 @@ class _LandInspectorState extends State<LandInspector> {
   int screen = 0;
   bool isFirstTimeLoad = true;
   dynamic userCount = -1, landCount = -1;
+  bool isLoading = false;
 
   List<Menu> menuItems = [
     Menu(title: 'Dashboard', icon: Icons.dashboard),
@@ -280,6 +281,10 @@ class _LandInspectorState extends State<LandInspector> {
   }
 
   Future<void> getUserList() async {
+    setState(() {
+      isLoading = true;
+    });
+
     List<dynamic> userList;
     if (connectedWithMetamask)
       userList = await model2.allUsers();
@@ -299,11 +304,17 @@ class _LandInspectorState extends State<LandInspector> {
     setState(() {
       userData = allInfo;
       screen = 1;
+      isLoading = false;
     });
     //return allInfo;
   }
 
   Widget userList() {
+    if (isLoading)
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+
     return ListView.builder(
         itemCount: userData == null ? 1 : userData.length + 1,
         itemBuilder: (context, index) {

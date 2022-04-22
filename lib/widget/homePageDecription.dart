@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:land_registration/constant/constants.dart';
 import 'package:universal_html/html.dart' as html;
+import '../constant/utils.dart';
 
 class LeftDescription extends StatelessWidget {
   const LeftDescription({Key? key}) : super(key: key);
@@ -62,7 +63,7 @@ Blockchain''',
             const SizedBox(width: 40),
             GestureDetector(
               onTap: () {
-                launchUrl("https://www.youtube.com/watch?v=DgadxdjChTM");
+                launchUrl("https://youtu.be/0Coz_ivOaHs");
               },
               child: MouseRegion(
                 onHover: (PointerHoverEvent evt) {
