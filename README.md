@@ -36,7 +36,7 @@ For user you can also use your own Ethereum wallet key
 
 ## Run Application Locally
 1.Clone the github repository and cd to the folder\
-2.Install flutter,nodejs\
+2.Install flutter 2.10.5,nodejs\
 3.Install ganache and truffle
 ```
 npm install -g truffle
