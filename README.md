@@ -5,12 +5,9 @@
 <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white">
 ## Land Registration using Blockchain
 ## Problem it Solves:
-1.) Removal of middlemen.\
-Removal of middlemen or brokers makes the process less expensive. Brokers trying to cheat uneducated
-people will no longer be able to do so. Brokers often take a long time to complete the procedures and so
-our project will also save people time.\
-2.) Distributed tamper proof ledger which prevents any fraud in ownership.\
-3.) Secure storage of sensitive property registration documents using IPFS.
+1. The elimination of middlemen: The elimination of middlemen or brokers makes the process of land registration less expensive. Brokers who try to defraud uninformed people will be unable to do so any longer. Brokers frequently take a long time to finish procedures, thus our project will help people save time.
+3. A distributed tamper-proof ledger that prohibits ownership fraud.
+4. IPFS is used to store important property registration papers in a secure manner.
 
 ## Technology Stack:
 1. Ethereum Blockchain
@@ -21,34 +18,35 @@ our project will also save people time.\
 6. Metamask
 
 ## Demo
-Demonstration video of our Dapp [here](https://youtu.be/0Coz_ivOaHs)
+Our Dapp is demonstrated in this video [here](https://youtu.be/0Coz_ivOaHs)
 
 ## Run Application on deployed website
-Check deployed website [here](https://landregistry.live/)\
+Check out the deployed website [here](https://landregistry.live/)
+
 https://landregistry.live/
 
-This is demo purpose. You can login as Land Inspector using this key:
+This is for demonstration purposes only. With this key, you can log in as Land Inspector:
  <pre><b>6b86cddfedbec68ed2a1c7e14b993840a0848595ba5787aec9e8a38b18f0d96a</b></pre>
 For user: <pre><b>3ed4aff1a8ff8e28df3cd307112f9166886edcc85a27136908e3b1687b111f89</b></pre>\
-For user you can also use your own Ethereum wallet key
+You can also use your own Ethereum wallet key as a user.
 
 #### Check Smart contract At Ropsten Ethereum Testnet: [here](https://ropsten.etherscan.io/address/0x702058ba021cd4e4f847b40f32b58aa5be3a4661)
 
-## Run Application Locally
-1.Clone the github repository and cd to the folder\
-2.Install flutter,nodejs\
-3.Install ganache and truffle
+## To Run Application Locally
+1. Clone the github repository and cd to the folder
+2. Install the flutter 2.10.5, nodejs
+3. Install ganache and truffle as shown below:
 ```
 npm install -g truffle
 ```
-4.Open Ganache and keep it running in the Background\
-5.Install Metamask chrome extension,choose local network and import accounts\
-6.Compile and run our migrations from the command line like this
+4. Open Ganache and keep it running in the Background
+5. Install the Metamask chrome extension, choose the local network and import the accounts
+6. Compile and run our migrations from the command line as shown below:
 ```
 truffle compile
 truffle migrate
 ```
-6.Copy contract address paste in ./lib/constant/constant.dart - 'contractAddress'\
+6 .Copy contract address as seen in the image below and paste in variable `contractAddress` located in the file `./lib/constant/constant.dart`
 <pre>
 2_deploy_migration.js
 =====================
@@ -67,16 +65,16 @@ truffle migrate
    > value sent:          0 ETH
    > total cost:          0.07992454 ETH
 </pre>
-7.In constant.dart file Change chainId to '1337' and change 'rpcUrl' to "http://127.0.0.1:7545" \
-8.Run flutter web app
+7. In `constant.dart` file, change the value of the variable `chainId` to `'1337'` and change the value of the variable `rpcUrl` to `"http://127.0.0.1:7545"`
+8. Run the flutter web app
 ```
 flutter pub get
 
 flutter run -d web-server --web-port 5555
 ```
-9.Open the browser and the dapp will be running in http://localhost:5555/
-10.Create mapbox api key from https://www.mapbox.com/ and Replace it with 'mapBoxApiKey' constant.dart file\
-11.Create nftstorage api key from https://nft.storage/ and replace it.\
+9. Open the browser and the dapp will be running in http://localhost:5555/
+10. Create mapbox api key from https://www.mapbox.com/ and Replace it with `mapBoxApiKey`in `constant.dart` file
+11. Create nftstorage api key from https://nft.storage/ and replace it.
 ## Project Flowchart
 <img src="screenshots/flowchart.png" height="450">
 
