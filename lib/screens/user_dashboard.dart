@@ -187,7 +187,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
         isLoading = false;
       });
     }
-    screen = 3;
+   // screen = 3;
     isLoading = false;
     setState(() {});
   }
@@ -224,7 +224,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       setState(() {});
     }
 
-    screen = 5;
+   // screen = 5;
     isLoading = false;
 
     // SmartDialog.dismiss();
@@ -255,7 +255,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       setState(() {});
     }
     isLoading = false;
-    screen = 4;
+  //  screen = 4;
     setState(() {});
   }
 
@@ -384,11 +384,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
     );
   }
 
-  Widget sentRequest() {
-    if (isLoading) {
-      return const Expanded(child: Center(child: CircularProgressIndicator()));
-    }
-
+Widget sentRequest() {
+   
     return ListView.builder(
       itemCount: sentRequestInfo == null ? 1 : sentRequestInfo.length + 1,
       itemBuilder: (BuildContext context, int index) {
@@ -515,10 +512,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget receivedRequest() {
-    if (isLoading) {
-      return const Expanded(child: Center(child: CircularProgressIndicator()));
-    }
-
+    
     return ListView.builder(
       itemCount:
           receivedRequestInfo == null ? 1 : receivedRequestInfo.length + 1,
@@ -670,6 +664,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       },
     );
   }
+
 
   Widget landGallery() {
     if (isLoading) {
