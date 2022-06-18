@@ -76,7 +76,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
         builder: (context) => Positioned(
               width: 540,
               child: CompositedTransformFollower(
-                link: this._layerLink,
+                link: _layerLink,
                 showWhenUnlinked: false,
                 offset: const Offset(0.0, 40 + 5.0),
                 child: Material(
@@ -123,7 +123,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
 
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
-        _overlayEntry = this._createOverlayEntry();
+        _overlayEntry = _createOverlayEntry();
         Overlay.of(context)!.insert(_overlayEntry);
       } else {
         _overlayEntry.remove();
@@ -134,70 +134,79 @@ class _UserDashBoardState extends State<UserDashBoard> {
 
   getLandInfo() async {
     setState(() {
+      landInfo = [];
       isLoading = true;
     });
     List<dynamic> landList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       landList = await model2.myAllLands();
-    else
+    } else {
       landList = await model.myAllLands();
+    }
 
     List<List<dynamic>> info = [];
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         temp = await model2.landInfo(landList[i]);
-      else
+      } else {
         temp = await model.landInfo(landList[i]);
-      info.add(temp);
+      }
+      landInfo.add(temp);
+      setState(() {
+        isLoading = false;
+      });
     }
-    landInfo = info;
     setState(() {
       isLoading = false;
     });
-    print(info);
   }
 
   getLandGallery() async {
     setState(() {
       isLoading = true;
+      LandGall = [];
     });
     List<dynamic> landList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       landList = await model2.allLandList();
-    else
+    } else {
       landList = await model.allLandList();
+    }
 
-    List<List<dynamic>> allInfo = [];
+    // List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         temp = await model2.landInfo(landList[i]);
-      else
+      } else {
         temp = await model.landInfo(landList[i]);
-      allInfo.add(temp);
+      }
+      LandGall.add(temp);
+      setState(() {
+        isLoading = false;
+      });
     }
-    LandGall = allInfo;
     screen = 3;
     isLoading = false;
-    print(LandGall);
     setState(() {});
   }
 
   getMySentRequest() async {
-    SmartDialog.showLoading();
+    //SmartDialog.showLoading();
+    sentRequestInfo = [];
     setState(() {
       isLoading = true;
     });
     await getEthToInr();
     List<dynamic> requestList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       requestList = await model2.mySentRequest();
-    else
+    } else {
       requestList = await model.mySentRequest();
-    List<List<dynamic>> allInfo = [];
+    }
+
     List<dynamic> temp;
-    List<dynamic> tempPrice = [];
     var pri;
     for (int i = 0; i < requestList.length; i++) {
       if (connectedWithMetamask) {
@@ -207,41 +216,46 @@ class _UserDashBoardState extends State<UserDashBoard> {
         temp = await model.requestInfo(requestList[i]);
         pri = await model.landPrice(temp[3]);
       }
-      tempPrice.add(pri);
-      allInfo.add(temp);
+      prices.add(pri);
+      sentRequestInfo.add(temp);
+      isLoading = false;
+
+      // SmartDialog.dismiss();
+      setState(() {});
     }
-    sentRequestInfo = allInfo;
-    prices = tempPrice;
+
     screen = 5;
     isLoading = false;
-    print(sentRequestInfo);
-    SmartDialog.dismiss();
+
+    // SmartDialog.dismiss();
     setState(() {});
   }
 
   getMyReceivedRequest() async {
+    receivedRequestInfo = [];
     setState(() {
       isLoading = true;
     });
     List<dynamic> requestList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       requestList = await model2.myReceivedRequest();
-    else {
+    } else {
       requestList = await model.myReceivedRequest();
     }
-    List<List<dynamic>> allInfo = [];
+
     List<dynamic> temp;
     for (int i = 0; i < requestList.length; i++) {
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         temp = await model2.requestInfo(requestList[i]);
-      else
+      } else {
         temp = await model.requestInfo(requestList[i]);
-      allInfo.add(temp);
+      }
+      receivedRequestInfo.add(temp);
+      isLoading = false;
+      setState(() {});
     }
-    receivedRequestInfo = allInfo;
-    screen = 4;
     isLoading = false;
-    print(receivedRequestInfo);
+    screen = 4;
     setState(() {});
   }
 
@@ -249,15 +263,15 @@ class _UserDashBoardState extends State<UserDashBoard> {
     // setState(() {
     //   isLoading = true;
     // });
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       userInfo = await model2.myProfileInfo();
-    else
+    } else {
       userInfo = await model.myProfileInfo();
+    }
     name = userInfo[1];
     setState(() {
       isLoading = false;
     });
-    print(userInfo);
   }
 
   String docuName = "";
@@ -292,7 +306,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
         if (data['ok']) {
           cid = data["value"]["cid"];
           docUrl = "https://" + cid + ".ipfs.dweb.link";
-          print(docUrl);
+
           return true;
         }
       } catch (e) {
@@ -343,19 +357,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
       body: Row(
         children: [
           isDesktop ? drawer2() : Container(),
-          // Expanded(
-          //   child: Column(
-          //     children: [Text('Welcome')],
-          //   ),
-          // ),
           if (screen == 0)
-            Center(widthFactor: isDesktop ? 2 : 1, child: userProfile())
+            userProfile()
           else if (screen == 1)
             addLand()
           else if (screen == 2)
             myLands()
           else if (screen == 3)
-            LandGallery()
+            landGallery()
           else if (screen == 4)
             Expanded(
               child: Container(
@@ -376,6 +385,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget sentRequest() {
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
+
     return ListView.builder(
       itemCount: sentRequestInfo == null ? 1 : sentRequestInfo.length + 1,
       itemBuilder: (BuildContext context, int index) {
@@ -438,8 +451,12 @@ class _UserDashBoardState extends State<UserDashBoard> {
         }
         index -= 1;
         List<dynamic> data = sentRequestInfo[index];
-        return ListTile(
-          title: Row(
+        return Container(
+          height: 60,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+          ),
+          child: Row(
             children: [
               Expanded(
                 child: Text((index + 1).toString()),
@@ -498,6 +515,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget receivedRequest() {
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
+
     return ListView.builder(
       itemCount:
           receivedRequestInfo == null ? 1 : receivedRequestInfo.length + 1,
@@ -568,8 +589,12 @@ class _UserDashBoardState extends State<UserDashBoard> {
         }
         index -= 1;
         List<dynamic> data = receivedRequestInfo[index];
-        return ListTile(
-          title: Row(
+        return Container(
+          height: 60,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+          ),
+          child: Row(
             children: [
               Expanded(
                 child: Text((index + 1).toString()),
@@ -597,10 +622,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             : () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  if (connectedWithMetamask)
+                                  if (connectedWithMetamask) {
                                     await model2.rejectRequest(data[0]);
-                                  else
+                                  } else {
                                     await model.rejectRequest(data[0]);
+                                  }
                                   await getMyReceivedRequest();
                                 } catch (e) {
                                   print(e);
@@ -622,10 +648,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             : () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  if (connectedWithMetamask)
+                                  if (connectedWithMetamask) {
                                     await model2.acceptRequest(data[0]);
-                                  else
+                                  } else {
                                     await model.acceptRequest(data[0]);
+                                  }
                                   await getMyReceivedRequest();
                                 } catch (e) {
                                   print(e);
@@ -644,104 +671,137 @@ class _UserDashBoardState extends State<UserDashBoard> {
     );
   }
 
-  Widget LandGallery() {
-    if (isLoading) return const CircularProgressIndicator();
-    return Center(
-      child: Container(
-        width: isDesktop ? 900 : width,
-        child: GridView.builder(
-          padding: const EdgeInsets.all(10),
-          scrollDirection: Axis.vertical,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 440,
-              crossAxisCount: isDesktop ? 2 : 1,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
-          itemCount: LandGall.length,
-          itemBuilder: (context, index) {
-            return landWid2(
-                LandGall[index][10],
-                LandGall[index][1].toString(),
-                LandGall[index][2].toString(),
-                LandGall[index][3].toString(),
-                LandGall[index][9] == userInfo[0],
-                LandGall[index][8], () async {
-              SmartDialog.showLoading();
-              try {
-                if (connectedWithMetamask)
-                  await model2.sendRequestToBuy(LandGall[index][0]);
-                else
-                  await model.sendRequestToBuy(LandGall[index][0]);
-                showToast("Request sent",
-                    context: context, backgroundColor: Colors.green);
-              } catch (e) {
-                print(e);
-                showToast("Something Went Wrong",
-                    context: context, backgroundColor: Colors.red);
-              }
-              SmartDialog.dismiss();
-            }, () {
-              List<String> allLatiLongi =
-                  LandGall[index][4].toString().split('|');
-              print(allLatiLongi);
-              LandInfo landinfo = LandInfo(
+  Widget landGallery() {
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
+
+    if (LandGall.isEmpty) {
+      return const Expanded(
+          child: Center(
+              child: Text(
+        'No Lands Added yet',
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+      )));
+    }
+    return Expanded(
+      child: Center(
+        child: SizedBox(
+          width: isDesktop ? 900 : width,
+          child: GridView.builder(
+            padding: const EdgeInsets.all(10),
+            scrollDirection: Axis.vertical,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 440,
+                crossAxisCount: isDesktop ? 2 : 1,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
+            itemCount: LandGall.length,
+            itemBuilder: (context, index) {
+              return landWid2(
+                  LandGall[index][10],
                   LandGall[index][1].toString(),
                   LandGall[index][2].toString(),
                   LandGall[index][3].toString(),
-                  LandGall[index][5].toString(),
-                  LandGall[index][6].toString(),
-                  LandGall[index][7].toString(),
-                  LandGall[index][8],
-                  LandGall[index][9].toString(),
-                  LandGall[index][10]);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => viewLandDetails(
-                            allLatitude: allLatiLongi[0],
-                            allLongitude: allLatiLongi[1],
-                            landinfo: landinfo,
-                          )));
-            });
-          },
+                  LandGall[index][9] == userInfo[0],
+                  LandGall[index][8], () async {
+                if (isUserVerified) {
+                  SmartDialog.showLoading();
+                  try {
+                    if (connectedWithMetamask) {
+                      await model2.sendRequestToBuy(LandGall[index][0]);
+                    } else {
+                      await model.sendRequestToBuy(LandGall[index][0]);
+                    }
+                    showToast("Request sent",
+                        context: context, backgroundColor: Colors.green);
+                  } catch (e) {
+                    print(e);
+                    showToast("Something Went Wrong",
+                        context: context, backgroundColor: Colors.red);
+                  }
+                  SmartDialog.dismiss();
+                } else {
+                  showToast("You are not verified",
+                      context: context, backgroundColor: Colors.red);
+                }
+              }, () {
+                List<String> allLatiLongi =
+                    LandGall[index][4].toString().split('|');
+
+                LandInfo landinfo = LandInfo(
+                    LandGall[index][1].toString(),
+                    LandGall[index][2].toString(),
+                    LandGall[index][3].toString(),
+                    LandGall[index][5].toString(),
+                    LandGall[index][6].toString(),
+                    LandGall[index][7].toString(),
+                    LandGall[index][8],
+                    LandGall[index][9].toString(),
+                    LandGall[index][10]);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => viewLandDetails(
+                              allLatitude: allLatiLongi[0],
+                              allLongitude: allLatiLongi[1],
+                              landinfo: landinfo,
+                            )));
+              });
+            },
+          ),
         ),
       ),
     );
   }
 
   Widget myLands() {
-    if (isLoading) return CircularProgressIndicator();
-    return Center(
-      child: Container(
-        width: isDesktop ? 900 : width,
-        child: GridView.builder(
-          padding: EdgeInsets.all(10),
-          scrollDirection: Axis.vertical,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 440,
-              crossAxisCount: isDesktop ? 2 : 1,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
-          itemCount: landInfo.length,
-          itemBuilder: (context, index) {
-            return landWid(
-                landInfo[index][10],
-                landInfo[index][1].toString(),
-                landInfo[index][2].toString(),
-                landInfo[index][3].toString(),
-                landInfo[index][8],
-                () => confirmDialog('Are you sure to make it on sell?', context,
-                        () async {
-                      SmartDialog.showLoading();
-                      if (connectedWithMetamask)
-                        await model2.makeForSell(landInfo[index][0]);
-                      else
-                        await model.makeForSell(landInfo[index][0]);
-                      Navigator.pop(context);
-                      await getLandInfo();
-                      SmartDialog.dismiss();
-                    }));
-          },
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
+    if (LandGall.isEmpty) {
+      return const Expanded(
+          child: Center(
+              child: Text(
+        'No Lands Added yet',
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+      )));
+    }
+    return Expanded(
+      child: Center(
+        child: SizedBox(
+          width: isDesktop ? 900 : width,
+          child: GridView.builder(
+            padding: const EdgeInsets.all(10),
+            scrollDirection: Axis.vertical,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 440,
+                crossAxisCount: isDesktop ? 2 : 1,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
+            itemCount: landInfo.length,
+            itemBuilder: (context, index) {
+              return landWid(
+                  landInfo[index][10],
+                  landInfo[index][1].toString(),
+                  landInfo[index][2].toString(),
+                  landInfo[index][3].toString(),
+                  landInfo[index][8],
+                  () =>
+                      confirmDialog('Are you sure to make it on sell?', context,
+                          () async {
+                        SmartDialog.showLoading();
+                        if (connectedWithMetamask) {
+                          await model2.makeForSell(landInfo[index][0]);
+                        } else {
+                          await model.makeForSell(landInfo[index][0]);
+                        }
+                        Navigator.pop(context);
+                        await getLandInfo();
+                        SmartDialog.dismiss();
+                      }));
+            },
+          ),
         ),
       ),
     );
@@ -795,7 +855,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CompositedTransformTarget(
-                  link: this._layerLink,
+                  link: _layerLink,
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -811,17 +871,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
                       if (value.isNotEmpty) {
                         autocomplete(value);
                         _overlayEntry.remove();
-                        _overlayEntry = this._createOverlayEntry();
+                        _overlayEntry = _createOverlayEntry();
                         Overlay.of(context)!.insert(_overlayEntry);
                       } else {
-                        if (predictions.length > 0 && mounted) {
+                        if (predictions.isNotEmpty && mounted) {
                           setState(() {
                             predictions = [];
                           });
                         }
                       }
                     },
-                    focusNode: this._focusNode,
+                    focusNode: _focusNode,
                     //obscureText: true,
                     decoration: const InputDecoration(
                       isDense: true, // Added this
@@ -927,9 +987,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const landOnMap()));
-                    if (allLatiLongi.isEmpty || allLatiLongi == "")
+                    if (allLatiLongi.isEmpty || allLatiLongi == "") {
                       showToast("Please select area on map",
                           context: context, backgroundColor: Colors.red);
+                    }
                     //print(res);
                   },
                   child: const Text('Draw Land on Map'),
@@ -965,7 +1026,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                               bool isFileupload = await uploadDocument();
                               SmartDialog.dismiss();
                               if (isFileupload) {
-                                if (connectedWithMetamask)
+                                if (connectedWithMetamask) {
                                   await model2.addLand(
                                       area,
                                       addressController.text,
@@ -974,7 +1035,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                       propertyID,
                                       surveyNo,
                                       docUrl);
-                                else
+                                } else {
                                   await model.addLand(
                                       area,
                                       addressController.text,
@@ -983,6 +1044,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                       propertyID,
                                       surveyNo,
                                       docUrl);
+                                }
                                 showToast("Land Successfully Added",
                                     context: context,
                                     backgroundColor: Colors.green);
@@ -1002,6 +1064,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
 
                           //model.makePaymentTestFun();
                         }),
+              if (!isUserVerified)
+                const Text('You are not verified',
+                    style: TextStyle(color: Colors.redAccent)),
               isLoading ? spinkitLoader : Container()
             ],
           ),
@@ -1011,60 +1076,67 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   Widget userProfile() {
-    if (isLoading) return const CircularProgressIndicator();
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
     isUserVerified = userInfo[8];
-    return Container(
-      width: width,
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          //color: Color(0xFFBb3b3cc),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all()),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Your Profile',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          userInfo[8]
-              ? Row(
-                  children: const [
-                    Text(
-                      'Verified',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
-                    Icon(
-                      Icons.verified,
-                      color: Colors.green,
+    return Expanded(
+      child: Center(
+        child: Container(
+          width: width,
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              //color: Color(0xFFBb3b3cc),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: Border.all()),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Your Profile',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              userInfo[8]
+                  ? Row(
+                      children: const [
+                        Text(
+                          'Verified',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.green),
+                        ),
+                        Icon(
+                          Icons.verified,
+                          color: Colors.green,
+                        )
+                      ],
                     )
-                  ],
-                )
-              : const Text(
-                  'Not Yet Verified',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                  : const Text(
+                      'Not Yet Verified',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent),
+                    ),
+              CustomTextFiled(userInfo[0].toString(), 'Wallet Address'),
+              CustomTextFiled(userInfo[1].toString(), 'Name'),
+              CustomTextFiled(userInfo[2].toString(), 'Age'),
+              CustomTextFiled(userInfo[3].toString(), 'City'),
+              CustomTextFiled(userInfo[4].toString(), 'Adhar Number'),
+              CustomTextFiled(userInfo[5].toString(), 'Pan'),
+              TextButton(
+                onPressed: () {
+                  launchUrl(userInfo[6].toString());
+                },
+                child: const Text(
+                  '  View Document',
+                  style: TextStyle(color: Colors.blue),
                 ),
-          CustomTextFiled(userInfo[0].toString(), 'Wallet Address'),
-          CustomTextFiled(userInfo[1].toString(), 'Name'),
-          CustomTextFiled(userInfo[2].toString(), 'Age'),
-          CustomTextFiled(userInfo[3].toString(), 'City'),
-          CustomTextFiled(userInfo[4].toString(), 'Adhar Number'),
-          CustomTextFiled(userInfo[5].toString(), 'Pan'),
-          TextButton(
-            onPressed: () {
-              launchUrl(userInfo[6].toString());
-            },
-            child: const Text(
-              '  View Document',
-              style: TextStyle(color: Colors.blue),
-            ),
+              ),
+              CustomTextFiled(userInfo[7].toString(), 'Mail'),
+            ],
           ),
-          CustomTextFiled(userInfo[7].toString(), 'Mail'),
-        ],
+        ),
       ),
     );
   }
@@ -1232,10 +1304,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         CustomButton3('Confirm', () async {
                           SmartDialog.showLoading();
                           try {
-                            if (connectedWithMetamask)
+                            if (connectedWithMetamask) {
                               await model2.makePayment(reqID, total);
-                            else
+                            } else {
                               await model.makePayment(reqID, total);
+                            }
                             await getMySentRequest();
                             showToast("Payment Success",
                                 context: context,

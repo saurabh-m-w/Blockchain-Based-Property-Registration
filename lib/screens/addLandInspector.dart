@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
-import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';

@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:land_registration/screens/LandInspectorDashboard.dart';
-import 'package:land_registration/screens/UserDashboard.dart';
-import 'package:land_registration/screens/addLandInspector.dart';
 import 'package:land_registration/providers/MetamaskProvider.dart';
-import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/constant/loadingScreen.dart';
 import 'package:land_registration/screens/registerUser.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +60,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
             // ),
             const Text(
                 'You can enter private key of your wallet Or you connect Metamask wallet'),
-            Container(
+            SizedBox(
               width: width,
               child: Padding(
                 padding: const EdgeInsets.all(15),

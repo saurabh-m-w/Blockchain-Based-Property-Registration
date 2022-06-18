@@ -147,6 +147,8 @@ Widget landWid2(isverified, area, address, price, isMyLand, isForSell,
           ),
           Text(
             address,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 20),
           ),
           const SizedBox(
@@ -269,6 +271,8 @@ Widget textCustom(text1, text2) => Row(
         ),
         Text(
           text2,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 20),
         )
       ],

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:land_registration/providers/LandRegisterModel.dart';
-import 'package:land_registration/constant/constants.dart';
 import 'package:land_registration/screens/transferOwnership.dart';
 import 'package:land_registration/widget/menu_item_tile.dart';
 import 'package:provider/provider.dart';
@@ -114,7 +113,7 @@ class _LandInspectorState extends State<LandInspector> {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(25),
-                child: trnasferOwnership(),
+                child: transferOwnershipWidget(),
               ),
             )
         ],
@@ -123,23 +122,30 @@ class _LandInspectorState extends State<LandInspector> {
   }
 
   getLandList() async {
+    setState(() {
+      landData = [];
+      isLoading = true;
+    });
     List<dynamic> landList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       landList = await model2.allLandList();
-    else
+    } else {
       landList = await model.allLandList();
-    List<List<dynamic>> allInfo = [];
+    }
+
     List<dynamic> temp;
     for (int i = 0; i < landList.length; i++) {
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         temp = await model2.landInfo(landList[i]);
-      else
+      } else {
         temp = await model.landInfo(landList[i]);
-      allInfo.add(temp);
+      }
+      landData.add(temp);
+      isLoading = false;
+      setState(() {});
     }
-    landData = allInfo;
+
     screen = 2;
-    print(landData);
     setState(() {});
   }
 
@@ -220,8 +226,12 @@ class _LandInspectorState extends State<LandInspector> {
         }
         index -= 1;
         List<dynamic> data = landData[index];
-        return ListTile(
-          title: Row(
+        return Container(
+          height: 60,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+          ),
+          child: Row(
             children: [
               Expanded(
                 child: Text((index + 1).toString()),
@@ -234,7 +244,11 @@ class _LandInspectorState extends State<LandInspector> {
                   flex: 5),
               Expanded(
                   child: Center(
-                    child: Text(data[2].toString()),
+                    child: Text(
+                      data[2].toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   flex: 3),
               Expanded(child: Center(child: Text(data[3].toString())), flex: 2),
@@ -260,10 +274,11 @@ class _LandInspectorState extends State<LandInspector> {
                             onPressed: () async {
                               SmartDialog.showLoading();
                               try {
-                                if (connectedWithMetamask)
+                                if (connectedWithMetamask) {
                                   await model2.verifyLand(data[0]);
-                                else
+                                } else {
                                   await model.verifyLand(data[0]);
+                                }
                                 await getLandList();
                               } catch (e) {
                                 print(e);
@@ -282,38 +297,42 @@ class _LandInspectorState extends State<LandInspector> {
 
   Future<void> getUserList() async {
     setState(() {
+      userData = [];
       isLoading = true;
     });
 
     List<dynamic> userList;
-    if (connectedWithMetamask)
+    if (connectedWithMetamask) {
       userList = await model2.allUsers();
-    else
+    } else {
       userList = await model.allUsers();
+    }
 
-    List<List<dynamic>> allInfo = [];
     List<dynamic> temp;
     for (int i = 0; i < userList.length; i++) {
-      print(userList[i].toString());
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         temp = await model2.userInfo(userList[i].toString());
-      else
+      } else {
         temp = await model.userInfo(userList[i].toString());
-      allInfo.add(temp);
+      }
+      userData.add(temp);
+      isLoading = false;
+      setState(() {});
     }
     setState(() {
-      userData = allInfo;
       screen = 1;
       isLoading = false;
     });
-    //return allInfo;
   }
 
   Widget userList() {
-    if (isLoading)
-      return const Center(
-        child: CircularProgressIndicator(),
+    if (isLoading) {
+      return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
+    }
 
     return ListView.builder(
         itemCount: userData == null ? 1 : userData.length + 1,
@@ -323,6 +342,8 @@ class _LandInspectorState extends State<LandInspector> {
               children: [
                 const Divider(
                   height: 15,
+                  thickness: 2,
+                  color: Colors.black,
                 ),
                 Row(
                   children: const [
@@ -378,14 +399,20 @@ class _LandInspectorState extends State<LandInspector> {
                 ),
                 const Divider(
                   height: 15,
+                  thickness: 2,
+                  color: Colors.black,
                 )
               ],
             );
           }
           index -= 1;
           List<dynamic> data = userData[index];
-          return ListTile(
-            title: Row(
+          return Container(
+            height: 60,
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(width: 0.5, color: Colors.grey))),
+            child: Row(
               children: [
                 Expanded(
                   child: Text((index + 1).toString()),
@@ -425,10 +452,11 @@ class _LandInspectorState extends State<LandInspector> {
                               onPressed: () async {
                                 SmartDialog.showLoading();
                                 try {
-                                  if (connectedWithMetamask)
+                                  if (connectedWithMetamask) {
                                     await model2.verifyUser(data[0].toString());
-                                  else
+                                  } else {
                                     await model.verifyUser(data[0].toString());
+                                  }
                                   await getUserList();
                                 } catch (e) {
                                   print(e);
@@ -445,32 +473,50 @@ class _LandInspectorState extends State<LandInspector> {
   }
 
   Future<void> paymentDoneList() async {
-    SmartDialog.showLoading();
+    //SmartDialog.showLoading();
     try {
+      setState(() {
+        isLoading = true;
+        paymenList = [];
+      });
       List<dynamic> list;
-      if (connectedWithMetamask)
+      if (connectedWithMetamask) {
         list = await model2.paymentDoneList();
-      else
+      } else {
         list = await model.paymentDoneList();
+      }
 
-      List<List<dynamic>> allInfo = [];
       List<dynamic> temp;
       for (int i = 0; i < list.length; i++) {
-        if (connectedWithMetamask)
+        if (connectedWithMetamask) {
           temp = await model2.requestInfo(list[i]);
-        else
+        } else {
           temp = await model.requestInfo(list[i]);
-        allInfo.add(temp);
+        }
+        paymenList.add(temp);
+        setState(() {
+          isLoading = false;
+        });
       }
-      paymenList = allInfo;
       screen = 3;
-    } catch (e) {}
-    SmartDialog.dismiss();
+      setState(() {});
+    } catch (e) {
+      print("\n\n$e\n");
+      showToast('Something went wrong', backgroundColor: Colors.redAccent);
+    }
+    // SmartDialog.dismiss();
     setState(() {});
     //return allInfo;
   }
 
-  Widget trnasferOwnership() {
+  Widget transferOwnershipWidget() {
+    if (isLoading) {
+      return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return ListView.builder(
         itemCount: paymenList == null ? 1 : paymenList.length + 1,
         itemBuilder: (context, index) {
@@ -533,8 +579,12 @@ class _LandInspectorState extends State<LandInspector> {
           }
           index -= 1;
           List<dynamic> data = paymenList[index];
-          return ListTile(
-            title: Row(
+          return Container(
+            height: 60,
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(width: 0.5, color: Colors.grey))),
+            child: Row(
               children: [
                 Expanded(
                   child: Text((index + 1).toString()),
