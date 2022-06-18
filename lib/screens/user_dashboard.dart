@@ -759,7 +759,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     if (isLoading) {
       return const Expanded(child: Center(child: CircularProgressIndicator()));
     }
-    if (LandGall.isEmpty) {
+    if (landInfo.isEmpty) {
       return const Expanded(
           child: Center(
               child: Text(
