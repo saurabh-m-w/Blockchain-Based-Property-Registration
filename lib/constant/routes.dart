@@ -32,7 +32,9 @@ class RouteGenerator {
             settings: const RouteSettings(name: '/login'),
           );
         }
-        return _errorRoute();
+        return MaterialPageRoute(
+            builder: (_) => const home_page(),
+            settings: const RouteSettings(name: '/'));
       case '/user':
         return MaterialPageRoute(
           builder: (_) => const UserDashBoard(),
@@ -56,7 +58,9 @@ class RouteGenerator {
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
-        return _errorRoute();
+        return MaterialPageRoute(
+            builder: (_) => const home_page(),
+            settings: const RouteSettings(name: '/'));
     }
   }
 

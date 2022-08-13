@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <3.1.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -29,22 +29,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  web3dart: ^2.3.5
+  web3dart: ^2.4.1
   flutter_web3: ^2.1.9
-  http: ^0.13.0
-  provider: ^6.0.1
-  flutter_styled_toast: ^2.0.0
+  http: ^0.13.5
+  provider: ^6.0.3
+  flutter_styled_toast: ^2.1.3
   hovering: ^1.0.4
   flutter_spinkit: ^5.1.0
-  flutter_smart_dialog: ^3.0.2
-  file_picker: ^4.2.4
-  url_launcher: ^6.0.10
-  flutter_svg: ^1.0.0
+  flutter_smart_dialog: ^4.5.4+2
+  file_picker: ^5.0.1
+  url_launcher: ^6.1.5
+  flutter_svg: ^1.1.3
   universal_html: ^2.0.8
-  pdf: ^3.6.5
-  camera: ^0.9.4+11
-  camera_web: ^0.2.1+2
-  mapbox_gl: ^0.14.0
+  pdf: ^3.8.2
+  camera: ^0.10.0+1
+  camera_web: ^0.3.0
+  mapbox_gl: ^0.16.0
   mapbox_search: ^3.0.1+2
   url_strategy: ^0.2.0
 
@@ -54,8 +54,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#  flutter_test:
+#    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

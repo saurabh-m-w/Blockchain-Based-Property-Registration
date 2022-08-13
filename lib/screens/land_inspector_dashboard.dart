@@ -145,7 +145,7 @@ class _LandInspectorState extends State<LandInspector> {
       setState(() {});
     }
 
-   // screen = 2;
+    // screen = 2;
     setState(() {});
   }
 
@@ -320,13 +320,12 @@ class _LandInspectorState extends State<LandInspector> {
       setState(() {});
     }
     setState(() {
-     // screen = 1;
+      // screen = 1;
       isLoading = false;
     });
   }
 
   Widget userList() {
-    
     return ListView.builder(
         itemCount: userData == null ? 1 : userData.length + 1,
         itemBuilder: (context, index) {
@@ -491,7 +490,7 @@ class _LandInspectorState extends State<LandInspector> {
           isLoading = false;
         });
       }
-     // screen = 3;
+      // screen = 3;
       setState(() {});
     } catch (e) {
       print("\n\n$e\n");
@@ -503,7 +502,6 @@ class _LandInspectorState extends State<LandInspector> {
   }
 
   Widget transferOwnershipWidget() {
-    
     return ListView.builder(
         itemCount: paymenList == null ? 1 : paymenList.length + 1,
         itemBuilder: (context, index) {
@@ -736,7 +734,7 @@ class _LandInspectorState extends State<LandInspector> {
           const SizedBox(
             width: 30,
           ),
-          const Text('Saurabh',
+          const Text('Land Inspector',
               style: TextStyle(
                   color: Colors.white70,
                   fontSize: 18,

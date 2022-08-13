@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:land_registration/constant/constants.dart' as constant;
 
@@ -101,9 +103,13 @@ class MetaMaskProvider extends ChangeNotifier {
     if (isEnabled) {
       ethereum!.onAccountsChanged((accounts) {
         clear();
+        showToast('Account Changed\nPlease Login Again',
+            backgroundColor: Colors.redAccent);
       });
       ethereum!.onChainChanged((accounts) {
         clear();
+        showToast('Network Changed\nPlease Login Again',
+            backgroundColor: Colors.redAccent);
       });
     }
   }
