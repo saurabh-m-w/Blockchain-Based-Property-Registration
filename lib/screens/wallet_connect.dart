@@ -279,10 +279,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                     } else {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const LandInspector()));
+
                       Navigator.of(context).pushNamed(
                         '/landinspector',
                       );
@@ -290,7 +287,7 @@ class _CheckPrivateKeyState extends State<CheckPrivateKey> {
                   }
                   connectedWithMetamask = true;
                 } else if (model2.isConnected && !model2.isInOperatingChain) {
-                  showToast("Wrong Netword connected,\nConnect Ropsten Testnet",
+                  showToast("Wrong Netword connected,\nConnect Polygon Testnet",
                       context: context, backgroundColor: Colors.red);
                 }
               },
