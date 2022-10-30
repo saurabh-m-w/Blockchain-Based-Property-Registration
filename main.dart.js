@@ -95137,7 +95137,7 @@ A.bF(p,!1).e2(0,null)
 A.bF(p,!1).j3("/landinspector",t.X)}case 15:case 11:case 7:$.cv=!0
 s=4
 break
-case 5:if(A.ql()!=null&&m.b.length!==0&&m.c!==80001)A.di("Wrong Netword connected,\nConnect Ropsten Testnet",B.af,q.c,null)
+case 5:if(A.ql()!=null&&m.b.length!==0&&m.c!==80001)A.di("Wrong Netword connected,\nConnect Polygon Testnet",B.af,q.c,null)
 case 4:return A.q(null,r)}})
 return A.r($async$$0,r)},
 $S:8}
