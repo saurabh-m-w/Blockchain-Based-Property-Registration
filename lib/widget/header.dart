@@ -186,23 +186,23 @@ class HeaderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: IconButton(
-                onPressed: () {
-                  launchUrl(
-                      "https://github.com/saurabh-m-w/Blockchain-Based-Property-Registration");
-                },
-                iconSize: 30,
-                icon: Image.asset(
-                  'assets/github-logo.png',
-                  color: Colors.black,
-                  width: 60.0,
-                  height: 60.0,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(14.0),
+            //   child: IconButton(
+            //     onPressed: () {
+            //       launchUrl(
+            //           "https://github.com/saurabh-m-w/Blockchain-Based-Property-Registration");
+            //     },
+            //     iconSize: 30,
+            //     icon: Image.asset(
+            //       'assets/github-logo.png',
+            //       color: Colors.black,
+            //       width: 60.0,
+            //       height: 60.0,
+            //       fit: BoxFit.fill,
+            //     ),
+            //   ),
+            // ),
           ],
         )
       ],
