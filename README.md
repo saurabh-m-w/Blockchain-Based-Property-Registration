@@ -76,7 +76,6 @@ flutter run -d web-server --web-port 5555
 ```
 9. Open the browser and the dapp will be running in http://localhost:5555/
 10. Create mapbox api key from https://www.mapbox.com/ and Replace it with `mapBoxApiKey`in `constant.dart` file
-11. Create nftstorage api key from https://nft.storage/ and replace it.
 ## Project Flowchart
 <img src="screenshots/flowchart.png" height="450">
 
